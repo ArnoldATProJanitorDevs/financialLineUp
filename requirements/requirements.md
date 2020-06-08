@@ -22,7 +22,7 @@ An Angular Webapp, that allows a user to do the following:
   
 ## Used Technologies
   
- 1. Angular 8
+ 1. Angular 9
  2. NGRX (Overkill for this little app, but in terms of extending this app, I am better safe than sorry)
  3. Firebase
  4. Cloud Firestore
