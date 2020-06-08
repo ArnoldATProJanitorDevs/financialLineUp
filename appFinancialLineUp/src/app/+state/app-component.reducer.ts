@@ -9,8 +9,8 @@ import { environment } from '../../environments/environment';
 export const APPCOMPONENT_FEATURE_KEY = 'appComponent';
 
 export interface State {
-  loaded: boolean; // has the AppComponent list been loaded
-  error?: string | null; // last none error (if any)
+  loaded: boolean;
+  error?: string | null;
 }
 
 export interface AppComponentPartialState {
@@ -42,9 +42,5 @@ const appComponentReducer = createReducer(
 export function reducer(state: State | undefined, action: Action) {
   return appComponentReducer(state, action);
 }
-
-
-// export const reducers: ActionReducerMap<State> = {
-// };
 
 export const metaReducers: MetaReducer<State>[] = !environment.production ? [] : [];
