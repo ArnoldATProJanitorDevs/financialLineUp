@@ -136,5 +136,8 @@
       }
     }
   },
-  "defaultProject": "financialLineUp"
+  "defaultProject": "financialLineUp",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }
