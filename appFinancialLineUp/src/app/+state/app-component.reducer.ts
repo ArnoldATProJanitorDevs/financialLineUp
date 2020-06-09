@@ -4,7 +4,7 @@ import {
   MetaReducer, on
 } from '@ngrx/store';
 import * as AppComponentActions from './app-component.actions'
-import { environment } from '../../environments/environment';
+import {environment} from '../../environments/environment';
 
 export const APPCOMPONENT_FEATURE_KEY = 'appComponent';
 
@@ -21,7 +21,6 @@ export const initialState: State = {
   loaded: false
 };
 
-
 const appComponentReducer = createReducer(
   initialState,
   on(AppComponentActions.loadAppComponent, state => ({
@@ -29,12 +28,15 @@ const appComponentReducer = createReducer(
     loaded: false,
     error: null,
   })),
-  on(AppComponentActions.loadAppComponentSuccess, (state, { appComponent }) => ({
-      ...state
-  })
+  on(AppComponentActions.loadAppComponentSuccess, (state, {appComponent}) => ({
+      ...state,
+      loaded: true,
+      error: null
+    })
   ),
-  on(AppComponentActions.loadAppComponentFailure, (state, { error }) => ({
+  on(AppComponentActions.loadAppComponentFailure, (state, {error}) => ({
     ...state,
+    loaded: false,
     error
   })),
 );
