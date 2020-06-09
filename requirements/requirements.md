@@ -27,9 +27,6 @@ An Angular Webapp, that allows a user to do the following:
  3. Firebase
  4. Cloud Firestore
  5. Google Analytics
- 
- ## Development strategy
-  1. Domain Driven Design
   
 ##Use-Case-Diagram  
   
