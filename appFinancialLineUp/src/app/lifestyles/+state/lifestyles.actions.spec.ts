@@ -1,7 +1,7 @@
 import * as fromLifestyles from './lifestyles.actions';
 
-describe('loadLifestyless', () => {
+describe('loadLifestyles', () => {
   it('should return an action', () => {
-    expect(fromLifestyles.loadLifestyles().type).toBe('[Lifestyles] Load Lifestyless');
+    expect(fromLifestyles.loadLifestyles().type).toBe('[Lifestyles] Load Lifestyles');
   });
 });

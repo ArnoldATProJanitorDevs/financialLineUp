@@ -3,6 +3,8 @@ import {RouterTestingModule} from '@angular/router/testing';
 import {AppComponent} from './app.component';
 import {StateObservable, Store, StoreModule} from "@ngrx/store";
 import * as fromAppComponent from "./+state/app-component.reducer";
+import {LifestylesModule} from "./lifestyles/lifestyles.module";
+import {Actions, EffectsModule} from "@ngrx/effects";
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -14,11 +16,13 @@ describe('AppComponent', () => {
           fromAppComponent.APPCOMPONENT_FEATURE_KEY,
           fromAppComponent.reducer
         ),
+        EffectsModule.forRoot(),
+        LifestylesModule
       ],
       declarations: [
         AppComponent
       ],
-      providers: []
+      providers: [Actions]
     }).compileComponents();
   }));
 
