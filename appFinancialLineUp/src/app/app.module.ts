@@ -44,7 +44,7 @@ import {AppRouterFacade} from "./+state/app-router.facade";
       fromRouteComponent.routeReducer
     ),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    StoreRouterConnectingModule.forRoot({stateKey: 'router'})
+    StoreRouterConnectingModule.forRoot({stateKey: 'router'}),
     LifestylesModule
   ],
   providers: [AppRouterFacade],
