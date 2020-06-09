@@ -1,16 +1,24 @@
-import { TestBed, async } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { AppComponent } from './app.component';
+import {TestBed, async} from '@angular/core/testing';
+import {RouterTestingModule} from '@angular/router/testing';
+import {AppComponent} from './app.component';
+import {StateObservable, Store, StoreModule} from "@ngrx/store";
+import * as fromAppComponent from "./+state/app-component.reducer";
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule
+        RouterTestingModule,
+        StoreModule.forRoot({}),
+        StoreModule.forFeature(
+          fromAppComponent.APPCOMPONENT_FEATURE_KEY,
+          fromAppComponent.reducer
+        ),
       ],
       declarations: [
         AppComponent
       ],
+      providers: []
     }).compileComponents();
   }));
 
