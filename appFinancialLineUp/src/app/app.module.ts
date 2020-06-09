@@ -9,7 +9,11 @@ import {EffectsModule} from '@ngrx/effects';
 import {StoreModule} from '@ngrx/store';
 
 import * as fromAppComponent from './+state/app-component.reducer';
-import { AppComponentEffects } from './+state/app-component.effects';
+import * as fromRouteComponent from './+state/app-router.reducer';
+import {AppComponentEffects} from './+state/app-component.effects';
+import {routerReducer, StoreRouterConnectingModule} from '@ngrx/router-store';
+import {AppRouterEffects} from "./+state/app-router.effect";
+import {AppRouterFacade} from "./+state/app-router.facade";
 
 @NgModule({
   declarations: [
@@ -19,15 +23,29 @@ import { AppComponentEffects } from './+state/app-component.effects';
     BrowserModule,
     AppRoutingModule,
     StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
-    EffectsModule.forRoot([AppComponentEffects]),
-    StoreModule.forRoot({}),
+    EffectsModule.forRoot([AppComponentEffects, AppRouterEffects]),
+    StoreModule.forRoot({
+        router: routerReducer
+      },
+      {
+        metaReducers: !environment.production ? [] : [],
+        runtimeChecks: {
+          strictStateImmutability: true,
+          strictActionImmutability: true
+        }
+      }),
     StoreModule.forFeature(
       fromAppComponent.APPCOMPONENT_FEATURE_KEY,
       fromAppComponent.reducer
     ),
-    !environment.production ? StoreDevtoolsModule.instrument() : []
+    StoreModule.forFeature(
+      fromRouteComponent.ROUTECOMPONENT_FEATURE_KEY,
+      fromRouteComponent.routeReducer
+    ),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    StoreRouterConnectingModule.forRoot({stateKey: 'router'})
   ],
-  providers: [],
+  providers: [AppRouterFacade],
   bootstrap: [AppComponent]
 })
 export class AppModule {
