@@ -13,6 +13,7 @@ import * as fromRouteComponent from './+state/app-router.reducer';
 import {AppComponentEffects} from './+state/app-component.effects';
 import {routerReducer, StoreRouterConnectingModule} from '@ngrx/router-store';
 import {AppRouterEffects} from "./+state/app-router.effect";
+import {LifestylesModule} from "./lifestyles/lifestyles.module";
 import {AppRouterFacade} from "./+state/app-router.facade";
 
 @NgModule({
@@ -44,6 +45,7 @@ import {AppRouterFacade} from "./+state/app-router.facade";
     ),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     StoreRouterConnectingModule.forRoot({stateKey: 'router'})
+    LifestylesModule
   ],
   providers: [AppRouterFacade],
   bootstrap: [AppComponent]
