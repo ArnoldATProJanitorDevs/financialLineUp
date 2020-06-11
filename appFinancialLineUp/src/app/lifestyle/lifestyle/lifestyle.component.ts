@@ -17,14 +17,14 @@ export class LifestyleComponent implements OnInit {
     Description: "DummyLifeStyle",
     Id: uuidv4(),
     Items: [{
-      Id: uuidv4(),
+      Id: '11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000',
       Category: Category.groceries,
       CategoryIcon: Category.groceries,
       Tag: "Groceries",
       Cost: 0
     }],
     Name: 'LifeStyle',
-    TaxRates: [40,42],
+    TaxRates: [40, 42],
   };
 
   constructor() {
@@ -51,7 +51,9 @@ export class LifestyleComponent implements OnInit {
   }
 
   updateItemById(id: uuidv4, newItem: Item) {
-    this.Lifestyle.Items.filter(item => item.Id === id)[0] = newItem;
+    const itemToUpdate = this.Lifestyle.Items.filter(item => item.Id === id)[0];
+    const indexOfItem = this.Lifestyle.Items.indexOf(itemToUpdate);
+    this.Lifestyle.Items.splice(indexOfItem, 1, newItem);
   }
 
   calculateTotal(inputNumbers: number[]): number {
@@ -62,10 +64,9 @@ export class LifestyleComponent implements OnInit {
     return amount * (100 - taxesInteger) * 0.01;
   }
 
-  changeItemCategory(category: Category, item: Item) {
-    this.Lifestyle.Items.filter(item => item === item).map(item => {
-      item.Category = category;
-      item.CategoryIcon = category;
-    });
+  clearItems(): boolean {
+    this.Lifestyle.Items = [];
+    return this.Lifestyle.Items.length === 0;
+
   }
 }
