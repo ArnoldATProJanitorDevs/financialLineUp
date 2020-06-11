@@ -145,6 +145,13 @@ describe('LifestyleComponent', () => {
 
   });
 
+  it('should return nothing when Item from the List gets removed, which is not inside', () => {
+    component = fixture.componentInstance;
+
+    expect(false).toBe(true);
+
+  });
+
   it('should update an Item from the List by Id', () => {
     component = fixture.componentInstance;
 

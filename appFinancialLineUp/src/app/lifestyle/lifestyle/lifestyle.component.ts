@@ -16,7 +16,7 @@ export class LifestyleComponent implements OnInit {
 
   dataSource = new MatTableDataSource<Item>();
   selection = new SelectionModel<Item>(true, []);
-  displayedColumns: string[] = ['Position', 'CategoryIcon', 'Category', 'Cost'];
+  displayedColumns: string[] = ['Position', 'CategoryIcon', 'Category', 'Cost', 'Delete'];
 
 
   @Input() Lifestyle: Lifestyle = {
@@ -59,7 +59,12 @@ export class LifestyleComponent implements OnInit {
   }
 
   removeItem(item: Item) {
+
+    //todo: the following line is only for not immutable & local data
     this.Lifestyle.Items.splice(this.Lifestyle.Items.indexOf(item), 1);
+
+    //TODO: since I use the REDUX pattern, implement data collection (database) and Public API and get rid of JSON dummy data
+    //TODO: Implement CRUD actions and facadeFunctions for that.
   }
 
   updateItemById(id: uuidv4, newItem: Item) {
@@ -90,5 +95,14 @@ export class LifestyleComponent implements OnInit {
 
   returnEnumValue(number: number): string {
     return Object.values(Category).includes(number) ? Category[number].toString() : Category[0].toString();
+  }
+
+  HandleDeleteButton(item: Item) {
+    this.removeItem(item);
+  }
+
+
+  HandleAddButton() {
+    //TODO: add the context for adding new items.
   }
 }
