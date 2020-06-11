@@ -7,7 +7,6 @@ import {EffectsModule} from '@ngrx/effects';
 import {LifestylesEffects} from './+state/lifestyles.effects';
 import {LifestylesFacade} from "./+state/lifestyles.facade";
 import {LifestyleModule} from "../lifestyle/lifestyle.module";
-import {MapToArray} from "./lifestyles/map-to-array.pipe";
 
 
 @NgModule({

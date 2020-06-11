@@ -1,10 +1,10 @@
-<p>{{Lifestyles$ | async | json}}</p>
-
-<div *ngFor="let Lifestyle of Lifestyles$ | async | keyvalue">
-<!--  <p>{{Lifestyle| async | json}}</p>-->
-  <app-lifestyle
-    [Lifestyle]="Lifestyle.value"
-  ></app-lifestyle>
+<div class="container">
+  <div class="lifestyle" *ngFor="let Lifestyle of Lifestyles$ | async | keyvalue">
+    <app-lifestyle
+      [Lifestyle]="Lifestyle.value"
+    >
+    </app-lifestyle>
+  </div>
 </div>
 
 
