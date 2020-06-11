@@ -9,7 +9,7 @@ import * as LifestyleActions from './lifestyles.actions';
 export class LifestylesFacade {
 
   getLifeStylesAll$ = this.lifestylesStore.pipe(
-    select(LifestyleComponentSelectors.getAllLifestylesComponent)
+    select(LifestyleComponentSelectors.getAllLifestyles)
   );
 
   constructor(

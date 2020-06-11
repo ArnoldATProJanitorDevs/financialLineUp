@@ -3,6 +3,8 @@ import {Lifestyle} from "../models/lifestyle.interface";
 import {v4 as uuidv4} from 'uuid';
 import {Item} from "../../item/models/item.interface";
 import {Category} from "../../item/models/category.enum";
+import {MatTableDataSource} from "@angular/material/table";
+import {SelectionModel} from "@angular/cdk/collections";
 
 
 @Component({
@@ -12,16 +14,20 @@ import {Category} from "../../item/models/category.enum";
 })
 export class LifestyleComponent implements OnInit {
 
+  dataSource = new MatTableDataSource<Item>();
+  selection = new SelectionModel<Item>(true, []);
+  displayedColumns: string[] = ['Position', 'CategoryIcon', 'Category', 'Cost'];
+
 
   @Input() Lifestyle: Lifestyle = {
-    Description: "DummyLifeStyle",
+    Description: "This is a dummy lifestyle, made for development.",
     Id: uuidv4(),
     Items: [{
       Id: '11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000',
       Category: Category.groceries,
       CategoryIcon: Category.groceries,
       Tag: "Groceries",
-      Cost: 0
+      Cost: 0,
     }],
     Name: 'LifeStyle',
     TaxRates: [40, 42],
@@ -31,6 +37,10 @@ export class LifestyleComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    this.dataSource.data = this.Lifestyle.Items;
+
+    console.log(this.Lifestyle);
   }
 
 
@@ -39,7 +49,9 @@ export class LifestyleComponent implements OnInit {
   }
 
   getItemById(givenId: uuidv4): Item {
-    return this.Lifestyle.Items.filter(item => item.Id === givenId)[0];
+    const result = this.Lifestyle.Items.filter(item => item.Id === givenId)[0];
+
+    return result ? result : null;
   }
 
   addItem(item: Item) {
@@ -52,8 +64,14 @@ export class LifestyleComponent implements OnInit {
 
   updateItemById(id: uuidv4, newItem: Item) {
     const itemToUpdate = this.Lifestyle.Items.filter(item => item.Id === id)[0];
-    const indexOfItem = this.Lifestyle.Items.indexOf(itemToUpdate);
-    this.Lifestyle.Items.splice(indexOfItem, 1, newItem);
+
+    itemToUpdate ? (() => {
+      const indexOfItem = this.Lifestyle.Items.indexOf(itemToUpdate);
+      this.Lifestyle.Items.splice(indexOfItem, 1, newItem);
+    })() : (() => {
+      return null
+    })();
+
   }
 
   calculateTotal(inputNumbers: number[]): number {
@@ -68,5 +86,9 @@ export class LifestyleComponent implements OnInit {
     this.Lifestyle.Items = [];
     return this.Lifestyle.Items.length === 0;
 
+  }
+
+  returnEnumValue(number: number): string {
+    return Object.values(Category).includes(number) ? Category[number].toString() : Category[0].toString();
   }
 }

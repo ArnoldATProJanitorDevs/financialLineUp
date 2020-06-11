@@ -1,1 +1,46 @@
-<p>lifestyle works!</p>
+<div class="content">
+  <h2> {{Lifestyle.Name}} </h2>
+  <p>{{Lifestyle.Description}}</p>
+  <div class="box-shadow">
+    <div class="table-container">
+      <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <!-- Position Column -->
+        <ng-container matColumnDef="Position">
+          <mat-header-cell *matHeaderCellDef> No.</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{Lifestyle.Items.indexOf(element) + 1}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="CategoryIcon">
+          <mat-header-cell *matHeaderCellDef> Icon</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <button mat-button>
+              <mat-icon>money</mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="Category">
+          <mat-header-cell *matHeaderCellDef> Category</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{returnEnumValue(element.Category)}} </mat-cell>
+        </ng-container>
+
+        <!-- Cost Column -->
+        <ng-container matColumnDef="Cost">
+          <mat-header-cell *matHeaderCellDef> Cost</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.Cost}} </mat-cell>
+        </ng-container>
+
+        <!-- Delete Column -->
+        <!--        <ng-container matColumnDef="Delete">-->
+        <!--          <button mat-button>-->
+        <!--            <mat-icon>delete</mat-icon>-->
+        <!--          </button>-->
+        <!--        </ng-container>-->
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+    </div>
+  </div>
+</div>

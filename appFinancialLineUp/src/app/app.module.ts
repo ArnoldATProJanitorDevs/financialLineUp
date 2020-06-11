@@ -15,6 +15,8 @@ import {routerReducer, StoreRouterConnectingModule} from '@ngrx/router-store';
 import {AppRouterEffects} from "./+state/app-router.effect";
 import {LifestylesModule} from "./lifestyles/lifestyles.module";
 import {AppRouterFacade} from "./+state/app-router.facade";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatTableModule} from "@angular/material/table";
 
 @NgModule({
   declarations: [
@@ -45,7 +47,9 @@ import {AppRouterFacade} from "./+state/app-router.facade";
     ),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     StoreRouterConnectingModule.forRoot({stateKey: 'router'}),
-    LifestylesModule
+    LifestylesModule,
+    BrowserAnimationsModule,
+    MatTableModule,
   ],
   providers: [AppRouterFacade],
   bootstrap: [AppComponent]

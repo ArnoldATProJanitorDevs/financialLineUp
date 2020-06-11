@@ -19,4 +19,9 @@ export const getLifestylesComponentEntities = createSelector(
 );
 
 
+export const getAllLifestyles = createSelector(
+  getLifestylesComponentState,
+  (state: State) => state.Lifestyles
+);
+
 

@@ -7,11 +7,12 @@ import {environment} from "../../../environments/environment.prod";
 import {createEntityAdapter, EntityAdapter, EntityState} from "@ngrx/entity";
 import {LifeStylesEntity} from "./lifestyles.model";
 import * as LifestylesActions from './lifestyles.actions'
+import {LifestylesDictionary} from "./lifestyles.effects";
 
 export const LIFESTYLE_FEATURE_KEY = 'lifestyles';
 
 export interface State extends EntityState<LifeStylesEntity> {
-
+  Lifestyles: LifestylesDictionary;
 }
 
 export interface LifestylesPartialState {
@@ -20,7 +21,7 @@ export interface LifestylesPartialState {
 
 export const lifestylesComponentAdapter: EntityAdapter<LifeStylesEntity> = createEntityAdapter<LifeStylesEntity>();
 
-export const initialState: State = lifestylesComponentAdapter.getInitialState({});
+export const initialState: State = lifestylesComponentAdapter.getInitialState({Lifestyles: {}});
 
 const lifeStyleReducer = createReducer(
   initialState,
@@ -28,8 +29,8 @@ const lifeStyleReducer = createReducer(
       return {...state}
     }
   ),
-  on(LifestylesActions.loadLifestylesSuccess, (state, {lifestyles}) => {
-      return {...state, lifestyles}
+  on(LifestylesActions.loadLifestylesSuccess, (state, {Lifestyles}) => {
+      return {...state, Lifestyles}
     }
   ),
   on(LifestylesActions.loadLifestylesFailure, (state, {error}) => {

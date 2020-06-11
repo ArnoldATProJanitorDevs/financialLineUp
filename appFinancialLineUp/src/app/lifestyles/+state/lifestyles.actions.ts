@@ -1,4 +1,5 @@
 import { createAction, props } from '@ngrx/store';
+import {LifestylesDictionary} from "./lifestyles.effects";
 
 export const loadLifestyles = createAction(
   '[Lifestyles] Load Lifestyles'
@@ -6,7 +7,7 @@ export const loadLifestyles = createAction(
 
 export const loadLifestylesSuccess = createAction(
   '[Lifestyles] Load Lifestyles Success',
-  props<{ lifestyles: any }>()
+  props<{ Lifestyles: LifestylesDictionary }>()
 );
 
 export const loadLifestylesFailure = createAction(

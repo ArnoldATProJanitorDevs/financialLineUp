@@ -1,10 +1,14 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {v4 as uuidv4} from 'uuid';
 
-
 import {LifestyleComponent} from './lifestyle.component';
 import {Item} from "../../item/models/item.interface";
 import {Category} from "../../item/models/category.enum";
+import {CommonModule} from "@angular/common";
+import {MatTableModule} from "@angular/material/table";
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatButtonModule} from "@angular/material/button";
+import {MatIconModule} from "@angular/material/icon";
 
 describe('LifestyleComponent', () => {
   let component: LifestyleComponent;
@@ -12,7 +16,14 @@ describe('LifestyleComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [LifestyleComponent]
+      declarations: [LifestyleComponent],
+      imports: [
+        CommonModule,
+        MatTableModule,
+        MatCheckboxModule,
+        MatButtonModule,
+        MatIconModule
+      ]
     })
       .compileComponents();
   }));
@@ -84,6 +95,19 @@ describe('LifestyleComponent', () => {
 
   });
 
+  it('should return null for Item when no UUID or invalid Uuid is given', () => {
+    component = fixture.componentInstance;
+
+    const itemZeroUuid = component.getItemById('');
+
+    expect(itemZeroUuid).toBeNull();
+
+    const itemInvalidUuid = component.getItemById('invalidUuid');
+
+    expect(itemInvalidUuid).toBeNull();
+
+  });
+
   it('should add an Item to the List', () => {
     component = fixture.componentInstance;
 
@@ -140,6 +164,27 @@ describe('LifestyleComponent', () => {
     expect(updatedItem.Tag).toBe('differentTagThanBefore');
 
   });
+  it('should NOT update an Item from the List by Id when invalid Uuid or null is given', () => {
+    component = fixture.componentInstance;
+
+    const currItem = {...component.getItems()[0]};
+    expect(currItem).toBeTruthy();
+    expect(currItem.Tag).toBe('Groceries');
+
+    currItem.Tag = 'differentTagThanBefore';
+    expect(currItem.Tag).toBe('differentTagThanBefore');
+
+    component.updateItemById(null, currItem);
+
+    const hopefullyNotUpdatedItemNull = component.getItemById(currItem.Id);
+    expect(hopefullyNotUpdatedItemNull.Tag).toBe('Groceries');
+
+    component.updateItemById('invalidUuid', currItem);
+
+    const hopefullyNotUpdatedItemInvalidUuid = component.getItemById(currItem.Id);
+    expect(hopefullyNotUpdatedItemInvalidUuid.Tag).toBe('Groceries');
+
+  });
 
   it('should delete all Items in Lifestyle', () => {
     component = fixture.componentInstance;
@@ -159,4 +204,35 @@ describe('LifestyleComponent', () => {
     expect(itemList.length).toBe(0);
 
   });
+
+  it('should return a valid enum Value for valid input values', () => {
+    component = fixture.componentInstance;
+
+    const results = [
+      'none',
+      'groceries',
+      'rent',
+      'insurance',
+      'electricity',
+    ];
+
+    for (let i = 0; i < 4; i++) {
+      const enumValue = component.returnEnumValue(i);
+      expect(enumValue).toBe(results[i]);
+    }
+
+
+  });
+
+  it('should return a enum Value of none for invalid input values', () => {
+    component = fixture.componentInstance;
+
+    const result = 'none';
+
+    for (let i = 1; i < 5; i++) {
+      const enumValue = component.returnEnumValue(i * 16);
+      expect(enumValue).toBe(result);
+    }
+  });
+
 });
