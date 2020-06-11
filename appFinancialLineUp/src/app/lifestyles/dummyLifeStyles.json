@@ -1,0 +1,45 @@
+[
+  {
+    "Description": "This is a dummy lifestyle, made for development.",
+    "Id": "7a1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+    "Items": [
+      {
+        "Id": "11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000",
+        "Category": "Category.groceries",
+        "CategoryIcon": "Category.groceries",
+        "Tag": "Groceries",
+        "Cost": "0"
+      }
+    ],
+    "Name": "LifeStyle",
+    "TaxRates": [
+      40,
+      42
+    ]
+  },
+  {
+    "Description": "This is a second dummy lifestyle, made for development.",
+    "Id": "9b2eeb4d-6b7d-9bad-2bdd-3b0d7b3dcb5d",
+    "Items": [
+      {
+        "Id": "11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000",
+        "Category": "Category.groceries",
+        "CategoryIcon": "Category.groceries",
+        "Tag": "Groceries",
+        "Cost": "0"
+      },
+      {
+        "Id": "11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000",
+        "Category": "Category.electricity",
+        "CategoryIcon": "Category.electricity",
+        "Tag": "Electricity",
+        "Cost": "52"
+      }
+    ],
+    "Name": "LifeStyle",
+    "TaxRates": [
+      44,
+      54
+    ]
+  }
+]

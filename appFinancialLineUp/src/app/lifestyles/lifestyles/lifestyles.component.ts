@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {LifestylesFacade} from "../+state/lifestyles.facade";
 import {Observable} from "rxjs";
+import {LifestylesDictionary} from "../+state/lifestyles.effects";
 
 @Component({
   selector: 'app-lifestyles',
@@ -9,7 +10,7 @@ import {Observable} from "rxjs";
 })
 export class LifestylesComponent implements OnInit {
 
-  Lifestyles$: Observable<any>;
+  Lifestyles$: Observable<LifestylesDictionary>;
 
   constructor(private lifestyleFacade: LifestylesFacade) { }
 
@@ -17,4 +18,8 @@ export class LifestylesComponent implements OnInit {
     this.Lifestyles$ = this.lifestyleFacade.getLifeStylesAll();
   }
 
+
+
+
 }
+
