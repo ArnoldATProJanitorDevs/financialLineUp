@@ -1,7 +1,14 @@
-<div class="container">
-  <div class="lifestyle" *ngFor="let Lifestyle of Lifestyles$ | async | keyvalue">
+<div class="console">
+  <button class="consoleItem" mat-raised-button color="primary" (click)="addLifestyle()">Add Lifestyle</button>
+  <button class="consoleItem" mat-raised-button color="accent" (click)="exportLifestyles()">Export Lifestyles</button>
+  <button class="consoleItem" mat-raised-button color="accent" (click)="importLifestyles()">Import Lifestyles</button>
+  <button class="consoleItem" mat-raised-button color="warn" (click)="uploadLifestyles()">Upload Lifestyles</button>
+</div>
+<div class="lifestyleContainer">
+  <div class="lifestyle" *ngFor="let Lifestyle of Lifestyles | keyvalue">
     <app-lifestyle
       [Lifestyle]="Lifestyle.value"
+      (deleteLifestyle)="OnDeleteLifestyle($event)"
     >
     </app-lifestyle>
   </div>

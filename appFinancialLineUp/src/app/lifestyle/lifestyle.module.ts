@@ -5,6 +5,7 @@ import {MatTableModule} from "@angular/material/table";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
+import {MatInputModule} from "@angular/material/input";
 
 
 
@@ -18,7 +19,8 @@ import {MatIconModule} from "@angular/material/icon";
     MatTableModule,
     MatCheckboxModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatInputModule
   ]
 })
 export class LifestyleModule { }

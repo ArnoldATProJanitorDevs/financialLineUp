@@ -1,8 +1,15 @@
 <div class="content">
-  <h2> {{Lifestyle.Name}} </h2>
+  <div style="display: flex ; flex-direction: row;">
+    <h2> {{Lifestyle.Name}} </h2>
+    <button mat-raised-button class="add-button" color="accent"
+            (click)="$event.stopPropagation(); HandleButtonDeleteLifestyle(Lifestyle)">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
   <article>{{Lifestyle.Description}}</article>
 
   <div style="display:flex; flex-direction: row">
+
     <button mat-raised-button class="add-button" color="accent" (click)="$event.stopPropagation(); HandleAddButton()">
       <mat-icon>add</mat-icon>
     </button>
@@ -32,17 +39,31 @@
           <mat-cell *matCellDef="let element"> {{returnEnumValue(element.Category)}} </mat-cell>
         </ng-container>
 
+        <!-- Name Column -->
+        <ng-container matColumnDef="Tag">
+          <mat-header-cell *matHeaderCellDef> Tag</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <mat-form-field>
+              <input matInput [value]="returnEnumValue(element.Tag)"/>
+            </mat-form-field>
+          </mat-cell>
+        </ng-container>
+
         <!-- Cost Column -->
         <ng-container matColumnDef="Cost">
           <mat-header-cell *matHeaderCellDef> Cost</mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.Cost}} </mat-cell>
+          <mat-cell *matCellDef="let element">
+            <mat-form-field>
+              <input matInput [value]="element.Cost"/>
+            </mat-form-field>
+          </mat-cell>
         </ng-container>
 
         <!-- Delete Column -->
         <ng-container matColumnDef="Delete">
           <mat-header-cell *matHeaderCellDef>Delete</mat-header-cell>
           <mat-cell *matCellDef="let element">
-            <button mat-icon-button (click)="$event.stopPropagation(); HandleDeleteButton(element)">
+            <button mat-icon-button (click)="$event.stopPropagation(); HandleButtonDeleteItem(element)">
               <mat-icon>delete</mat-icon>
             </button>
           </mat-cell>

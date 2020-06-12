@@ -1,10 +1,11 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Lifestyle} from "../models/lifestyle.interface";
 import {v4 as uuidv4} from 'uuid';
 import {Item} from "../../item/models/item.interface";
 import {Category} from "../../item/models/category.enum";
 import {MatTableDataSource} from "@angular/material/table";
 import {SelectionModel} from "@angular/cdk/collections";
+import {deepCopy} from "../../shared/globals/deep-copy";
 
 
 @Component({
@@ -15,8 +16,7 @@ import {SelectionModel} from "@angular/cdk/collections";
 export class LifestyleComponent implements OnInit {
 
   dataSource = new MatTableDataSource<Item>();
-  selection = new SelectionModel<Item>(true, []);
-  displayedColumns: string[] = ['Position', 'CategoryIcon', 'Category', 'Cost', 'Delete'];
+  displayedColumns: string[] = ['Position', 'CategoryIcon', 'Category', 'Cost', 'Delete', 'Tag'];
 
 
   @Input() Lifestyle: Lifestyle = {
@@ -33,16 +33,14 @@ export class LifestyleComponent implements OnInit {
     TaxRates: [40, 42],
   };
 
+  @Output() deleteLifestyle: EventEmitter<Lifestyle> = new EventEmitter<Lifestyle>();
+
   constructor() {
   }
 
   ngOnInit(): void {
-
     this.dataSource.data = this.Lifestyle.Items;
-
-    console.log(this.Lifestyle);
   }
-
 
   getItems(): Item[] {
     return this.Lifestyle.Items;
@@ -56,15 +54,13 @@ export class LifestyleComponent implements OnInit {
 
   addItem(item: Item) {
     this.Lifestyle.Items.push(item);
+    this.updateTableData(this.Lifestyle.Items);
   }
 
   removeItem(item: Item) {
 
-    //todo: the following line is only for not immutable & local data
     this.Lifestyle.Items.splice(this.Lifestyle.Items.indexOf(item), 1);
-
-    //TODO: since I use the REDUX pattern, implement data collection (database) and Public API and get rid of JSON dummy data
-    //TODO: Implement CRUD actions and facadeFunctions for that.
+    this.updateTableData(this.Lifestyle.Items);
   }
 
   updateItemById(id: uuidv4, newItem: Item) {
@@ -97,12 +93,26 @@ export class LifestyleComponent implements OnInit {
     return Object.values(Category).includes(number) ? Category[number].toString() : Category[0].toString();
   }
 
-  HandleDeleteButton(item: Item) {
+  HandleButtonDeleteItem(item: Item) {
     this.removeItem(item);
   }
 
+  HandleButtonDeleteLifestyle(lifestyle: Lifestyle){
+    this.deleteLifestyle.emit(lifestyle);
+  }
+
+  updateTableData(newItems: Item[]) {
+
+    this.dataSource.data = newItems;
+  }
 
   HandleAddButton() {
-    //TODO: add the context for adding new items.
+    this.addItem({
+      Id: uuidv4(),
+      Tag: 'new item',
+      Cost: 0,
+      CategoryIcon: Category.none,
+      Category: Category.none
+    })
   }
 }
