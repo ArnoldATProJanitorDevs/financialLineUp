@@ -1,7 +1,7 @@
 <div class="content">
-  <div style="display: flex ; flex-direction: row;">
+  <div style="display: flex ; flex-direction: row; align-items: center">
     <h2> {{Lifestyle.Name}} </h2>
-    <button mat-raised-button class="add-button" color="accent"
+    <button mat-icon-button class="delete-button" color="accent"
             (click)="$event.stopPropagation(); HandleButtonDeleteLifestyle(Lifestyle)">
       <mat-icon>delete</mat-icon>
     </button>
@@ -10,7 +10,7 @@
 
   <div style="display:flex; flex-direction: row">
 
-    <button mat-raised-button class="add-button" color="accent" (click)="$event.stopPropagation(); HandleAddButton()">
+    <button mat-icon-button class="add-button" color="accent" (click)="$event.stopPropagation(); HandleAddButton()">
       <mat-icon>add</mat-icon>
     </button>
     <p>Add new item to the list.</p>
@@ -27,7 +27,7 @@
         <ng-container matColumnDef="CategoryIcon">
           <mat-header-cell *matHeaderCellDef> Icon</mat-header-cell>
           <mat-cell *matCellDef="let element">
-            <button mat-button>
+            <button mat-icon-button>
               <mat-icon>money</mat-icon>
             </button>
           </mat-cell>

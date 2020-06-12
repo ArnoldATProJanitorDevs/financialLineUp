@@ -59,7 +59,12 @@ export class LifestyleComponent implements OnInit {
 
   removeItem(item: Item) {
 
-    this.Lifestyle.Items.splice(this.Lifestyle.Items.indexOf(item), 1);
+    const indexOfItem = this.Lifestyle.Items.indexOf(item);
+
+    if(indexOfItem < 0)
+      return null;
+
+    this.Lifestyle.Items.splice(indexOfItem, 1);
     this.updateTableData(this.Lifestyle.Items);
   }
 
@@ -102,6 +107,9 @@ export class LifestyleComponent implements OnInit {
   }
 
   updateTableData(newItems: Item[]) {
+
+    if(newItems.length <= 0)
+      return null;
 
     this.dataSource.data = newItems;
   }

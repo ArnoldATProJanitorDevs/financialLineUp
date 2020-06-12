@@ -17,6 +17,7 @@ import {LifestylesModule} from "./lifestyles/lifestyles.module";
 import {AppRouterFacade} from "./+state/app-router.facade";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatTableModule} from "@angular/material/table";
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,6 @@ import {MatTableModule} from "@angular/material/table";
     StoreRouterConnectingModule.forRoot({stateKey: 'router'}),
     LifestylesModule,
     BrowserAnimationsModule,
-    MatTableModule,
   ],
   providers: [AppRouterFacade],
   bootstrap: [AppComponent]

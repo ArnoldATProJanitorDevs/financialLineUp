@@ -53,7 +53,6 @@ export interface LifestylesDictionary {
 
 
 function castToItem(Items: any): Item[] {
-
   return Items.map(itemNew => {
     return {
       Id: itemNew.Id,

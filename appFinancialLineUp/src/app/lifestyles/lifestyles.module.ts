@@ -8,6 +8,8 @@ import {LifestylesEffects} from './+state/lifestyles.effects';
 import {LifestylesFacade} from "./+state/lifestyles.facade";
 import {LifestyleModule} from "../lifestyle/lifestyle.module";
 import {MatButtonModule} from "@angular/material/button";
+import {MatInputModule} from "@angular/material/input";
+import {MatTableModule} from "@angular/material/table";
 
 
 @NgModule({
@@ -20,7 +22,9 @@ import {MatButtonModule} from "@angular/material/button";
     StoreModule.forFeature(fromLifestyles.LIFESTYLE_FEATURE_KEY, fromLifestyles.reducer, {metaReducers: fromLifestyles.metaReducers}),
     EffectsModule.forFeature([LifestylesEffects]),
     LifestyleModule,
-    MatButtonModule
+    MatButtonModule,
+    MatInputModule,
+    MatTableModule
   ],
   providers: [LifestylesFacade],
 })

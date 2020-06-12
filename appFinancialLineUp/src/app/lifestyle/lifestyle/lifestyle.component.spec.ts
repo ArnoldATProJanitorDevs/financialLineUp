@@ -9,6 +9,9 @@ import {MatTableModule} from "@angular/material/table";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 describe('LifestyleComponent', () => {
   let component: LifestyleComponent;
@@ -22,7 +25,11 @@ describe('LifestyleComponent', () => {
         MatTableModule,
         MatCheckboxModule,
         MatButtonModule,
-        MatIconModule
+        MatIconModule,
+        MatFormFieldModule,
+        MatInputModule,
+        BrowserAnimationsModule,
+
       ]
     })
       .compileComponents();
@@ -54,7 +61,7 @@ describe('LifestyleComponent', () => {
     expect(Lifestyle.TaxRates.length).toBeGreaterThanOrEqual(0);
   });
 
-  it('should calculate total of all numbers', () => {
+  it('calculateTotal - should calculate total of all numbers', () => {
     component = fixture.componentInstance;
 
     let numbers: number[] = [];
@@ -65,7 +72,7 @@ describe('LifestyleComponent', () => {
     expect(sum).toBe(45);
   });
 
-  it('should calculate total of all numbers after taxes', () => {
+  it('calculateAfterTaxes - should calculate total of all numbers after taxes', () => {
     component = fixture.componentInstance;
 
     let numbers: number[] = [];
@@ -85,7 +92,7 @@ describe('LifestyleComponent', () => {
 
   });
 
-  it('should get an Item by the Id', () => {
+  it('getItemById - should get an Item by the Id', () => {
     component = fixture.componentInstance;
 
     const item = component.getItemById('11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000');
@@ -95,7 +102,7 @@ describe('LifestyleComponent', () => {
 
   });
 
-  it('should return null for Item when no UUID or invalid Uuid is given', () => {
+  it('getItemById - should return null for Item when no UUID or invalid Uuid is given', () => {
     component = fixture.componentInstance;
 
     const itemZeroUuid = component.getItemById('');
@@ -108,7 +115,7 @@ describe('LifestyleComponent', () => {
 
   });
 
-  it('should add an Item to the List', () => {
+  it('addItem - should add an Item to the List', () => {
     component = fixture.componentInstance;
 
     const oldItemsList = component.getItems();
@@ -129,7 +136,7 @@ describe('LifestyleComponent', () => {
 
   });
 
-  it('should remove an Item from the List', () => {
+  it('removeItem - should remove an Item from the List', () => {
     component = fixture.componentInstance;
 
     const oldItemsList = component.getItems();
@@ -145,14 +152,23 @@ describe('LifestyleComponent', () => {
 
   });
 
-  it('should return nothing when Item from the List gets removed, which is not inside', () => {
+  it('removeItem - should return nothing when Item from the List gets removed, which is not inside', () => {
     component = fixture.componentInstance;
 
-    expect(false).toBe(true);
+    const nonExistingItem: Item = {
+      Category: Category.none,
+      CategoryIcon: Category.none,
+      Cost: 0,
+      Id: uuidv4(),
+      Tag: "noTag"
+    };
+
+    const returnedValue = component.removeItem(nonExistingItem);
+    expect(returnedValue).toBe(null);
 
   });
 
-  it('should update an Item from the List by Id', () => {
+  it('updateItemById - should update an Item from the List by Id', () => {
     component = fixture.componentInstance;
 
     const currItem = {...component.getItems()[0]};
@@ -171,7 +187,7 @@ describe('LifestyleComponent', () => {
     expect(updatedItem.Tag).toBe('differentTagThanBefore');
 
   });
-  it('should NOT update an Item from the List by Id when invalid Uuid or null is given', () => {
+  it('updateItemById - should NOT update an Item from the List by Id when invalid Uuid or null is given', () => {
     component = fixture.componentInstance;
 
     const currItem = {...component.getItems()[0]};
@@ -193,7 +209,7 @@ describe('LifestyleComponent', () => {
 
   });
 
-  it('should delete all Items in Lifestyle', () => {
+  it('clearItems - should delete all Items in Lifestyle', () => {
     component = fixture.componentInstance;
 
     let itemList = component.getItems();
@@ -212,7 +228,7 @@ describe('LifestyleComponent', () => {
 
   });
 
-  it('should return a valid enum Value for valid input values', () => {
+  it('returnEnumValue - should return a valid enum Value for valid input values', () => {
     component = fixture.componentInstance;
 
     const results = [
@@ -231,7 +247,7 @@ describe('LifestyleComponent', () => {
 
   });
 
-  it('should return a enum Value of none for invalid input values', () => {
+  it('returnEnumValue- should return a enum Value of none for invalid input values', () => {
     component = fixture.componentInstance;
 
     const result = 'none';
@@ -241,5 +257,86 @@ describe('LifestyleComponent', () => {
       expect(enumValue).toBe(result);
     }
   });
+
+  it('updateTableData- should return the newly inserted list for Items', () => {
+    component = fixture.componentInstance;
+
+    const ItemList: Item[] = [
+      {
+        Id: '49efab45-0005-4d50-8c45-88225eedf70c',
+        Tag: 'noTag',
+        Cost: 1,
+        CategoryIcon: Category.none,
+        Category: Category.none
+      },
+      {
+        Id: '50efab45-0005-4d50-8c45-88225eedf70c',
+        Tag: 'noTag',
+        Cost: 2,
+        CategoryIcon: Category.none,
+        Category: Category.none
+      },
+      {
+        Id: '51efab45-0005-4d50-8c45-88225eedf70c',
+        Tag: 'noTag',
+        Cost: 3,
+        CategoryIcon: Category.none,
+        Category: Category.none
+      }
+    ];
+    component.updateTableData(ItemList);
+
+    const dataTable =  component.dataSource;
+
+    expect(dataTable.data.length).toBe(3);
+    expect(dataTable.data[0]).toBe(ItemList[0]);
+    expect(dataTable.data[1]).toBe(ItemList[1]);
+    expect(dataTable.data[2]).toBe(ItemList[2]);
+
+  });
+
+  it('updateTableData- should return null when invalid or null data was given into', () => {
+    component = fixture.componentInstance;
+
+
+    const ItemList: Item[] = [
+      {
+        Id: '49efab45-0005-4d50-8c45-88225eedf70c',
+        Tag: 'noTag',
+        Cost: 1,
+        CategoryIcon: Category.none,
+        Category: Category.none
+      },
+      {
+        Id: '50efab45-0005-4d50-8c45-88225eedf70c',
+        Tag: 'noTag',
+        Cost: 2,
+        CategoryIcon: Category.none,
+        Category: Category.none
+      },
+      {
+        Id: '51efab45-0005-4d50-8c45-88225eedf70c',
+        Tag: 'noTag',
+        Cost: 3,
+        CategoryIcon: Category.none,
+        Category: Category.none
+      }
+    ];
+
+    component.updateTableData(ItemList);
+
+    const emptyItemList: Item[] = [];
+    const returnedValue = component.updateTableData(emptyItemList);
+
+    const dataTable =  component.dataSource;
+
+    expect(returnedValue).toBe(null);
+    expect(dataTable.data.length).toBe(3);
+    expect(dataTable.data[0]).toBe(ItemList[0]);
+    expect(dataTable.data[1]).toBe(ItemList[1]);
+    expect(dataTable.data[2]).toBe(ItemList[2]);
+
+  });
+
 
 });

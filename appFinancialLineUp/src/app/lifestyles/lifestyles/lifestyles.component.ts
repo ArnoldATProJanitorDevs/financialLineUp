@@ -74,7 +74,7 @@ export class LifestylesComponent implements OnInit, OnDestroy {
   }
 
   uploadLifestyles() {
-    
+
   }
 }
 
