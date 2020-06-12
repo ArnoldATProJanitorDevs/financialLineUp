@@ -16,7 +16,7 @@ import {deepCopy} from "../../shared/globals/deep-copy";
 export class LifestyleComponent implements OnInit {
 
   dataSource = new MatTableDataSource<Item>();
-  displayedColumns: string[] = ['Position', 'CategoryIcon', 'Category', 'Cost', 'Delete', 'Tag'];
+  displayedColumns: string[] = ['Position', 'CategoryIcon', 'Category', 'Tag', 'Cost', 'Delete'];
 
 
   @Input() Lifestyle: Lifestyle = {
@@ -61,7 +61,7 @@ export class LifestyleComponent implements OnInit {
 
     const indexOfItem = this.Lifestyle.Items.indexOf(item);
 
-    if(indexOfItem < 0)
+    if (indexOfItem < 0)
       return null;
 
     this.Lifestyle.Items.splice(indexOfItem, 1);
@@ -94,21 +94,17 @@ export class LifestyleComponent implements OnInit {
 
   }
 
-  returnEnumValue(number: number): string {
-    return Object.values(Category).includes(number) ? Category[number].toString() : Category[0].toString();
-  }
-
   HandleButtonDeleteItem(item: Item) {
     this.removeItem(item);
   }
 
-  HandleButtonDeleteLifestyle(lifestyle: Lifestyle){
+  HandleButtonDeleteLifestyle(lifestyle: Lifestyle) {
     this.deleteLifestyle.emit(lifestyle);
   }
 
   updateTableData(newItems: Item[]) {
 
-    if(newItems.length <= 0)
+    if (newItems.length <= 0)
       return null;
 
     this.dataSource.data = newItems;

@@ -36,7 +36,7 @@
         <!-- Name Column -->
         <ng-container matColumnDef="Category">
           <mat-header-cell *matHeaderCellDef> Category</mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{returnEnumValue(element.Category)}} </mat-cell>
+          <mat-cell *matCellDef="let element"> {{element.Category}} </mat-cell>
         </ng-container>
 
         <!-- Name Column -->
@@ -44,7 +44,7 @@
           <mat-header-cell *matHeaderCellDef> Tag</mat-header-cell>
           <mat-cell *matCellDef="let element">
             <mat-form-field>
-              <input matInput [value]="returnEnumValue(element.Tag)"/>
+              <input matInput [value]="element.Tag"/>
             </mat-form-field>
           </mat-cell>
         </ng-container>

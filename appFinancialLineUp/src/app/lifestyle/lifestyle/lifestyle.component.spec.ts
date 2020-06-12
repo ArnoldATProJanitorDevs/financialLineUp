@@ -228,36 +228,6 @@ describe('LifestyleComponent', () => {
 
   });
 
-  it('returnEnumValue - should return a valid enum Value for valid input values', () => {
-    component = fixture.componentInstance;
-
-    const results = [
-      'none',
-      'groceries',
-      'rent',
-      'insurance',
-      'electricity',
-    ];
-
-    for (let i = 0; i < 4; i++) {
-      const enumValue = component.returnEnumValue(i);
-      expect(enumValue).toBe(results[i]);
-    }
-
-
-  });
-
-  it('returnEnumValue- should return a enum Value of none for invalid input values', () => {
-    component = fixture.componentInstance;
-
-    const result = 'none';
-
-    for (let i = 1; i < 5; i++) {
-      const enumValue = component.returnEnumValue(i * 16);
-      expect(enumValue).toBe(result);
-    }
-  });
-
   it('updateTableData- should return the newly inserted list for Items', () => {
     component = fixture.componentInstance;
 
