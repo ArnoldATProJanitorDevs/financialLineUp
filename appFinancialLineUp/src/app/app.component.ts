@@ -9,7 +9,7 @@ import {loadAppComponent} from "./+state/app-component.actions";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit{
-  title = 'appFinancialLineUp';
+  title = 'Financial Line Up';
 
 
   constructor(private store: Store<AppComponentPartialState>) {
