@@ -24,4 +24,9 @@ export const getAllLifestyles = createSelector(
   (state: State) => state.Lifestyles
 );
 
+export const getAllCategories = createSelector(
+  getLifestylesComponentState,
+  (state: State) => state.Categories
+);
+
 

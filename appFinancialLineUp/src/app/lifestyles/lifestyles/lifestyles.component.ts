@@ -4,7 +4,7 @@ import {Observable, Subscription} from "rxjs";
 import {LifestylesDictionary} from "../+state/lifestyles.effects";
 import {v4 as uuidv4} from 'uuid';
 import {deepCopy} from "../../shared/globals/deep-copy";
-import {Category} from "../../item/models/category.enum";
+import {Category} from "../../item/models/category.interface";
 import {Lifestyle} from "../../lifestyle/models/lifestyle.interface";
 
 @Component({
@@ -16,6 +16,10 @@ export class LifestylesComponent implements OnInit, OnDestroy {
 
   Lifestyles$: Observable<LifestylesDictionary>;
   Lifestyles: LifestylesDictionary = {};
+
+  Categories$: Observable<Category[]>;
+  Categories: Category[];
+
   private subs: Subscription[] = [];
 
   constructor(private lifestyleFacade: LifestylesFacade) {
@@ -25,14 +29,25 @@ export class LifestylesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.Lifestyles$ = this.lifestyleFacade.getLifeStylesAll();
+    this.Categories$ = this.lifestyleFacade.getCategoriesAll();
 
+    this.addSubscriptions();
+
+  }
+
+  private addSubscriptions() {
     this.subs.push(this.Lifestyles$.subscribe(next => {
         this.Lifestyles = LifestylesComponent.makeDeepCopyForLocalModification(next);
       }
     ));
+
+    this.subs.push(this.Categories$.subscribe(next => {
+        this.Categories = LifestylesComponent.makeDeepCopyForLocalModification(next);
+      }
+    ));
   }
 
-  private static makeDeepCopyForLocalModification(object: LifestylesDictionary) {
+  private static makeDeepCopyForLocalModification(object: any) {
     return deepCopy(object);
   }
 
@@ -49,10 +64,9 @@ export class LifestylesComponent implements OnInit, OnDestroy {
       Description: 'Newly added Lifestyle',
       Items: [{
         Id: uuidv4(),
-        Category: Category.none,
-        CategoryIcon: Category.none,
+        Category: {name: 'housing', icon: 'home'},
         Cost: 0,
-        Tag: 'newly added Category'
+        Comment: 'new Comment'
       }]
     };
   }

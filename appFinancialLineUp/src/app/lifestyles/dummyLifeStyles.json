@@ -1,20 +1,18 @@
 [
   {
     "Description": "This is a dummy lifestyle, made for development. This is a dummy lifestyle, made for development. This is a dummy lifestyle, made for development.",
-    "Id": "1a1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+    "Id": "84eb5493-4068-41bc-9883-bc23e6a9ef98",
     "Items": [
       {
-        "Id": "0bf5b37-e0b8-42e0-8dcf-dc8c4aefc000",
-        "Category": "groceries",
-        "CategoryIcon": "groceries",
-        "Tag": "groceries",
+        "Id": "96404511-97ec-48a6-a5d4-8ac740c2813a",
+        "Category": "children",
+        "Comment": "children",
         "Cost": "555"
       },
       {
-        "Id": "0bf5b37-e0b8-42e0-8dcf-dc8c4aefc000",
-        "Category": "groceries",
-        "CategoryIcon": "groceries",
-        "Tag": "groceries",
+        "Id": "4bc71a2c-a003-4c8f-b028-fdaba5e2c234",
+        "Category": "dining",
+        "Comment": "dining",
         "Cost": "555"
       }
     ],
@@ -26,20 +24,18 @@
   },
   {
     "Description": "This is a second dummy lifestyle, made for development.",
-    "Id": "2b2eeb4d-6b7d-9bad-2bdd-3b0d7b3dcb5d",
+    "Id": "22de1773-a75e-4bd5-95fd-40685b0dab60",
     "Items": [
       {
-        "Id": "5bf5b37-e0b8-42e0-8dcf-dc8c4aefc000",
-        "Category": "groceries",
-        "CategoryIcon": "groceries",
-        "Tag": "groceries",
+        "Id": "de81dce2-275d-4667-9c0e-6e5fdb2d8445",
+        "Category": "sport",
+        "Comment": "sport",
         "Cost": "0"
       },
       {
-        "Id": "11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000",
-        "Category": "electricity",
-        "CategoryIcon": "electricity",
-        "Tag": "Electricity",
+        "Id": "f621baab-24b5-456d-9b47-73ebf3bb774f",
+        "Category": "groceries",
+        "Comment": "groceries",
         "Cost": "0"
       }
     ],
@@ -51,20 +47,18 @@
   },
   {
     "Description": "This is a second dummy lifestyle, made for development.",
-    "Id": "3b2eeb4d-6b7d-9bad-2bdd-3b0d7b3dcb5d",
+    "Id": "02db58c0-2458-4cf9-a9d0-ec218f945415",
     "Items": [
       {
-        "Id": "11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000",
+        "Id": "b4198826-cc1e-46a2-bca4-d49adb770aea",
         "Category": "groceries",
-        "CategoryIcon": "groceries",
-        "Tag": "groceries",
+        "Comment": "groceries",
         "Cost": "0"
       },
       {
-        "Id": "11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000",
-        "Category": "electricity",
-        "CategoryIcon": "electricity",
-        "Tag": "Electricity",
+        "Id": "9c6d02af-feac-4a50-83d7-ac29fa621fe2",
+        "Category": "travel",
+        "Comment": "travel",
         "Cost": "52"
       }
     ],
@@ -79,17 +73,15 @@
     "Id": "4b2eeb4d-6b7d-9bad-2bdd-3b0d7b3dcb5d",
     "Items": [
       {
-        "Id": "11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000",
-        "Category": "groceries",
-        "CategoryIcon": "groceries",
-        "Tag": "groceries",
+        "Id": "75eb65b4-d811-4b24-b5b5-74b587469f4e",
+        "Category": "garden",
+        "Comment": "garden",
         "Cost": "0"
       },
       {
-        "Id": "11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000",
-        "Category": "electricity",
-        "CategoryIcon": "electricity",
-        "Tag": "Electricity",
+        "Id": "d2e2d852-7871-4d49-9605-f9f6d03642ad",
+        "Category": "healthcare",
+        "Comment": "healthcare",
         "Cost": "52"
       }
     ],
@@ -101,20 +93,18 @@
   },
   {
     "Description": "This is a second dummy lifestyle, made for development.",
-    "Id": "5b2eeb4d-6b7d-9bad-2bdd-3b0d7b3dcb5d",
+    "Id": "f0aa075e-6881-4698-982b-9fee39cfe6d8",
     "Items": [
       {
-        "Id": "11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000",
-        "Category": "groceries",
-        "CategoryIcon": "groceries",
-        "Tag": "groceries",
+        "Id": "4fde5a5c-8b47-4588-9934-9b55bec93694",
+        "Category": "housing",
+        "Comment": "housing",
         "Cost": "0"
       },
       {
-        "Id": "11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000",
+        "Id": "a33d532d-7599-4266-8a5a-8f2ee06471f0",
         "Category": "electricity",
-        "CategoryIcon": "electricity",
-        "Tag": "Electricity",
+        "Comment": "Electricity",
         "Cost": "52"
       }
     ],

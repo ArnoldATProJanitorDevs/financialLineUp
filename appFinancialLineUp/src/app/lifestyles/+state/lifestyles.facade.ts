@@ -12,6 +12,10 @@ export class LifestylesFacade {
     select(LifestyleComponentSelectors.getAllLifestyles)
   );
 
+  getCategoriesAll$ = this.lifestylesStore.pipe(
+    select(LifestyleComponentSelectors.getAllCategories)
+  );
+
   constructor(
     private lifestylesStore: Store<fromLifestyles.LifestylesPartialState>,
   ) {
@@ -24,5 +28,10 @@ export class LifestylesFacade {
   getLifeStylesAll(){
     this.dispatch(LifestyleActions.loadLifestyles());
     return this.getLifeStylesAll$;
+  }
+
+  getCategoriesAll(){
+    this.dispatch(LifestyleActions.loadCategories());
+    return this.getCategoriesAll$;
   }
 }

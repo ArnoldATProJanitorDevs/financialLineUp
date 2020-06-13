@@ -1,0 +1,94 @@
+[
+  {
+    "name": "housing",
+    "icon": "home"
+  },
+  {
+    "name": "transportation",
+    "icon": "directions_car"
+  },
+  {
+    "name": "groceries",
+    "icon": "kitchen"
+  },
+  {
+    "name": "insurance",
+    "icon": "security"
+  },
+  {
+    "name": "dining",
+    "icon": "local_dining"
+  },
+  {
+    "name": "sport",
+    "icon": "directions_run"
+  },
+  {
+    "name": "children",
+    "icon": "child_friendly"
+  },
+  {
+    "name": "entertainment",
+    "icon": "local_bar"
+  },
+  {
+    "name": "telecommunication",
+    "icon": "local_phone"
+  },
+  {
+    "name": "contributions",
+    "icon": "attach_money"
+  },
+  {
+    "name": "services",
+    "icon": "room_service"
+  },
+  {
+    "name": "education",
+    "icon": "local_library"
+  },
+  {
+    "name": "loan Rate",
+    "icon": "payment"
+  },
+  {
+    "name": "healthcare",
+    "icon": "local_hospital"
+  },
+  {
+    "name": "utilities",
+    "icon": "build"
+  },
+  {
+    "name": "savings",
+    "icon": "account_balance"
+  },
+  {
+    "name": "apparel",
+    "icon": "style"
+  },
+  {
+    "name": "technic",
+    "icon": "computer"
+  },
+  {
+    "name": "travel",
+    "icon": "local_airport"
+  },
+  {
+    "name": "holiday",
+    "icon": "deck"
+  },
+  {
+    "name": "garden",
+    "icon": "eco"
+  },
+  {
+    "name": "diversity",
+    "icon": "category"
+  },
+  {
+    "name": "work",
+    "icon": "work_outline"
+  }
+]

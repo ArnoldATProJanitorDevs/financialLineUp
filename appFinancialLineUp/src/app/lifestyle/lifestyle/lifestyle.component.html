@@ -1,6 +1,7 @@
 <div class="content">
   <div style="display: flex ; flex-direction: row; align-items: center">
-    <h2> {{Lifestyle.Name}} </h2>
+    <h2 *ngIf="!isEdit" (click)="isEdit=true"> {{Lifestyle.Name}}</h2>
+    <input matInput *ngIf="isEdit" (keydown.enter)="isEdit=false" [(ngModel)]="Lifestyle.Name"/>
     <button mat-icon-button class="delete-button" color="accent"
             (click)="$event.stopPropagation(); HandleButtonDeleteLifestyle(Lifestyle)">
       <mat-icon>delete</mat-icon>
@@ -9,42 +10,65 @@
   <article>{{Lifestyle.Description}}</article>
 
   <div style="display:flex; flex-direction: row">
-
-    <button mat-icon-button class="add-button" color="accent" (click)="$event.stopPropagation(); HandleAddButton()">
-      <mat-icon>add</mat-icon>
-    </button>
-    <p>Add new item to the list.</p>
+    <div style="display:flex; flex-direction: row">
+      <button mat-button class="add-button" color="accent"
+              (click)="$event.stopPropagation(); HandleAddButton()">
+        <div style="display:flex; flex-direction: row; justify-content: center; align-items: center;">
+          <mat-icon>add</mat-icon>
+          <span style="padding-left: 15px">Add new Item</span>
+        </div>
+      </button>
+    </div>
+    <div style="display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;">
+      <button mat-button class="add-button" color="accent"
+              (click)="$event.stopPropagation(); HandleExportButton(Lifestyle)">
+        <div style="display:flex; flex-direction: row; justify-content: center; align-items: center;">
+          <mat-icon>save_alt</mat-icon>
+          <span style="padding-left: 15px">Export</span>
+        </div>
+      </button>
+    </div>
   </div>
   <div class="box-shadow">
     <div class="table-container">
       <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-        <!-- Position Column -->
-        <ng-container matColumnDef="Position">
-          <mat-header-cell *matHeaderCellDef> No.</mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{Lifestyle.Items.indexOf(element) + 1}} </mat-cell>
-        </ng-container>
 
+        <!-- Icon Column -->
         <ng-container matColumnDef="CategoryIcon">
           <mat-header-cell *matHeaderCellDef> Icon</mat-header-cell>
+
           <mat-cell *matCellDef="let element">
-            <button mat-icon-button>
-              <mat-icon>money</mat-icon>
-            </button>
+            <app-toggle-icon-button
+              (toggleCategory)="toggleBetweenCategories($event, element)"
+              [category]="element.Category"
+            >
+            </app-toggle-icon-button>
           </mat-cell>
+
         </ng-container>
+
 
         <!-- Name Column -->
         <ng-container matColumnDef="Category">
           <mat-header-cell *matHeaderCellDef> Category</mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.Category}} </mat-cell>
+          <mat-cell *matCellDef="let element">
+            <mat-select [value]="element.Category.name" (selectionChange)="updateCategory($event, element)">
+              <mat-option *ngFor="let category of Categories" [value]="category.name">
+                {{ category.name}}
+              </mat-option>
+            </mat-select>
+          </mat-cell>
         </ng-container>
 
         <!-- Name Column -->
-        <ng-container matColumnDef="Tag">
-          <mat-header-cell *matHeaderCellDef> Tag</mat-header-cell>
+        <ng-container matColumnDef="Comment">
+          <mat-header-cell *matHeaderCellDef> Comment</mat-header-cell>
           <mat-cell *matCellDef="let element">
             <mat-form-field>
-              <input matInput [value]="element.Tag"/>
+              <input matInput [value]="element.Comment"/>
             </mat-form-field>
           </mat-cell>
         </ng-container>
@@ -54,7 +78,7 @@
           <mat-header-cell *matHeaderCellDef> Cost</mat-header-cell>
           <mat-cell *matCellDef="let element">
             <mat-form-field>
-              <input matInput [value]="element.Cost"/>
+              <input matInput [(ngModel)]="element.Cost" type="number"/>
             </mat-form-field>
           </mat-cell>
         </ng-container>
@@ -68,7 +92,6 @@
             </button>
           </mat-cell>
         </ng-container>
-
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
       </mat-table>
