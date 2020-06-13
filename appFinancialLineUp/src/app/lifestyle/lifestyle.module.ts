@@ -1,13 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LifestyleComponent } from './lifestyle/lifestyle.component';
-import {MatTableModule} from "@angular/material/table";
-import {MatCheckboxModule} from "@angular/material/checkbox";
-import {MatButtonModule} from "@angular/material/button";
-import {MatIconModule} from "@angular/material/icon";
-import {MatInputModule} from "@angular/material/input";
-
-
+import {SharedModule} from "../shared/shared.module";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [LifestyleComponent],
@@ -16,11 +11,9 @@ import {MatInputModule} from "@angular/material/input";
   ],
   imports: [
     CommonModule,
-    MatTableModule,
-    MatCheckboxModule,
-    MatButtonModule,
-    MatIconModule,
-    MatInputModule
+    SharedModule,
+    FormsModule,
+
   ]
 })
 export class LifestyleModule { }

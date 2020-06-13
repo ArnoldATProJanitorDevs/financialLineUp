@@ -16,8 +16,7 @@ import {AppRouterEffects} from "./+state/app-router.effect";
 import {LifestylesModule} from "./lifestyles/lifestyles.module";
 import {AppRouterFacade} from "./+state/app-router.facade";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatTableModule} from "@angular/material/table";
-import { MatInputModule } from '@angular/material/input';
+import {SharedModule} from "./shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -50,6 +49,7 @@ import { MatInputModule } from '@angular/material/input';
     StoreRouterConnectingModule.forRoot({stateKey: 'router'}),
     LifestylesModule,
     BrowserAnimationsModule,
+    SharedModule
   ],
   providers: [AppRouterFacade],
   bootstrap: [AppComponent]
