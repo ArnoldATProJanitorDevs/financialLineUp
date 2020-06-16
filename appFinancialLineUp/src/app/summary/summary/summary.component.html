@@ -1,0 +1,38 @@
+<div style="display:flex; flex-direction: column;">
+  <div>
+    <mat-card>This lifestyle consumes:
+      <span style="display: flex; flex-direction: column">
+            <div class="summaryListEntry">
+          <span>Daily:</span> <span><b> {{Costs.BeforeTaxes?.Daily | number : '1.0-2'}} $</b></span>
+                </div>
+            <div class="summaryListEntry">
+              <span>Weekly:</span> <span><b> {{Costs.BeforeTaxes?.Weekly | number : '1.0-2'}} $</b></span>
+                </div>
+              <div class="summaryListEntry">
+              <span>Monthly:</span> <span><b> {{Costs.BeforeTaxes?.Monthly | number : '1.0-2'}} $</b></span>
+                </div>
+                <div class="summaryListEntry">
+            <span>Yearly:</span> <span><b> {{Costs.BeforeTaxes?.Yearly | number : '1.0-2'}} $</b></span>
+                </div>
+        </span>
+    </mat-card>
+    <div *ngFor="let taxRate of Taxrates; let i = index">
+      <mat-card>With a taxrate of <b>{{taxRate}}%</b> you'll need to raise:
+        <span style="display: flex; flex-direction: column">
+            <div class="summaryListEntry">
+              <span>Daily:</span> <span><b> {{Costs.AfterTaxes[i]?.Daily | number : '1.0-2'}} $</b></span>
+            </div>
+            <div class="summaryListEntry">
+              <span>Weekly:</span> <span><b> {{Costs.AfterTaxes[i]?.Weekly | number : '1.0-2'}} $</b></span>
+            </div>
+            <div class="summaryListEntry">
+              <span>Monthly:</span> <span><b> {{Costs.AfterTaxes[i]?.Monthly | number : '1.0-2'}} $</b></span>
+            </div>
+            <div class="summaryListEntry">
+              <span>Yearly:</span> <span><b> {{Costs.AfterTaxes[i]?.Yearly | number : '1.0-2'}} $</b></span>
+            </div>
+            </span>
+      </mat-card>
+    </div>
+  </div>
+</div>

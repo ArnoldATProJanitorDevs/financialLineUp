@@ -1,0 +1,14 @@
+<div
+  style="display:flex; flex-direction: row; flex-wrap: wrap; flex: 1 1 100%;">
+  <div *ngFor="let taxRate of Taxrates; let i = index;">
+    <mat-form-field style="padding-left: 10px; max-width: 35px !important;">
+      <input matInput style="flex-grow: 1" matInput type="number" min="0" max="99" step="1" [value]="taxRate"
+             (change)="updateTaxrate(i, $event.target.value)"/>
+    </mat-form-field>
+    %
+    <button mat-icon-button class="delete-button" color="accent"
+            (click)="$event.stopPropagation(); HandleRemoveTaxrateButton(i)">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+</div>

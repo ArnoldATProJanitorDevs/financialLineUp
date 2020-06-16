@@ -1,0 +1,64 @@
+<div class="box-shadow">
+
+  <div class="table-container">
+    <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+      <!-- Icon Column -->
+      <ng-container matColumnDef="CategoryIcon">
+        <mat-header-cell *matHeaderCellDef> Icon</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <app-toggle-icon-button
+            (toggleCategory)="toggleBetweenCategories($event, element)"
+            [category]="element.Category"
+          >
+          </app-toggle-icon-button>
+        </mat-cell>
+      </ng-container>
+
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="Category">
+        <mat-header-cell *matHeaderCellDef> Category</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <mat-select [value]="element.Category.name" (selectionChange)="updateCategory($event, element)">
+            <mat-option *ngFor="let category of Categories" [value]="category.name">
+              {{ category.name}}
+            </mat-option>
+          </mat-select>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Comment Column -->
+      <ng-container matColumnDef="Comment" style="width: 120px!important;">
+        <mat-header-cell *matHeaderCellDef> Comment</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <mat-form-field style="max-width: 120px!important;">
+            <input matInput class="mediumInput" [(ngModel)]="element.Comment"/>
+          </mat-form-field>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Cost Column -->
+      <ng-container matColumnDef="Cost">
+        <mat-header-cell *matHeaderCellDef> Cost</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <mat-form-field style="max-width: 62px!important;">
+            <input matInput [(ngModel)]="element.Cost" type="number"/>
+          </mat-form-field>$
+        </mat-cell>
+      </ng-container>
+
+      <!-- Delete Column -->
+      <ng-container matColumnDef="Delete">
+        <mat-header-cell *matHeaderCellDef>Delete</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <button mat-icon-button (click)="$event.stopPropagation(); HandleButtonDeleteItem(element)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  </div>
+</div>
