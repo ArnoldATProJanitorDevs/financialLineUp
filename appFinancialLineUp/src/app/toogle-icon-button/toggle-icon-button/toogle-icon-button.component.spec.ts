@@ -22,4 +22,5 @@ describe('ToogleIconButtonComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
 });

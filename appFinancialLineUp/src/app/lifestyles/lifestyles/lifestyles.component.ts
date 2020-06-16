@@ -25,7 +25,9 @@ export class LifestylesComponent implements OnInit, OnDestroy {
   constructor(private lifestyleFacade: LifestylesFacade) {
   }
 
-
+  private static makeDeepCopyForLocalModification(object: any) {
+    return deepCopy(object);
+  }
 
   ngOnInit(): void {
     this.Lifestyles$ = this.lifestyleFacade.getLifeStylesAll();
@@ -33,22 +35,6 @@ export class LifestylesComponent implements OnInit, OnDestroy {
 
     this.addSubscriptions();
 
-  }
-
-  private addSubscriptions() {
-    this.subs.push(this.Lifestyles$.subscribe(next => {
-        this.Lifestyles = LifestylesComponent.makeDeepCopyForLocalModification(next);
-      }
-    ));
-
-    this.subs.push(this.Categories$.subscribe(next => {
-        this.Categories = LifestylesComponent.makeDeepCopyForLocalModification(next);
-      }
-    ));
-  }
-
-  private static makeDeepCopyForLocalModification(object: any) {
-    return deepCopy(object);
   }
 
   ngOnDestroy(): void {
@@ -59,14 +45,14 @@ export class LifestylesComponent implements OnInit, OnDestroy {
     const newUuuid = uuidv4();
     this.Lifestyles[newUuuid] = {
       Id: newUuuid,
-      Name: 'New Lifestyle',
+      Name: 'NEW LIFESTYLE',
       TaxRates: [40],
-      Description: 'Newly added Lifestyle',
+      Description: 'NEW DESCRIPTION',
       Items: [{
         Id: uuidv4(),
         Category: {name: 'housing', icon: 'home'},
         Cost: 0,
-        Comment: 'new Comment'
+        Comment: 'NEW COMMENT'
       }]
     };
   }
@@ -89,6 +75,37 @@ export class LifestylesComponent implements OnInit, OnDestroy {
 
   uploadLifestyles() {
 
+  }
+
+  deleteAllLifestyles() {
+    
+  }
+
+  CopyLifestyle(lifestyle: Lifestyle) {
+    const uuid = uuidv4();
+    this.Lifestyles[uuid] = {
+      Id: uuid,
+      TaxRates: lifestyle.TaxRates,
+      Name: lifestyle.Name + ' COPY',
+      Items: lifestyle.Items,
+      Description: lifestyle.Description
+    };
+  }
+
+  trackById(lifestyle: Lifestyle) {
+    return lifestyle.Id;
+  }
+
+  private addSubscriptions() {
+    this.subs.push(this.Lifestyles$.subscribe(next => {
+        this.Lifestyles = LifestylesComponent.makeDeepCopyForLocalModification(next);
+      }
+    ));
+
+    this.subs.push(this.Categories$.subscribe(next => {
+        this.Categories = LifestylesComponent.makeDeepCopyForLocalModification(next);
+      }
+    ));
   }
 }
 

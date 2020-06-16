@@ -5,11 +5,12 @@
   <button class="consoleItem" mat-raised-button color="warn" (click)="uploadLifestyles()">Upload Lifestyles</button>
 </div>
 <div class="lifestyleContainer">
-  <div class="lifestyle" *ngFor="let Lifestyle of Lifestyles | keyvalue">
+  <div class="lifestyle" *ngFor="let Lifestyle of Lifestyles | keyvalue; trackBy: trackById">
     <app-lifestyle
       [Lifestyle]="Lifestyle.value"
       (deleteLifestyle)="OnDeleteLifestyle($event)"
       [Categories]="Categories"
+      (EventCopyLifestyle)="CopyLifestyle($event)"
     >
     </app-lifestyle>
   </div>

@@ -20,7 +20,7 @@ import {SharedModule} from "./shared/shared.module";
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
@@ -52,6 +52,7 @@ import {SharedModule} from "./shared/shared.module";
     SharedModule
   ],
   providers: [AppRouterFacade],
+  exports: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {

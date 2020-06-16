@@ -1,5 +1,5 @@
-<mat-accordion>
-  <mat-expansion-panel>
+<mat-accordion >
+  <mat-expansion-panel [expanded]="true">
     <mat-expansion-panel-header>
       <mat-panel-title>
         <div style="display: flex ; flex-direction: row; align-items: center">
@@ -9,10 +9,83 @@
         </div>
       </mat-panel-title>
       <mat-panel-description>
-        <p><b>Monthly BT </b>{{Costs.BeforeTaxes.Monthly | number : '1.0-2'}} $ <br>
-          <b>Monthly AT </b>{{Costs.AfterTaxes[0].Monthly | number : '1.0-2'}} $</p>
+        <!--        <p><b>Monthly BT </b>{{SummaryComponent?.Costs.BeforeTaxes.Monthly | number : '1.0-2'}} $ <br>-->
+        <!--          <b>Monthly AT </b>{{SummaryComponent?.Costs.AfterTaxes[0].Monthly | number : '1.0-2'}} $</p>-->
       </mat-panel-description>
     </mat-expansion-panel-header>
+
+
+    <!-- SUMMARY -->
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <p><b>Summary</b></p>
+        </mat-panel-title>
+        <mat-panel-description>
+
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <app-summary #summary
+                   [Taxrates]="Lifestyle.TaxRates"
+                   [Items]="Lifestyle.Items"
+      >
+      </app-summary>
+    </mat-expansion-panel>
+
+    <!-- TAXRATES -->
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <p><b>Taxrates</b></p>
+        </mat-panel-title>
+        <mat-panel-description>
+
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div style="display:flex; flex-direction: column">
+        <div style="display:flex; flex-direction: column; flex-wrap: wrap;">
+          <button mat-button color="accent" (click)="TaxratesComponent.HandleAddTaxrateButton()" style="width: 100%">
+            ADD TAXRATE
+          </button>
+         <app-taxrates #taxrates
+                        [Taxrates] = "Lifestyle.TaxRates"
+                       (TaxratesChanged)="updateTaxrates($event)"
+         ></app-taxrates>
+        </div>
+      </div>
+    </mat-expansion-panel>
+
+
+    <!-- ITEMS -->
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <p><b>Items</b></p>
+
+        </mat-panel-title>
+        <mat-panel-description>
+
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div style="display:flex; flex-direction: row">
+        <button mat-button class="add-button" color="accent"
+                (click)="$event.stopPropagation(); ItemsComponent.HandleAddItemButton()" style="width: 100%">
+          ADD ITEM
+        </button>
+      </div>
+
+      <app-items #items
+                 [Categories]="Categories"
+                 [Items]="Lifestyle.Items"
+                 (ItemsChanged)="updateItems($event)"
+      >
+      </app-items>
+
+    </mat-expansion-panel>
+    <h3> DESCRIPTION</h3>
+    <P>{{Lifestyle.Description}}</P>
+
     <mat-action-row>
       <button mat-button class="add-button" color="accent"
               (click)="$event.stopPropagation(); HandleButtonDeleteLifestyle(Lifestyle)">
@@ -30,180 +103,5 @@
         EXPORT
       </button>
     </mat-action-row>
-
-    <!-- SUMMARY -->
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          <p><b>Summary</b></p>
-        </mat-panel-title>
-        <mat-panel-description>
-
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <div style="display:flex; flex-direction: column;">
-        <div>
-          <mat-card>This life style consumes:
-            <span style="display: flex; flex-direction: column">
-            <div class="summaryListEntry">
-          <span>Daily:</span> <span><b> {{Costs.BeforeTaxes.Daily | number : '1.0-2'}} $</b></span>
-                </div>
-            <div class="summaryListEntry">
-              <span>Weekly:</span> <span><b> {{Costs.BeforeTaxes.Weekly | number : '1.0-2'}} $</b></span>
-                </div>
-              <div class="summaryListEntry">
-              <span>Monthly:</span> <span><b> {{Costs.BeforeTaxes.Monthly | number : '1.0-2'}} $</b></span>
-                </div>
-                <div class="summaryListEntry">
-            <span>Yearly:</span> <span><b> {{Costs.BeforeTaxes.Yearly | number : '1.0-2'}} $</b></span>
-                </div>
-        </span>
-          </mat-card>
-          <div *ngFor="let taxRate of Lifestyle.TaxRates; let i = index">
-            <mat-card>With a taxrate of <b>{{taxRate}}%</b> you'll need to raise:
-              <span style="display: flex; flex-direction: column">
-            <div class="summaryListEntry">
-              <span>Daily:</span> <span><b> {{Costs.AfterTaxes[i].Daily | number : '1.0-2'}} $</b></span>
-            </div>
-            <div class="summaryListEntry">
-              <span>Weekly:</span> <span><b> {{Costs.AfterTaxes[i].Weekly | number : '1.0-2'}} $</b></span>
-            </div>
-            <div class="summaryListEntry">
-              <span>Monthly:</span> <span><b> {{Costs.AfterTaxes[i].Monthly | number : '1.0-2'}} $</b></span>
-            </div>
-            <div class="summaryListEntry">
-              <span>Yearly:</span> <span><b> {{Costs.AfterTaxes[i].Yearly | number : '1.0-2'}} $</b></span>
-            </div>
-            </span>
-            </mat-card>
-          </div>
-        </div>
-      </div>
-
-    </mat-expansion-panel>
-
-    <!-- TAXRATES -->
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          <p><b>Taxrates</b></p>
-        </mat-panel-title>
-        <mat-panel-description>
-
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <div style="display:flex; flex-direction: column">
-        <div style="display:flex; flex-direction: column; flex-wrap: wrap;">
-          <button mat-button color="accent" (click)="HandleAddTaxrateButton()" style="width: 100%">
-            ADD TAXRATE
-          </button>
-          <div
-            style="display:flex; flex-direction: row; flex-wrap: wrap; flex: 1 1 100%;">
-            <div *ngFor="let taxRate of Lifestyle.TaxRates; let i = index;">
-              <mat-form-field style="padding-left: 10px; max-width: 35px !important;">
-                <input matInput style="flex-grow: 1" matInput type="number" min="0" max="99" step="1" [value]="taxRate"
-                       (change)="updateTaxrate(i, $event.target.value)"/>
-              </mat-form-field>
-              %
-              <button mat-icon-button class="delete-button" color="accent"
-                      (click)="$event.stopPropagation(); HandleRemoveTaxrateButton(i)">
-                <mat-icon>delete</mat-icon>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </mat-expansion-panel>
-
-
-    <!-- ITEMS -->
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          <p><b>Items</b></p>
-
-        </mat-panel-title>
-        <mat-panel-description>
-
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <div style="display:flex; flex-direction: row">
-        <button mat-button class="add-button" color="accent"
-                (click)="$event.stopPropagation(); HandleAddItemButton()" style="width: 100%">
-          ADD ITEM
-        </button>
-      </div>
-
-      <div class="box-shadow">
-
-        <div class="table-container">
-          <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-
-            <!-- Icon Column -->
-            <ng-container matColumnDef="CategoryIcon">
-              <mat-header-cell *matHeaderCellDef> Icon</mat-header-cell>
-
-              <mat-cell *matCellDef="let element">
-                <app-toggle-icon-button
-                  (toggleCategory)="toggleBetweenCategories($event, element)"
-                  [category]="element.Category"
-                >
-                </app-toggle-icon-button>
-              </mat-cell>
-
-            </ng-container>
-
-
-            <!-- Name Column -->
-            <ng-container matColumnDef="Category">
-              <mat-header-cell *matHeaderCellDef> Category</mat-header-cell>
-              <mat-cell *matCellDef="let element">
-                <mat-select [value]="element.Category.name" (selectionChange)="updateCategory($event, element)">
-                  <mat-option *ngFor="let category of Categories" [value]="category.name">
-                    {{ category.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-cell>
-            </ng-container>
-
-            <!-- Comment Column -->
-            <ng-container matColumnDef="Comment" style="width: 120px!important;">
-              <mat-header-cell *matHeaderCellDef> Comment</mat-header-cell>
-              <mat-cell *matCellDef="let element">
-                <mat-form-field style="max-width: 120px!important;">
-                  <input matInput class="mediumInput" [(ngModel)]="element.Comment"/>
-                </mat-form-field>
-              </mat-cell>
-            </ng-container>
-
-            <!-- Cost Column -->
-            <ng-container matColumnDef="Cost">
-              <mat-header-cell *matHeaderCellDef> Cost</mat-header-cell>
-              <mat-cell *matCellDef="let element">
-                <mat-form-field style="max-width: 60px!important;">
-                  <input matInput [(ngModel)]="element.Cost" type="number"/>
-                </mat-form-field>
-              </mat-cell>
-            </ng-container>
-
-            <!-- Delete Column -->
-            <ng-container matColumnDef="Delete">
-              <mat-header-cell *matHeaderCellDef>Delete</mat-header-cell>
-              <mat-cell *matCellDef="let element">
-                <button mat-icon-button (click)="$event.stopPropagation(); HandleButtonDeleteItem(element)">
-                  <mat-icon>delete</mat-icon>
-                </button>
-              </mat-cell>
-            </ng-container>
-            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-          </mat-table>
-        </div>
-      </div>
-
-
-    </mat-expansion-panel>
-    <h3> DESCRIPTION</h3>
-    <P>{{Lifestyle.Description}}</P>
   </mat-expansion-panel>
 </mat-accordion>
