@@ -1,17 +1,19 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, DoCheck, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Lifestyle} from "../models/lifestyle.interface";
 import {v4 as uuidv4} from 'uuid';
 import {Item} from "../../item/models/item.interface";
 import {Category} from "../../item/models/category.interface";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSelectChange} from "@angular/material/select";
+import {IncomeBasis} from "../models/incomeBasis";
+import {LifeStyleCosts} from "../models/lifestylecosts.interface";
 
 @Component({
   selector: 'app-lifestyle',
   templateUrl: './lifestyle.component.html',
   styleUrls: ['./lifestyle.component.scss']
 })
-export class LifestyleComponent implements OnInit {
+export class LifestyleComponent implements OnInit, DoCheck {
 
   dataSource = new MatTableDataSource<Item>();
   displayedColumns: string[] = ['CategoryIcon', 'Category', 'Comment', 'Cost', 'Delete'];
@@ -28,7 +30,18 @@ export class LifestyleComponent implements OnInit {
     }],
     Name: 'LifeStyle',
     TaxRates: [40, 42],
+
   };
+
+  Costs: LifeStyleCosts = {
+    BeforeTaxes: {Daily: 0, Weekly: 0, Monthly: 0, Yearly: 0},
+    AfterTaxes: []
+  };
+
+  //TODO: NGRX UI StateManaging
+  showSummary = false;
+  showTaxes = false;
+
 
   @Output() deleteLifestyle: EventEmitter<Lifestyle> = new EventEmitter<Lifestyle>();
   isEdit = false;
@@ -36,7 +49,6 @@ export class LifestyleComponent implements OnInit {
 
   constructor() {
   }
-
 
   ngOnInit(): void {
     this.dataSource.data = this.Lifestyle.Items;
@@ -59,12 +71,7 @@ export class LifestyleComponent implements OnInit {
 
   removeItem(item: Item): Item[] {
 
-    const indexOfDeletion = this.getIndexOfItem(item);
-
-    if (indexOfDeletion < 0)
-      return null;
-
-    return this.Lifestyle.Items.splice(indexOfDeletion, 1);
+    return this.Lifestyle.Items = this.Lifestyle.Items.filter(oldItem => oldItem.Id !== item.Id);
   }
 
   updateItemById(id: uuidv4, newItem: Item) {
@@ -84,13 +91,46 @@ export class LifestyleComponent implements OnInit {
     })();
   }
 
+  ngDoCheck(): void {
+    this.calculateExpenses();
+  }
+
+  //TODO: Export into Service or own component.
+  calculateExpenses() {
+
+    const DAILYMULTIPLIER = 1 / 30;
+    const WEEKLYMULTIPLIER = 1 / 4;
+    const MONTHLYMULTIPLIER = 1;
+    const YEARLYMULTIPLIER = 12;
+
+    const monthlyExpensesBeforeTaxes = this.calculateTotal(this.Lifestyle.Items.map(item => item.Cost));
+
+    this.Costs.BeforeTaxes.Daily = monthlyExpensesBeforeTaxes * DAILYMULTIPLIER;
+    this.Costs.BeforeTaxes.Weekly = monthlyExpensesBeforeTaxes * WEEKLYMULTIPLIER;
+    this.Costs.BeforeTaxes.Monthly = monthlyExpensesBeforeTaxes * MONTHLYMULTIPLIER;
+    this.Costs.BeforeTaxes.Yearly = monthlyExpensesBeforeTaxes * YEARLYMULTIPLIER;
+
+    this.Costs.AfterTaxes = this.Lifestyle.TaxRates.map((taxrate): IncomeBasis => {
+      const monthlyExpensesAfterTaxes = this.calculatePercentage(monthlyExpensesBeforeTaxes, taxrate);
+
+      return {
+        Daily: monthlyExpensesAfterTaxes * DAILYMULTIPLIER,
+        Weekly: monthlyExpensesAfterTaxes * WEEKLYMULTIPLIER,
+        Monthly: monthlyExpensesAfterTaxes * MONTHLYMULTIPLIER,
+        Yearly: monthlyExpensesAfterTaxes * YEARLYMULTIPLIER
+      }
+    });
+  }
+
+
   calculateTotal(inputNumbers: number[]): number {
     return inputNumbers.reduce((a, b) => a + b, 0);
   }
 
-  calculateAfterTaxes(amount: number, taxesInteger: number): number {
-    return amount * (100 - taxesInteger) * 0.01;
+  calculatePercentage(amount: number, percentageInteger: number): number {
+    return roundToTwo(amount / ((100 - percentageInteger) * 0.01));
   }
+
 
   clearItems(): boolean {
     this.Lifestyle.Items = [];
@@ -99,8 +139,8 @@ export class LifestyleComponent implements OnInit {
   }
 
   HandleButtonDeleteItem(item: Item) {
-    const updatedList = this.removeItem(item);
-    this.updateItemsInDataTable(updatedList);
+    this.Lifestyle.Items = this.removeItem(item);
+    this.updateItemsInDataTable(this.Lifestyle.Items);
   }
 
   HandleButtonDeleteLifestyle(lifestyle: Lifestyle) {
@@ -120,7 +160,7 @@ export class LifestyleComponent implements OnInit {
     this.dataSource.data = [];
   }
 
-  HandleAddButton() {
+  HandleAddItemButton() {
     this.addItem({
       Id: uuidv4(),
       Comment: 'new item',
@@ -164,4 +204,42 @@ export class LifestyleComponent implements OnInit {
   getIndexOfItem(item: Item): number {
     return this.Lifestyle.Items.indexOf(item);
   }
+
+  HandleSummaryExpandButton() {
+    this.showSummary = !this.showSummary;
+  }
+
+  HandleTaxesExpandButton() {
+    this.showTaxes = !this.showTaxes;
+  }
+
+  HandleAddTaxrateButton() {
+    this.addTaxrate();
+  }
+
+  HandleRemoveTaxrateButton(index: number) {
+    this.removeTaxrate(index);
+  }
+
+  addTaxrate() {
+    this.Lifestyle.TaxRates.push(0);
+  }
+
+  removeTaxrate(index: number) {
+    this.Lifestyle.TaxRates.splice(index, 1)
+  }
+
+
+  updateTaxrate(i: number, value: number) {
+    this.Lifestyle.TaxRates[i] = value;
+  }
+
+  HandleCopyButton(Lifestyle: Lifestyle) {
+
+  }
 }
+
+function roundToTwo(num) {
+  return +(`${Math.round(Number(`${num}e+2`))}e-2`);
+}
+

@@ -52,7 +52,7 @@ function dummyFunctionSimulateReturnOfLifestylesObservable(): Observable<{ [id: 
       Name: lifestyle.Name,
       TaxRates: lifestyle.TaxRates,
       Description: lifestyle.Description,
-      Items: castToItem(lifestyle.Items)
+      Items: castToItem(lifestyle.Items),
     };
   });
 

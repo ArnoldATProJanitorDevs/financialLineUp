@@ -63,22 +63,15 @@ describe('LifestyleComponent', () => {
     expect(sum).toBe(45);
   });
 
-  it('calculateAfterTaxes - should calculate total of all numbers after taxes', () => {
+  it('calculatePercentage - should calculate total of all numbers after taxes', () => {
     component = fixture.componentInstance;
 
-    let numbers: number[] = [];
-    let taxrateInteger = 40;
-    const results = [60, 120, 180, 240, 300, 360, 420, 480, 540, 600];
+    let numbers: number[] = [100, 200, 300, 400, 500, 600, 700, 800, 900  ];
+    let taxrateInteger = 50;
 
-
-    for (let i = 1; i <= 10; i++) {
-      numbers.push(i * 100);
-    }
-
-
-    for (let i = 0; i < 10; i++) {
-      const sum = component.calculateAfterTaxes(numbers[i], taxrateInteger);
-      expect(sum).toBe(results[i]);
+    for (let i = 0; i < numbers.length; i++) {
+      const sum = component.calculatePercentage(numbers[i], taxrateInteger);
+      expect(sum).toBeCloseTo(numbers[i]*2,1);
     }
 
   });
@@ -142,7 +135,7 @@ describe('LifestyleComponent', () => {
 
   });
 
-  it('removeItem - should return nothing when Item from the List gets removed, which is not inside', () => {
+  it('removeItem - should return original ItemsList when Item from the List gets removed, which is not inside', () => {
     component = fixture.componentInstance;
 
     const nonExistingItem: Item = {
@@ -153,7 +146,7 @@ describe('LifestyleComponent', () => {
     };
 
     const returnedValue = component.removeItem(nonExistingItem);
-    expect(returnedValue).toBe(null);
+    expect(returnedValue).toBe(component.Lifestyle.Items);
 
   });
 

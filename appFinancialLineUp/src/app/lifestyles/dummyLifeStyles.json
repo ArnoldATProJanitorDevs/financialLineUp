@@ -18,8 +18,10 @@
     ],
     "Name": "LifeStyle1",
     "TaxRates": [
-      40,
-      42
+      10,
+      20,
+      30,
+      40
     ]
   },
   {
@@ -53,19 +55,19 @@
         "Id": "b4198826-cc1e-46a2-bca4-d49adb770aea",
         "Category": "groceries",
         "Comment": "groceries",
-        "Cost": "0"
+        "Cost": "1"
       },
       {
         "Id": "9c6d02af-feac-4a50-83d7-ac29fa621fe2",
         "Category": "travel",
         "Comment": "travel",
-        "Cost": "52"
+        "Cost": "0"
       }
     ],
     "Name": "LifeStyle3",
     "TaxRates": [
-      44,
-      54
+      10,
+      20
     ]
   },
   {

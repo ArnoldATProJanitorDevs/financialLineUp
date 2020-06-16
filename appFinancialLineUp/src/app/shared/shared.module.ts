@@ -56,6 +56,7 @@ import {ToogleIconButtonComponent} from "./toogle-icon-button/toogle-icon-button
     MatCheckboxModule,
     MatStepperModule,
     MatSnackBarModule,
+    MatExpansionModule,
   ],
   exports: [
     MatInputModule,
@@ -73,6 +74,7 @@ import {ToogleIconButtonComponent} from "./toogle-icon-button/toogle-icon-button
     MatStepperModule,
     MatSlideToggleModule,
     MatSnackBarModule,
+    MatExpansionModule,
     ToogleIconButtonComponent,
   ]
 })
