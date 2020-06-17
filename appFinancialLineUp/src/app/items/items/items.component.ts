@@ -1,17 +1,15 @@
 import {
-  ChangeDetectorRef,
   Component,
-  DoCheck,
   EventEmitter,
   Input,
   OnInit,
   Output
 } from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
-import {Item} from "../../item/models/item.interface";
-import {Category} from "../../item/models/category.interface";
 import {MatSelectChange} from "@angular/material/select";
 import {v4 as uuidv4} from 'uuid';
+import {Item} from "../models/item.interface";
+import {Category} from "../models/category.interface";
 
 @Component({
   selector: 'app-items',
@@ -20,23 +18,19 @@ import {v4 as uuidv4} from 'uuid';
 })
 export class ItemsComponent implements OnInit {
 
+  //TODO: From NGRX
+  @Input() Categories: Category[] = [{name: 'housing', icon: 'house'}];
   @Input() Items: Item[] = [];
 
   @Output() ItemsChanged: EventEmitter<Item[]> = new EventEmitter<Item[]>();
 
-  //TODO: From NGRX
-  @Input() Categories: Category[] = [{name: 'housing', icon: 'house'}];
-
-
-  dataSource = new MatTableDataSource<Item>();
+  tableData = new MatTableDataSource<Item>();
   displayedColumns: string[] = ['CategoryIcon', 'Category', 'Comment', 'Cost', 'Delete'];
 
-
-  constructor(private cdRef: ChangeDetectorRef) {
+  constructor() {
   }
-
   ngOnInit(): void {
-    this.dataSource.data = this.Items;
+    this.tableData.data = this.Items;
   }
 
   toggleBetweenCategories(event: Category, itemOfTable) {
@@ -74,15 +68,15 @@ export class ItemsComponent implements OnInit {
 
   updateItemsInDataTable(newItems?: Item[]) {
     if (!newItems || newItems.length <= 0) {
-      this.dataSource.data = this.Items;
+      this.tableData.data = this.Items;
       return;
     }
 
-    this.dataSource.data = newItems;
+    this.tableData.data = newItems;
   }
 
   clearDataTable() {
-    this.dataSource.data = [];
+    this.tableData.data = [];
   }
 
   getItemById(givenId: uuidv4): Item {

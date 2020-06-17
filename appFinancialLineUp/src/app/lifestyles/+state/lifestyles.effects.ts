@@ -7,8 +7,9 @@ import {Observable, of} from "rxjs";
 import LifeStyles_JsonArray from '../dummyLifeStyles.json'
 import Categories_JsonArray from '../categories.json'
 import {Lifestyle} from "../../lifestyle/models/lifestyle.interface";
-import {Item} from "../../item/models/item.interface";
-import {Category} from "../../item/models/category.interface";
+import {Category} from "../../items/models/category.interface";
+import {Item} from "../../items/models/item.interface";
+
 
 
 @Injectable()

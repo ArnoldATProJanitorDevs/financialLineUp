@@ -1,13 +1,12 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {ItemsComponent} from './items.component';
-import {Item} from "../../item/models/item.interface";
-import {Category} from "../../item/models/category.interface";
 import {v4 as uuidv4} from 'uuid';
-import {MatTableModule} from "@angular/material/table";
 import {ToggleIconButtonModule} from "../../toogle-icon-button/toggle-icon-button.module";
 import {SharedModule} from "../../shared/shared.module";
 import {FormsModule} from "@angular/forms";
+import {Item} from "../models/item.interface";
+import {Category} from "../models/category.interface";
 
 describe('ItemsComponent', () => {
   let component: ItemsComponent;
@@ -254,7 +253,7 @@ describe('ItemsComponent', () => {
     ];
     component.updateItemsInDataTable(ItemList);
 
-    const dataTable = component.dataSource;
+    const dataTable = component.tableData;
 
     expect(dataTable.data.length).toBe(3);
     expect(dataTable.data[0]).toBe(ItemList[0]);
@@ -266,7 +265,7 @@ describe('ItemsComponent', () => {
   it('updateItemsInDataTable- should return change nothing when invalid or null data for newItems was given into', () => {
     component = fixture.componentInstance;
 
-    const dataBeforeManipulation = component.dataSource.data;
+    const dataBeforeManipulation = component.tableData.data;
     const dataLength = dataBeforeManipulation.length;
     expect(dataBeforeManipulation.length).toBe(dataLength);
 
@@ -274,7 +273,7 @@ describe('ItemsComponent', () => {
     const emptyItemList: Item[] = [];
     component.updateItemsInDataTable(emptyItemList);
 
-    const dataAfterManipulation = component.dataSource.data;
+    const dataAfterManipulation = component.tableData.data;
     expect(dataAfterManipulation.length).toBe(dataLength);
 
   });

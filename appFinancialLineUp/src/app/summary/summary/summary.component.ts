@@ -1,7 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {LifeStyleCosts} from "../../lifestyle/models/lifestylecosts.interface";
-import {IncomeBasis} from "../../lifestyle/models/incomeBasis";
-import {Item} from "../../item/models/item.interface";
+import {IncomeNeeds} from "../models/incomeNeeds.interface";
+import {ExpensesInterface} from "../models/expenses.interface";
+import {roundToTwo} from "../../shared/globals/round-to-two";
+import {Item} from "../../items/models/item.interface";
 
 @Component({
   selector: 'app-summary',
@@ -13,7 +14,7 @@ export class SummaryComponent implements OnInit {
   @Input() Taxrates: number[] = [];
   @Input() Items: Item[] = [];
 
-  Costs: LifeStyleCosts = {
+  IncomeNeeds: IncomeNeeds = {
     BeforeTaxes: {Daily: 0, Weekly: 0, Monthly: 0, Yearly: 0},
     AfterTaxes: [{Daily: 0, Weekly: 0, Monthly: 0, Yearly: 0}]
   };
@@ -34,12 +35,12 @@ export class SummaryComponent implements OnInit {
 
     const monthlyExpensesBeforeTaxes = this.calculateTotal(this.Items.map(item => item.Cost));
 
-    this.Costs.BeforeTaxes.Daily = monthlyExpensesBeforeTaxes * DAILYMULTIPLIER;
-    this.Costs.BeforeTaxes.Weekly = monthlyExpensesBeforeTaxes * WEEKLYMULTIPLIER;
-    this.Costs.BeforeTaxes.Monthly = monthlyExpensesBeforeTaxes * MONTHLYMULTIPLIER;
-    this.Costs.BeforeTaxes.Yearly = monthlyExpensesBeforeTaxes * YEARLYMULTIPLIER;
+    this.IncomeNeeds.BeforeTaxes.Daily = monthlyExpensesBeforeTaxes * DAILYMULTIPLIER;
+    this.IncomeNeeds.BeforeTaxes.Weekly = monthlyExpensesBeforeTaxes * WEEKLYMULTIPLIER;
+    this.IncomeNeeds.BeforeTaxes.Monthly = monthlyExpensesBeforeTaxes * MONTHLYMULTIPLIER;
+    this.IncomeNeeds.BeforeTaxes.Yearly = monthlyExpensesBeforeTaxes * YEARLYMULTIPLIER;
 
-    this.Costs.AfterTaxes = this.Taxrates.map((taxrate): IncomeBasis => {
+    this.IncomeNeeds.AfterTaxes = this.Taxrates.map((taxrate): ExpensesInterface => {
       const monthlyExpensesAfterTaxes = this.calculatePercentage(monthlyExpensesBeforeTaxes, taxrate);
 
       return {
@@ -51,16 +52,13 @@ export class SummaryComponent implements OnInit {
     });
   }
 
-  calculateTotal(inputNumbers: number[]): number {
-    return inputNumbers.reduce((a, b) => a + b, 0);
+  calculateTotal(input: number[]): number {
+    return input.reduce((a, b) => a + b, 0);
   }
 
   calculatePercentage(amount: number, percentageInteger: number): number {
     return roundToTwo(amount / ((100 - percentageInteger) * 0.01));
   }
-
 }
 
-function roundToTwo(num) {
-  return +(`${Math.round(Number(`${num}e+2`))}e-2`);
-}
+

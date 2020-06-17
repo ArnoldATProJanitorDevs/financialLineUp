@@ -8,7 +8,8 @@ import {createEntityAdapter, EntityAdapter, EntityState} from "@ngrx/entity";
 import {LifeStylesEntity} from "./lifestyles.model";
 import * as LifestylesActions from './lifestyles.actions'
 import {LifestylesDictionary} from "./lifestyles.effects";
-import {Category} from "../../item/models/category.interface";
+import {Category} from "../../items/models/category.interface";
+
 
 export const LIFESTYLE_FEATURE_KEY = 'lifestyles';
 

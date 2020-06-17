@@ -5,15 +5,11 @@
         <div style="display: flex ; flex-direction: row; align-items: center">
           <h2 *ngIf="!isEdit" (click)="isEdit=true"> {{Lifestyle.Name}}</h2>
           <input matInput *ngIf="isEdit" (keydown.enter)="isEdit=false" [(ngModel)]="Lifestyle.Name"/>
-
         </div>
       </mat-panel-title>
       <mat-panel-description>
-        <!--        <p><b>Monthly BT </b>{{SummaryComponent?.Costs.BeforeTaxes.Monthly | number : '1.0-2'}} $ <br>-->
-        <!--          <b>Monthly AT </b>{{SummaryComponent?.Costs.AfterTaxes[0].Monthly | number : '1.0-2'}} $</p>-->
       </mat-panel-description>
     </mat-expansion-panel-header>
-
 
     <!-- SUMMARY -->
     <mat-expansion-panel>
@@ -83,7 +79,7 @@
       </app-items>
 
     </mat-expansion-panel>
-    <h3> DESCRIPTION</h3>
+    <h3>DESCRIPTION</h3>
     <P>{{Lifestyle.Description}}</P>
 
     <mat-action-row>

@@ -1,24 +1,20 @@
 import {
   AfterViewInit,
-  ChangeDetectionStrategy, ChangeDetectorRef,
+  ChangeDetectorRef,
   Component,
   DoCheck,
   EventEmitter,
   Input,
-  OnInit,
   Output,
   ViewChild
 } from '@angular/core';
 import {Lifestyle} from "../models/lifestyle.interface";
 import {v4 as uuidv4} from 'uuid';
-import {Item} from "../../item/models/item.interface";
-import {Category} from "../../item/models/category.interface";
-import {MatTableDataSource} from "@angular/material/table";
-import {MatSelectChange} from "@angular/material/select";
-import {LifeStyleCosts} from "../models/lifestylecosts.interface";
 import {SummaryComponent} from "../../summary/summary/summary.component";
 import {ItemsComponent} from "../../items/items/items.component";
 import {TaxratesComponent} from "../../taxrates/taxrates/taxrates.component";
+import {Category} from "../../items/models/category.interface";
+import {Item} from "../../items/models/item.interface";
 
 @Component({
   selector: 'app-lifestyle',
@@ -46,16 +42,12 @@ export class LifestyleComponent implements DoCheck, AfterViewInit {
   };
 
   @Output() deleteLifestyle: EventEmitter<Lifestyle> = new EventEmitter<Lifestyle>();
-  isEdit = false;
   @Output() EventCopyLifestyle: EventEmitter<Lifestyle> = new EventEmitter<Lifestyle>();
 
 
+  isEdit = false;
+
   constructor(private cdRef: ChangeDetectorRef) {
-  }
-
-  removeItem(item: Item): Item[] {
-
-    return this.Lifestyle.Items = this.Lifestyle.Items.filter(oldItem => oldItem.Id !== item.Id);
   }
 
   ngDoCheck(): void {
@@ -65,6 +57,7 @@ export class LifestyleComponent implements DoCheck, AfterViewInit {
   HandleButtonDeleteLifestyle(lifestyle: Lifestyle) {
     this.deleteLifestyle.emit(lifestyle);
   }
+
   HandleExportButton(lifestyle: Lifestyle) {
     console.log("Export:", lifestyle);
   }
@@ -77,10 +70,6 @@ export class LifestyleComponent implements DoCheck, AfterViewInit {
     this.CalculateSummary();
   }
 
-  private CalculateSummary() {
-    this.SummaryComponent?.calculateExpenses();
-  }
-
   updateItems(event: Item[]) {
     this.Lifestyle.Items = event;
     this.cdRef.detectChanges();
@@ -89,6 +78,10 @@ export class LifestyleComponent implements DoCheck, AfterViewInit {
   updateTaxrates(event: number[]) {
     this.Lifestyle.TaxRates = event;
     this.cdRef.detectChanges();
+  }
+
+  private CalculateSummary() {
+    this.SummaryComponent?.calculateExpenses();
   }
 }
 

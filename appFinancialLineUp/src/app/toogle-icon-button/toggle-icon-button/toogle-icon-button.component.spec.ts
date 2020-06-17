@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ToogleIconButtonComponent } from './toogle-icon-button.component';
+import {SharedModule} from "../../shared/shared.module";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 describe('ToogleIconButtonComponent', () => {
   let component: ToogleIconButtonComponent;
@@ -8,7 +10,8 @@ describe('ToogleIconButtonComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ToogleIconButtonComponent ]
+      declarations: [ ToogleIconButtonComponent ],
+      imports: [SharedModule, BrowserAnimationsModule]
     })
     .compileComponents();
   }));

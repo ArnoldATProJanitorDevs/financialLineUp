@@ -1,21 +1,17 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Item} from "../../item/models/item.interface";
 
 @Component({
   selector: 'app-taxrates',
   templateUrl: './taxrates.component.html',
   styleUrls: ['./taxrates.component.scss']
 })
-export class TaxratesComponent implements OnInit {
+export class TaxratesComponent {
 
   @Input() Taxrates: number[];
 
   @Output() TaxratesChanged: EventEmitter<number[]> = new EventEmitter<number[]>();
 
   constructor() {
-  }
-
-  ngOnInit(): void {
   }
 
   updateTaxrate(i: number, value: number) {

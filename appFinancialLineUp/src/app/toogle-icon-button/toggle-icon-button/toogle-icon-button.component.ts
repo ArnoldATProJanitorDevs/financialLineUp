@@ -28,7 +28,10 @@ export interface Category {
 export class ToogleIconButtonComponent  {
 
 
-  @Input() category: Category;
+  @Input() category: Category = {
+    name: 'housing',
+    icon: 'house'
+  };
 
   @Output()
   toggleCategory = new EventEmitter<Category>();

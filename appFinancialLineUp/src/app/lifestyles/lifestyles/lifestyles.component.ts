@@ -4,8 +4,8 @@ import {Observable, Subscription} from "rxjs";
 import {LifestylesDictionary} from "../+state/lifestyles.effects";
 import {v4 as uuidv4} from 'uuid';
 import {deepCopy} from "../../shared/globals/deep-copy";
-import {Category} from "../../item/models/category.interface";
 import {Lifestyle} from "../../lifestyle/models/lifestyle.interface";
+import {Category} from "../../items/models/category.interface";
 
 @Component({
   selector: 'app-lifestyles',
@@ -18,7 +18,7 @@ export class LifestylesComponent implements OnInit, OnDestroy {
   Lifestyles: LifestylesDictionary = {};
 
   Categories$: Observable<Category[]>;
-  Categories: Category[];
+  Categories: Category[] = [];
 
   private subs: Subscription[] = [];
 
@@ -41,7 +41,7 @@ export class LifestylesComponent implements OnInit, OnDestroy {
     this.subs.map(sub => sub.unsubscribe());
   }
 
-  addLifestyle() {
+  addNewLifestyle() {
     const newUuuid = uuidv4();
     this.Lifestyles[newUuuid] = {
       Id: newUuuid,
@@ -78,7 +78,7 @@ export class LifestylesComponent implements OnInit, OnDestroy {
   }
 
   deleteAllLifestyles() {
-    
+
   }
 
   CopyLifestyle(lifestyle: Lifestyle) {
