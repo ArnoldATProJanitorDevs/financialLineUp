@@ -8,6 +8,7 @@ import {LifestylesEffects} from './+state/lifestyles.effects';
 import {LifestylesFacade} from "./+state/lifestyles.facade";
 import {LifestyleModule} from "../lifestyle/lifestyle.module";
 import {SharedModule} from "../shared/shared.module";
+import {DataBaseConnectModule} from "../shared/data-base-connect/data-base-connect.module";
 
 @NgModule({
   declarations: [LifestylesComponent],
@@ -19,7 +20,7 @@ import {SharedModule} from "../shared/shared.module";
     StoreModule.forFeature(fromLifestyles.LIFESTYLE_FEATURE_KEY, fromLifestyles.reducer, {metaReducers: fromLifestyles.metaReducers}),
     EffectsModule.forFeature([LifestylesEffects]),
     LifestyleModule,
-    SharedModule
+    SharedModule,
   ],
   providers: [LifestylesFacade],
 })
