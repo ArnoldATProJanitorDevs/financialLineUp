@@ -1,3 +1,13 @@
 export const environment = {
-  production: true
+  production: true,
+  firebaseConfig : {
+    apiKey: "AIzaSyARPo2F0gCiWbI_ZC-pnbZ73lxmzxD0Isk",
+    authDomain: "finlinup.firebaseapp.com",
+    databaseURL: "https://finlinup.firebaseio.com",
+    projectId: "finlinup",
+    storageBucket: "finlinup.appspot.com",
+    messagingSenderId: "14247841224",
+    appId: "1:14247841224:web:26273192948c28dd2a84fd",
+    measurementId: "G-FMRHD0T9TP"
+  }
 };

@@ -17,6 +17,7 @@ import {LifestylesModule} from "./lifestyles/lifestyles.module";
 import {AppRouterFacade} from "./+state/app-router.facade";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {SharedModule} from "./shared/shared.module";
+import {AngularFireModule} from "@angular/fire";
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import {SharedModule} from "./shared/shared.module";
   imports: [
     BrowserModule,
     AppRoutingModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
     StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
     EffectsModule.forRoot([AppComponentEffects, AppRouterEffects]),
     StoreModule.forRoot({
