@@ -3,8 +3,8 @@
     <mat-expansion-panel-header>
       <mat-panel-title>
         <div style="display: flex ; flex-direction: row; align-items: center">
-          <h2 *ngIf="!isEdit" (click)="isEdit=true"> {{Lifestyle.Name}}</h2>
-          <input matInput *ngIf="isEdit" (keydown.enter)="isEdit=false" [(ngModel)]="Lifestyle.Name"/>
+          <h2 *ngIf="!isEdit" (click)="isEdit=true; $event.stopPropagation()"> {{Lifestyle.Name}}</h2>
+          <input matInput *ngIf="isEdit" (keydown.enter)="isEdit=false; $event.stopPropagation()" [(ngModel)]="Lifestyle.Name" (click)="$event.stopPropagation()"/>
         </div>
       </mat-panel-title>
       <mat-panel-description>
