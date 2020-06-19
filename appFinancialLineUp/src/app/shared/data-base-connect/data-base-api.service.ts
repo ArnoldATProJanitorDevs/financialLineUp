@@ -13,30 +13,40 @@ export class DataBaseApiService {
 
   CreateLifeStyles(lifestyles: Lifestyle[]) {
 
-    let lifestylesRef = this.db.collection("lifestyles");
-    const fieldName = 'Id';
-
-
-    let sub;
-
     lifestyles.map(lifestyle => {
-      sub = this.db.collection("lifestyles").doc(lifestyle.Id).valueChanges()
+
+      const databaseEntry = {
+        Id: lifestyle.Id,
+        Description: lifestyle.Description,
+        Name: lifestyle.Name,
+        TaxRates: lifestyle.TaxRates,
+        Items: lifestyle.Items ? lifestyle.Items : [{
+          Id: uuidv4(),
+          Category: {name: 'car', icon: 'transportation_car'},
+          Cost: 0,
+          Comment: 'NEW ITEM'
+        }],
+      };
+
+      function createNewEntry() {
+        databaseEntry["Created"] = new Date();
+        return databaseEntry;
+      }
+
+      function updateEntry() {
+        databaseEntry["Updated"] = new Date();
+        return databaseEntry;
+      }
+
+      (this.db.collection("lifestyles").doc(lifestyle.Id).valueChanges() as Observable<Lifestyle>)
         .pipe(
           take(1),
           map(next => {
             if (!next) {
-              return lifestylesRef.doc(lifestyle.Id).set({
-                Id: lifestyle.Id,
-                Description: lifestyle.Description,
-                Name: lifestyle.Name,
-                TaxRates: lifestyle.TaxRates,
-                Items: lifestyle.Items ? lifestyle.Items : [{
-                  Id: uuidv4(),
-                  Category: {name: 'housing', icon: 'home'},
-                  Cost: 0,
-                  Comment: 'NEW ITEM'
-                }],
-              })
+              this.UpdateLifeStyle(createNewEntry.call(this));
+            } else {
+              if (next !== databaseEntry)
+                this.UpdateLifeStyle(updateEntry.call(this));
             }
           }),
         ).subscribe();
@@ -60,8 +70,8 @@ export class DataBaseApiService {
     return combineLatest(...lifestyles2);
   }
 
-  UpdateLifeStyle(lifeStyle: Lifestyle): Lifestyle {
-    return {Description: "", Id: undefined, Items: [], Name: "", TaxRates: []}
+  UpdateLifeStyle(lifestyle: Lifestyle) {
+    this.db.collection("lifestyles").doc(lifestyle.Id).set(lifestyle, {merge: true});
   }
 
   DeleteLifeStyle(Id: uuidv4): boolean {

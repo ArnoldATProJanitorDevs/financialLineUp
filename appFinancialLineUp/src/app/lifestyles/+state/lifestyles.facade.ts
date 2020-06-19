@@ -4,6 +4,7 @@ import {Action, select, Store} from '@ngrx/store';
 import * as fromLifestyles from "./lifestyles.reducer";
 import * as LifestyleComponentSelectors from './lifestyles.selectors';
 import * as LifestyleActions from './lifestyles.actions';
+import {Lifestyle} from "../../lifestyle/models/lifestyle.interface";
 
 @Injectable()
 export class LifestylesFacade {
@@ -34,4 +35,9 @@ export class LifestylesFacade {
     this.dispatch(LifestyleActions.loadCategories());
     return this.getCategoriesAll$;
   }
+
+  pushLifeStyleIntoCloud(lifestyles: Lifestyle[]){
+    this.dispatch(LifestyleActions.CreateLifestyles({Lifestyles: lifestyles}))
+  }
+
 }

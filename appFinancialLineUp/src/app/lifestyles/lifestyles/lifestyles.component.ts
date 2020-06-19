@@ -74,7 +74,7 @@ export class LifestylesComponent implements OnInit, OnDestroy {
   }
 
   uploadLifestyles() {
-
+    this.lifestyleFacade.pushLifeStyleIntoCloud(convertDictionaryToArray(this.Lifestyles));
   }
 
   deleteAllLifestyles() {
@@ -107,5 +107,16 @@ export class LifestylesComponent implements OnInit, OnDestroy {
       }
     ));
   }
+}
+
+function convertDictionaryToArray(dictionary: any){
+
+  let array = [];
+
+  for (let key in dictionary) {
+    array.push(dictionary[key]);
+  }
+
+  return array;
 }
 

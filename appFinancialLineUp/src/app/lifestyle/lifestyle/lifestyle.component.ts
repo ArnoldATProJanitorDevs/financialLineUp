@@ -15,6 +15,7 @@ import {ItemsComponent} from "../../items/items/items.component";
 import {TaxratesComponent} from "../../taxrates/taxrates/taxrates.component";
 import {Category} from "../../items/models/category.interface";
 import {Item} from "../../items/models/item.interface";
+import {LifestylesFacade} from "../../lifestyles/+state/lifestyles.facade";
 
 @Component({
   selector: 'app-lifestyle',
@@ -47,7 +48,7 @@ export class LifestyleComponent implements DoCheck, AfterViewInit {
 
   isEdit = false;
 
-  constructor(private cdRef: ChangeDetectorRef) {
+  constructor(private cdRef: ChangeDetectorRef, private lifestyleFacade: LifestylesFacade) {
   }
 
   ngDoCheck(): void {
@@ -60,6 +61,11 @@ export class LifestyleComponent implements DoCheck, AfterViewInit {
 
   HandleExportButton(lifestyle: Lifestyle) {
     console.log("Export:", lifestyle);
+  }
+
+  HandleCloudUploadButton(lifestyle: Lifestyle) {
+    console.log("Cloud:", lifestyle);
+    this.lifestyleFacade.pushLifeStyleIntoCloud([lifestyle]);
   }
 
   HandleCopyButton(Lifestyle: Lifestyle) {

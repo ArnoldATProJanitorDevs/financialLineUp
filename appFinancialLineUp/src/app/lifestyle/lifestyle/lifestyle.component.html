@@ -98,6 +98,11 @@
         <mat-icon>save_alt</mat-icon>
         EXPORT
       </button>
+      <button mat-button class="add-button" color="accent"
+              (click)="$event.stopPropagation(); HandleCloudUploadButton(Lifestyle)">
+        <mat-icon>cloud_upload</mat-icon>
+        CLOUD
+      </button>
     </mat-action-row>
   </mat-expansion-panel>
 </mat-accordion>
