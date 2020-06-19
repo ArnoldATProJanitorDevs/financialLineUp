@@ -26,7 +26,7 @@ export class LifestylesFacade {
   }
 
   getLifeStylesAll(){
-    this.dispatch(LifestyleActions.loadLifestyles());
+    // this.dispatch(LifestyleActions.loadLifestyles());
     return this.getLifeStylesAll$;
   }
 

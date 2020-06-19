@@ -3,27 +3,48 @@ import {Actions, createEffect, ofType} from '@ngrx/effects';
 import * as LifestylesActions from './lifestyles.actions'
 import {catchError, map, switchMap} from "rxjs/operators";
 import {Observable, of} from "rxjs";
-
-import LifeStyles_JsonArray from '../dummyLifeStyles.json'
-import Categories_JsonArray from '../categories.json'
 import {Lifestyle} from "../../lifestyle/models/lifestyle.interface";
 import {Category} from "../../items/models/category.interface";
 import {Item} from "../../items/models/item.interface";
+import {DataBaseApiService} from "../../shared/data-base-connect/data-base-api.service";
+import {v4 as uuidv4} from 'uuid';
 
 
+
+//TODO: Get rid of both JSON
+import LifeStyles_JsonArray from '../dummyLifeStyles.json'
+import Categories_JsonArray from '../categories.json'
+//TODO END: Get rid of both JSON
 
 @Injectable()
 export class LifestylesEffects {
 
-  loadLifeStyles$ = createEffect(() => {
+  createLifeStyles$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(LifestylesActions.loadLifestyles),
-      switchMap(() => dummyFunctionSimulateReturnOfLifestylesObservable().pipe(
-        map((lifestyles) => LifestylesActions.loadLifestylesSuccess({Lifestyles: lifestyles})),
+      ofType(LifestylesActions.CreateLifestyles),
+      map((a) => {
+        this.dataBaseApiService.CreateLifeStyles(a.Lifestyles);
+        return LifestylesActions.CreateLifestylesSuccess();
+      }),
+      catchError(errorMessage => {
+        return of(LifestylesActions.CreateLifestylesFailure({error: errorMessage}))
+      })
+    )
+  });
+
+  loadLifeStyleById$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(LifestylesActions.loadLifestylesById),
+      switchMap((action) => this.dataBaseApiService.GetLifeStylesById(action.ids).pipe(
+        map((lifestyle) => {
+          const lifestyles: Lifestyle[] = [].concat(...lifestyle);
+          return LifestylesActions.loadLifestylesByIdSuccess({Lifestyles: convertArrayToDictionary(lifestyles)})
+        }),
         catchError(errorMessage => {
           return of(LifestylesActions.loadLifestylesFailure({error: errorMessage}))
         })
-      )))
+      ))
+    )
   });
 
   loadCategories$ = createEffect(() => {
@@ -38,28 +59,23 @@ export class LifestylesEffects {
   });
 
 
-  constructor(private actions$: Actions) {
+  constructor(private actions$: Actions, private dataBaseApiService: DataBaseApiService) {
   }
 }
 
-//TODO: replace for CRUD-Database operations
-function dummyFunctionSimulateReturnOfLifestylesObservable(): Observable<{ [id: string]: Lifestyle; }> {
-
-  let Lifestyles: LifestylesDictionary = {};
-
-  LifeStyles_JsonArray.map(lifestyle => {
-    Lifestyles[lifestyle.Id] = {
+function convertArrayToDictionary(lifestyles: Lifestyle[]) {
+  const dictionary: LifestylesDictionary = {};
+  lifestyles.map(lifestyle => {
+    dictionary[lifestyle.Id] = {
       Id: lifestyle.Id,
       Name: lifestyle.Name,
       TaxRates: lifestyle.TaxRates,
       Description: lifestyle.Description,
-      Items: castToItem(lifestyle.Items),
+      Items: lifestyle.Items ? castToItemArray(lifestyle.Items) : getDefaultItemArray(),
     };
   });
-
-  return of(Lifestyles);
+  return dictionary;
 }
-
 export interface LifestylesDictionary {
   [id: string]: Lifestyle;
 }
@@ -76,7 +92,7 @@ function dummyFunctionSimulateReturnOfCategoriesObservable(): Observable<Categor
   return of(categories);
 }
 
-
+//TODO: replace for CRUD-Database operations
 function getCategoriesFromJson(): Category[] {
   const Categories: Category[] = Categories_JsonArray.map(cat => {
     const category: Category = {
@@ -88,15 +104,18 @@ function getCategoriesFromJson(): Category[] {
 
   return Categories;
 }
-
+//TODO: Outsource
 function getCategory(Categories: Category[], Category: any | Category) {
 
   const existingCategory = Categories.filter(cat => cat.name == Category)[0];
 
   return existingCategory ? existingCategory : Categories[0];
 }
+//TODO: Outsource
+function castToItemArray(Items: any[]): Item[] {
 
-function castToItem(Items: any): Item[] {
+  if (Items.length <= 0)
+    return [];
 
   const Categories: Category[] = getCategoriesFromJson();
 
@@ -109,4 +128,21 @@ function castToItem(Items: any): Item[] {
     };
   })
 
+}
+//TODO: Outsource
+function getDefaultCategory(): Category {
+  return {
+    icon: "house", name: "housing"
+
+  }
+}
+//TODO: Outsource
+function getDefaultItemArray(): Item[] {
+
+  return [{
+    Id: uuidv4(),
+    Comment: 'NEW ITEM',
+    Category: getDefaultCategory(),
+    Cost: 0,
+  }];
 }

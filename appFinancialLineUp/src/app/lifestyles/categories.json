@@ -4,16 +4,44 @@
     "icon": "home"
   },
   {
-    "name": "transportation",
+    "name": "car",
     "icon": "directions_car"
+  },
+  {
+    "name": "transportation",
+    "icon": "directions_transit"
+  },
+  {
+    "name": "business",
+    "icon": "business"
   },
   {
     "name": "groceries",
     "icon": "kitchen"
   },
   {
+    "name": "shopping",
+    "icon": "shopping_basket"
+  },
+  {
     "name": "insurance",
     "icon": "security"
+  },
+  {
+    "name": "donation",
+    "icon": "support"
+  },
+  {
+    "name": "technology",
+    "icon": "tv"
+  },
+  {
+    "name": "gaming",
+    "icon": "gamepad"
+  },
+  {
+    "name": "streaming",
+    "icon": "play_arrow"
   },
   {
     "name": "dining",
@@ -48,7 +76,7 @@
     "icon": "local_library"
   },
   {
-    "name": "loan Rate",
+    "name": "loan",
     "icon": "payment"
   },
   {
@@ -82,6 +110,10 @@
   {
     "name": "garden",
     "icon": "eco"
+  },
+  {
+    "name": "office",
+    "icon": "attach_file"
   },
   {
     "name": "diversity",

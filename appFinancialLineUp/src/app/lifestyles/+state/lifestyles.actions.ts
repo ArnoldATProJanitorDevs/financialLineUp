@@ -1,6 +1,7 @@
-import { createAction, props } from '@ngrx/store';
+import {createAction, props} from '@ngrx/store';
 import {LifestylesDictionary} from "./lifestyles.effects";
 import {Category} from "../../items/models/category.interface";
+import {Lifestyle} from "../../lifestyle/models/lifestyle.interface";
 
 export const loadLifestyles = createAction(
   '[Lifestyles] Load Lifestyles'
@@ -13,6 +14,36 @@ export const loadLifestylesSuccess = createAction(
 
 export const loadLifestylesFailure = createAction(
   '[Lifestyles] Load Lifestyles Failure',
+  props<{ error: any }>()
+);
+
+
+export const CreateLifestyles = createAction(
+  '[Lifestyles] Create Lifestyles',
+  props<{ Lifestyles: Lifestyle[] }>()
+);
+
+export const CreateLifestylesSuccess = createAction(
+  '[Lifestyles] Create Lifestyles Success',
+);
+
+export const CreateLifestylesFailure = createAction(
+  '[Lifestyles] Create Lifestyles Failure',
+  props<{ error: any }>()
+);
+
+export const loadLifestylesById = createAction(
+  '[Lifestyles] Load Lifestyles by Id',
+  props<{ ids: string[] }>()
+);
+
+export const loadLifestylesByIdSuccess = createAction(
+  '[Lifestyles]  Load Lifestyles by Id Success',
+  props<{ Lifestyles: LifestylesDictionary }>()
+);
+
+export const loadLifestylesByIdFailure = createAction(
+  '[Lifestyles] Load Lifestyles by Id Failure',
   props<{ error: any }>()
 );
 

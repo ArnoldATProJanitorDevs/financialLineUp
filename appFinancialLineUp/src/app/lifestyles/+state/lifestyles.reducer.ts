@@ -40,6 +40,20 @@ const lifeStyleReducer = createReducer(
     }
   ),
   on(LifestylesActions.loadLifestylesFailure, (state, {error}) => {
+    console.log(error);
+      return {...state, error}
+    }
+  ),
+  on(LifestylesActions.loadLifestylesById, (state, action) => {
+      return {...state}
+    }
+  ),
+  on(LifestylesActions.loadLifestylesByIdSuccess, (state, {Lifestyles}) => {
+      return {...state, Lifestyles}
+    }
+  ),
+  on(LifestylesActions.loadLifestylesByIdFailure, (state, {error}) => {
+      console.log(error);
       return {...state, error}
     }
   ),
