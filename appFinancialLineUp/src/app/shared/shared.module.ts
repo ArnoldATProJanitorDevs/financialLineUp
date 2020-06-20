@@ -16,7 +16,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTableModule} from '@angular/material/table';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {DataBaseConnectModule} from "./data-base-connect/data-base-connect.module";
-import {DataBaseApiService} from "./data-base-connect/data-base-api.service";
+import {LifestyleDatabaseApiService} from "./data-base-connect/lifestyle-database-api.service";
 import {AngularFirestore} from "@angular/fire/firestore";
 
 @NgModule({
@@ -58,7 +58,7 @@ import {AngularFirestore} from "@angular/fire/firestore";
     MatExpansionModule,
     DataBaseConnectModule,
   ],
-  providers: [DataBaseApiService, AngularFirestore]
+  providers: [LifestyleDatabaseApiService, AngularFirestore]
 })
 export class SharedModule {
 }

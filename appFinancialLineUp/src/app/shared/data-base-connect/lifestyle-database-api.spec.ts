@@ -1,13 +1,13 @@
 import {TestBed} from '@angular/core/testing';
 
-import {DataBaseApiService} from './data-base-api.service';
+import {LifestyleDatabaseApiService} from './lifestyle-database-api.service';
 
 describe('DataBaseApiService', () => {
-  let service: DataBaseApiService;
+  let service: LifestyleDatabaseApiService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(DataBaseApiService);
+    service = TestBed.inject(LifestyleDatabaseApiService);
   });
 
   it('should be created', () => {

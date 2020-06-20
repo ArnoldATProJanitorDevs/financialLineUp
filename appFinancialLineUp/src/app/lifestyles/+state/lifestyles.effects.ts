@@ -1,22 +1,22 @@
 import {Injectable} from '@angular/core';
 import {act, Actions, createEffect, ofType} from '@ngrx/effects';
 import * as LifestylesActions from './lifestyles.actions'
-import {catchError, map, switchMap} from "rxjs/operators";
+import {catchError, map, switchMap, take} from "rxjs/operators";
 import {Observable, of} from "rxjs";
 import {Lifestyle} from "../../lifestyle/models/lifestyle.interface";
 import {Category} from "../../items/models/category.interface";
 import {Item} from "../../items/models/item.interface";
-import {DataBaseApiService} from "../../shared/data-base-connect/data-base-api.service";
+import {LifestyleDatabaseApiService} from "../../shared/data-base-connect/lifestyle-database-api.service";
 import {v4 as uuidv4} from 'uuid';
 
 
 
-//TODO: Get rid of both JSON
-import LifeStyles_JsonArray from '../dummyLifeStyles.json'
+//TODO: Get rid of JSON
 import Categories_JsonArray from '../categories.json'
-import {ExampleLifestyles} from "../models/lifestyle-example";
 
-//TODO END: Get rid of both JSON
+import {ExampleLifestyles} from "../models/lifestyle-example";
+import {Categories} from "../../shared/categories/categories";
+import {CategoriesService} from "../../shared/categories/categories.service";
 
 @Injectable()
 export class LifestylesEffects {
@@ -37,9 +37,9 @@ export class LifestylesEffects {
   loadExampleLifestyles$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(LifestylesActions.loadExampleLifestyles),
-      switchMap(() => getExampleLifestyles().pipe(
+      switchMap(() => getExampleLifestylesAsObservable().pipe(
         map((lifestyles) => {
-          return LifestylesActions.loadExampleLifestylesSuccess({Lifestyles: convertArrayToDictionary(lifestyles)})
+          return LifestylesActions.loadExampleLifestylesSuccess({Lifestyles: convertArrayToDictionary(lifestyles, this.categoriesService)})
         }),
         catchError(errorMessage => {
           return of(LifestylesActions.loadExampleLifestylesFailure({error: errorMessage}))
@@ -54,7 +54,7 @@ export class LifestylesEffects {
       switchMap((action) => this.dataBaseApiService.GetLifeStylesById(action.ids).pipe(
         map((lifestyle) => {
           const lifestyles: Lifestyle[] = [].concat(...lifestyle);
-          return LifestylesActions.loadLifestylesByIdSuccess({Lifestyles: convertArrayToDictionary(lifestyles)})
+          return LifestylesActions.loadLifestylesByIdSuccess({Lifestyles: convertArrayToDictionary(lifestyles, this.categoriesService)})
         }),
         catchError(errorMessage => {
           return of(LifestylesActions.loadLifestylesFailure({error: errorMessage}))
@@ -66,7 +66,7 @@ export class LifestylesEffects {
   loadCategories$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(LifestylesActions.loadCategories),
-      switchMap(() => dummyFunctionSimulateReturnOfCategoriesObservable().pipe(
+      switchMap(() => this.categoriesService.getCategoriesAsObservable().pipe(
         map((categories) => LifestylesActions.loadCategoriesSuccess({Categories: categories})),
         catchError(errorMessage => {
           return of(LifestylesActions.loadCategoriesFailure({error: errorMessage}))
@@ -75,11 +75,11 @@ export class LifestylesEffects {
   });
 
 
-  constructor(private actions$: Actions, private dataBaseApiService: DataBaseApiService) {
+  constructor(private actions$: Actions, private dataBaseApiService: LifestyleDatabaseApiService, private categoriesService: CategoriesService) {
   }
 }
 
-function convertArrayToDictionary(lifestyles: Lifestyle[]) {
+function convertArrayToDictionary(lifestyles: Lifestyle[], categoriesService: CategoriesService) {
   const dictionary: LifestylesDictionary = {};
   lifestyles.map(lifestyle => {
     dictionary[lifestyle.Id] = {
@@ -87,7 +87,7 @@ function convertArrayToDictionary(lifestyles: Lifestyle[]) {
       Name: lifestyle.Name,
       TaxRates: lifestyle.TaxRates,
       Description: lifestyle.Description,
-      Items: lifestyle.Items ? castToItemArray(lifestyle.Items) : getDefaultItemArray(),
+      Items: castToItemArray(lifestyle.Items, categoriesService),
     };
   });
   return dictionary;
@@ -97,78 +97,27 @@ export interface LifestylesDictionary {
   [id: string]: Lifestyle;
 }
 
-//TODO: replace for CRUD-Database operations
-function dummyFunctionSimulateReturnOfCategoriesObservable(): Observable<Category[]> {
-
-  const categories = Categories_JsonArray.map((category): Category => {
-    return {
-      name: category.name || 'home',
-      icon: category.icon || 'housing'
-    };
-  });
-  return of(categories);
-}
-
-//TODO: replace for CRUD-Database operations
-function getCategoriesFromJson(): Category[] {
-  const Categories: Category[] = Categories_JsonArray.map(cat => {
-    const category: Category = {
-      icon: cat.icon,
-      name: cat.name
-    };
-    return category;
-  });
-
-  return Categories;
-}
-
-//TODO: Outsource
-function getCategory(Categories: Category[], Category: any | Category) {
-
-  const existingCategory = Categories.filter(cat => cat.name == Category)[0];
-
-  return existingCategory ? existingCategory : Categories[0];
-}
-
-//TODO: Outsource
-function castToItemArray(Items: any[]): Item[] {
+function castToItemArray(Items: any[] = [],categoriesService: CategoriesService ): Item[] {
 
   if (Items.length <= 0)
-    return [];
+    return [{
+      Id: uuidv4(),
+      Comment: 'NEW ITEM',
+      Category: categoriesService.getDefaultCategory(),
+      Cost: 0,
+    }];
 
-  const Categories: Category[] = getCategoriesFromJson();
-
-  return Items.map(itemNew => {
+  return Items.map(newItem => {
     return {
-      Id: itemNew.Id,
-      Comment: itemNew.Comment,
-      Category: getCategory(Categories, itemNew.Category),
-      Cost: Number(itemNew.Cost),
+      Id: newItem.Id,
+      Comment: newItem.Comment,
+      Category: categoriesService.getExistingCategoryOrDefault(newItem.Category),
+      Cost: Number(newItem.Cost),
     };
   })
-
 }
 
-//TODO: Outsource
-function getDefaultCategory(): Category {
-  return {
-    icon: "house", name: "housing"
-
-  }
-}
-
-//TODO: Outsource
-function getDefaultItemArray(): Item[] {
-
-  return [{
-    Id: uuidv4(),
-    Comment: 'NEW ITEM',
-    Category: getDefaultCategory(),
-    Cost: 0,
-  }];
-}
-
-function getExampleLifestyles() {
+function getExampleLifestylesAsObservable() {
   return of(ExampleLifestyles);
 }
 

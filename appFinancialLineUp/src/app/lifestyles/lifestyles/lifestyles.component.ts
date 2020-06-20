@@ -6,7 +6,7 @@ import {v4 as uuidv4} from 'uuid';
 import {deepCopy} from "../../shared/globals/deep-copy";
 import {Lifestyle} from "../../lifestyle/models/lifestyle.interface";
 import {Category} from "../../items/models/category.interface";
-import {DataBaseApiService} from "../../shared/data-base-connect/data-base-api.service";
+import {LifestyleDatabaseApiService} from "../../shared/data-base-connect/lifestyle-database-api.service";
 
 @Component({
   selector: 'app-lifestyles',
@@ -24,7 +24,7 @@ export class LifestylesComponent implements OnInit, OnDestroy {
   private subs: Subscription[] = [];
 
   constructor(private lifestyleFacade: LifestylesFacade,
-              private dbApi: DataBaseApiService
+              private dbApi: LifestyleDatabaseApiService
   ) {
   }
 

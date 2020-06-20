@@ -1,12 +1,12 @@
-import {Injectable, OnInit} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Lifestyle} from "../../lifestyle/models/lifestyle.interface";
 import {v4 as uuidv4} from 'uuid';
-import {AngularFirestore, AngularFirestoreDocument, DocumentChangeAction} from "@angular/fire/firestore";
-import {combineLatest, forkJoin, Observable, of} from "rxjs";
-import {catchError, delay, filter, finalize, map, switchMap, take, throwIfEmpty} from "rxjs/operators";
+import {AngularFirestore, DocumentChangeAction} from "@angular/fire/firestore";
+import {combineLatest, Observable} from "rxjs";
+import {map, take} from "rxjs/operators";
 
 @Injectable()
-export class DataBaseApiService {
+export class LifestyleDatabaseApiService {
 
   constructor(private db: AngularFirestore) {
   }
