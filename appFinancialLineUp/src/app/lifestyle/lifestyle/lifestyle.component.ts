@@ -63,7 +63,7 @@ export class LifestyleComponent implements DoCheck, AfterViewInit {
     console.log("Export:", lifestyle);
   }
 
-  HandleCloudUploadButton(lifestyle: Lifestyle) {
+  HandleShareButton(lifestyle: Lifestyle) {
     console.log("Cloud:", lifestyle);
     this.lifestyleFacade.pushLifeStyleIntoCloud([lifestyle]);
   }

@@ -1,8 +1,26 @@
 <div class="console">
-  <button class="consoleItem" mat-raised-button color="primary" (click)="addNewLifestyle()">Add Lifestyle</button>
-  <button class="consoleItem" mat-raised-button color="accent" (click)="exportLifestyles()">Export Lifestyles</button>
-  <button class="consoleItem" mat-raised-button color="accent" (click)="importLifestyles()">Import Lifestyles</button>
-  <button class="consoleItem" mat-raised-button color="warn" (click)="uploadLifestyles()">Upload Lifestyles</button>
+  <button mat-raised-button class="consoleItem" color="primary"
+          (click)="$event.stopPropagation(); addNewLifestyle()">
+    <mat-icon>add</mat-icon>
+    <span>&nbsp;ADD LIFESTYLE</span>
+  </button>
+  <button mat-raised-button class="consoleItem" color="accent"
+          (click)="$event.stopPropagation(); exportLifestyles()()">
+    <mat-icon>save_alt</mat-icon>
+    <span>&nbsp;EXPORT LIFESTYLES</span>
+  </button>
+  <button mat-raised-button class="consoleItem" color="accent"
+          (click)="$event.stopPropagation(); importLifestyles()">
+    <mat-icon>subdirectory_arrow_right</mat-icon>
+    <span>&nbsp;IMPORT LIFESTYLES</span>
+  </button>
+  <button mat-raised-button class="consoleItem" color="warn"
+          (click)="$event.stopPropagation(); shareLifestyles()">
+    <mat-icon>share</mat-icon>
+    <span>&nbsp;SHARE LIFESTYLES</span>
+  </button>
+
+
 </div>
 <div class="lifestyleContainer">
   <div class="lifestyle" *ngFor="let Lifestyle of Lifestyles | keyvalue; trackBy: trackById">

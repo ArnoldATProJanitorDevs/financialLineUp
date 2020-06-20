@@ -74,9 +74,11 @@ export class DataBaseApiService {
     this.db.collection("lifestyles").doc(lifestyle.Id).set(lifestyle, {merge: true});
   }
 
-  DeleteLifeStyle(Id: uuidv4): boolean {
-    return false;
+  DeleteLifeStyle(Id: uuidv4) {
+    this.db.collection("lifestyles").doc(Id).delete().then(function() {
+      console.log("Document successfully deleted!");
+    }).catch(function(error) {
+      console.error("Error removing document: ", error);
+    });
   }
-
-
 }

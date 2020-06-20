@@ -6,6 +6,7 @@ import {v4 as uuidv4} from 'uuid';
 import {deepCopy} from "../../shared/globals/deep-copy";
 import {Lifestyle} from "../../lifestyle/models/lifestyle.interface";
 import {Category} from "../../items/models/category.interface";
+import {DataBaseApiService} from "../../shared/data-base-connect/data-base-api.service";
 
 @Component({
   selector: 'app-lifestyles',
@@ -22,7 +23,9 @@ export class LifestylesComponent implements OnInit, OnDestroy {
 
   private subs: Subscription[] = [];
 
-  constructor(private lifestyleFacade: LifestylesFacade) {
+  constructor(private lifestyleFacade: LifestylesFacade,
+              private dbApi: DataBaseApiService
+  ) {
   }
 
   private static makeDeepCopyForLocalModification(object: any) {
@@ -62,6 +65,8 @@ export class LifestylesComponent implements OnInit, OnDestroy {
   }
 
   DeleteLifeStyle(lifestyle: Lifestyle) {
+    console.log(this.dbApi.DeleteLifeStyle(lifestyle.Id));
+
     delete this.Lifestyles[lifestyle.Id];
   }
 
@@ -73,7 +78,7 @@ export class LifestylesComponent implements OnInit, OnDestroy {
 
   }
 
-  uploadLifestyles() {
+  shareLifestyles() {
     this.lifestyleFacade.pushLifeStyleIntoCloud(convertDictionaryToArray(this.Lifestyles));
   }
 
@@ -107,9 +112,11 @@ export class LifestylesComponent implements OnInit, OnDestroy {
       }
     ));
   }
+
+
 }
 
-function convertDictionaryToArray(dictionary: any){
+function convertDictionaryToArray(dictionary: any) {
 
   let array = [];
 
