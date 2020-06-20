@@ -14,22 +14,41 @@ import {v4 as uuidv4} from 'uuid';
 
 
 export enum AppRouteNames {
-  LifeStyles = 'lifestyles'
+  LifeStyles = 'lifestyles',
 }
 
-function splitQueryParams(search: string) {
+interface QueryParam {
+  Name: string;
+  Params: string[];
+
+}
+
+function splitQueryParams(search: string): QueryParam[] {
   if (!search)
     return null;
 
-  return search.split('&')?.map(queryParam => queryParam.split("=")[1]?.substr(0, queryParam.length) || null);
+  search = search.substr(1, search.length);
+  const params: string[] = search.split('&');
+
+  const QueryParams: QueryParam[] = [];
+
+  params.map((param, index) => {
+    QueryParams.push({
+      Name: params[index].split('=')[0],
+      Params: params[index].split('=')[1].split('~')
+    });
+  });
+
+  return QueryParams;
 }
+
 
 export class RelativeUrl {
 
   readonly path: string;
   readonly pathSegments: string[];
   readonly search: string;
-  readonly queryParams: string[];
+  readonly queryParams: QueryParam[];
   readonly searchParams: URLSearchParams;
 
   constructor(relativeUrl: string) {
@@ -42,37 +61,20 @@ export class RelativeUrl {
   }
 }
 
+function getQueryParamsOfParam(compareTo , relativeUrl) {
+  let lifestyleIds: string[] = [];
+
+  relativeUrl.queryParams.map(qp => {
+    if (qp.Name == compareTo)
+      qp.Params.map(qpp => lifestyleIds.push(qpp));
+  });
+  return lifestyleIds;
+}
+
 @Injectable()
 export class AppRouterEffects {
 
-  //TODO: Outsource
-  ExampleLifestyles: Lifestyle[] = [
-    {
-      Id: 'example1',
-      Name: 'Living Alone',
-      TaxRates: [42],
-      Items: [{
-        Id: uuidv4(),
-        Cost: 40,
-        Category: {name: 'house', icon: 'house'},
-        Comment: "Example Item"
-      }],
-      Description: 'This is an example for ...'
-    },
-    {
-      Id: 'example2',
-      Name: 'Living Together',
-      TaxRates: [35],
-      Items: [{
-        Id: uuidv4(),
-        Cost: 20,
-        Category: {name: 'house', icon: 'house'},
-        Comment: "Example Item"
-      }],
-      Description: 'This is an example for ...'
-    }
-  ];
-
+  LIFESTYLESQUERYPARAM = 'lifestyles';
 
   @Effect({dispatch: false})
   navigate$ = this.actions$.pipe(
@@ -91,18 +93,14 @@ export class AppRouterEffects {
           const relativeUrl = new RelativeUrl(store.router.state.url);
           const actionArray = [];
 
-          console.log(relativeUrl);
-
           if (relativeUrl.pathSegments.includes(AppRouteNames.LifeStyles)) {
-
             if (!relativeUrl.queryParams) {
               actionArray.push(
-                LifeStyleActions.CreateLifestyles({Lifestyles: this.ExampleLifestyles}),
-                LifeStyleActions.loadLifestylesById({ids: this.ExampleLifestyles.map(ls => ls.Id)})
+                LifeStyleActions.loadExampleLifestyles()
               );
             } else {
               actionArray.push(
-                LifeStyleActions.loadLifestylesById({ids: relativeUrl.queryParams}));
+                LifeStyleActions.loadLifestylesById({ids: getQueryParamsOfParam(this.LIFESTYLESQUERYPARAM,relativeUrl)}));
             }
           }
 

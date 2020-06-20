@@ -17,6 +17,19 @@ export const loadLifestylesFailure = createAction(
   props<{ error: any }>()
 );
 
+export const loadExampleLifestyles = createAction(
+  '[Lifestyles] Load Example Lifestyles'
+);
+
+export const loadExampleLifestylesSuccess = createAction(
+  '[Lifestyles] Load Example Lifestyles Success',
+  props<{ Lifestyles: LifestylesDictionary }>()
+);
+
+export const loadExampleLifestylesFailure = createAction(
+  '[Lifestyles] Load Example Lifestyles Failure',
+  props<{ error: any }>()
+);
 
 export const CreateLifestyles = createAction(
   '[Lifestyles] Create Lifestyles',

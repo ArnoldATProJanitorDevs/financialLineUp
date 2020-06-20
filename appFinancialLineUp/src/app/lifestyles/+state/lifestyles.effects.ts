@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Actions, createEffect, ofType} from '@ngrx/effects';
+import {act, Actions, createEffect, ofType} from '@ngrx/effects';
 import * as LifestylesActions from './lifestyles.actions'
 import {catchError, map, switchMap} from "rxjs/operators";
 import {Observable, of} from "rxjs";
@@ -14,6 +14,8 @@ import {v4 as uuidv4} from 'uuid';
 //TODO: Get rid of both JSON
 import LifeStyles_JsonArray from '../dummyLifeStyles.json'
 import Categories_JsonArray from '../categories.json'
+import {ExampleLifestyles} from "../models/lifestyle-example";
+
 //TODO END: Get rid of both JSON
 
 @Injectable()
@@ -29,6 +31,20 @@ export class LifestylesEffects {
       catchError(errorMessage => {
         return of(LifestylesActions.CreateLifestylesFailure({error: errorMessage}))
       })
+    )
+  });
+
+  loadExampleLifestyles$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(LifestylesActions.loadExampleLifestyles),
+      switchMap(() => getExampleLifestyles().pipe(
+        map((lifestyles) => {
+          return LifestylesActions.loadExampleLifestylesSuccess({Lifestyles: convertArrayToDictionary(lifestyles)})
+        }),
+        catchError(errorMessage => {
+          return of(LifestylesActions.loadExampleLifestylesFailure({error: errorMessage}))
+        })
+      ))
     )
   });
 
@@ -76,6 +92,7 @@ function convertArrayToDictionary(lifestyles: Lifestyle[]) {
   });
   return dictionary;
 }
+
 export interface LifestylesDictionary {
   [id: string]: Lifestyle;
 }
@@ -104,6 +121,7 @@ function getCategoriesFromJson(): Category[] {
 
   return Categories;
 }
+
 //TODO: Outsource
 function getCategory(Categories: Category[], Category: any | Category) {
 
@@ -111,6 +129,7 @@ function getCategory(Categories: Category[], Category: any | Category) {
 
   return existingCategory ? existingCategory : Categories[0];
 }
+
 //TODO: Outsource
 function castToItemArray(Items: any[]): Item[] {
 
@@ -129,6 +148,7 @@ function castToItemArray(Items: any[]): Item[] {
   })
 
 }
+
 //TODO: Outsource
 function getDefaultCategory(): Category {
   return {
@@ -136,6 +156,7 @@ function getDefaultCategory(): Category {
 
   }
 }
+
 //TODO: Outsource
 function getDefaultItemArray(): Item[] {
 
@@ -146,3 +167,8 @@ function getDefaultItemArray(): Item[] {
     Cost: 0,
   }];
 }
+
+function getExampleLifestyles() {
+  return of(ExampleLifestyles);
+}
+

@@ -3,7 +3,11 @@ import {Routes, RouterModule} from '@angular/router';
 import {LifestylesComponent} from "./lifestyles/lifestyles/lifestyles.component";
 
 const routes: Routes = [{
-  path: 'lifestyles', component: LifestylesComponent
+  path: 'lifestyles', component: LifestylesComponent, children: [
+    {
+      path: 'examples', component: LifestylesComponent
+    },
+  ]
 },
   {
     path: '**',

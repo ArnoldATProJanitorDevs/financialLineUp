@@ -44,6 +44,19 @@ const lifeStyleReducer = createReducer(
       return {...state, error}
     }
   ),
+  on(LifestylesActions.loadExampleLifestyles, (state, action) => {
+      return {...state}
+    }
+  ),
+  on(LifestylesActions.loadExampleLifestylesSuccess, (state, {Lifestyles}) => {
+      return {...state, Lifestyles}
+    }
+  ),
+  on(LifestylesActions.loadExampleLifestylesFailure, (state, {error}) => {
+      console.log(error);
+      return {...state, error}
+    }
+  ),
   on(LifestylesActions.loadLifestylesById, (state, action) => {
       return {...state}
     }
