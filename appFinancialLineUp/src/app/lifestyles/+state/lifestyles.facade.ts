@@ -27,7 +27,6 @@ export class LifestylesFacade {
   }
 
   getLifeStylesAll(){
-    // this.dispatch(LifestyleActions.loadLifestyles());
     return this.getLifeStylesAll$;
   }
 
@@ -37,7 +36,10 @@ export class LifestylesFacade {
   }
 
   pushLifeStyleIntoCloud(lifestyles: Lifestyle[]){
-    this.dispatch(LifestyleActions.CreateLifestyles({Lifestyles: lifestyles}))
+    this.dispatch(LifestyleActions.createLifestyles({Lifestyles: lifestyles}))
   }
 
+  deleteLifestyle(lifestyle: Lifestyle[]) {
+    this.dispatch(LifestyleActions.deleteLifestyles({Lifestyles: lifestyle}))
+  }
 }

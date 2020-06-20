@@ -1,21 +1,14 @@
 import {Injectable} from '@angular/core';
-import {act, Actions, createEffect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
 import * as LifestylesActions from './lifestyles.actions'
 import {catchError, map, switchMap, take} from "rxjs/operators";
-import {Observable, of} from "rxjs";
+import {of} from "rxjs";
 import {Lifestyle} from "../../lifestyle/models/lifestyle.interface";
-import {Category} from "../../items/models/category.interface";
 import {Item} from "../../items/models/item.interface";
 import {LifestyleDatabaseApiService} from "../../shared/data-base-connect/lifestyle-database-api.service";
 import {v4 as uuidv4} from 'uuid';
 
-
-
-//TODO: Get rid of JSON
-import Categories_JsonArray from '../categories.json'
-
 import {ExampleLifestyles} from "../models/lifestyle-example";
-import {Categories} from "../../shared/categories/categories";
 import {CategoriesService} from "../../shared/categories/categories.service";
 
 @Injectable()
@@ -23,13 +16,26 @@ export class LifestylesEffects {
 
   createLifeStyles$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(LifestylesActions.CreateLifestyles),
+      ofType(LifestylesActions.createLifestyles),
       map((a) => {
         this.dataBaseApiService.CreateLifeStyles(a.Lifestyles);
-        return LifestylesActions.CreateLifestylesSuccess();
+        return LifestylesActions.createLifestylesSuccess();
       }),
       catchError(errorMessage => {
-        return of(LifestylesActions.CreateLifestylesFailure({error: errorMessage}))
+        return of(LifestylesActions.createLifestylesFailure({error: errorMessage}))
+      })
+    )
+  });
+
+  deleteLifeStyles$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(LifestylesActions.deleteLifestyles),
+      map((a) => {
+        a.Lifestyles.map(ls => this.dataBaseApiService.DeleteLifeStyle(ls.Id));
+        return LifestylesActions.deleteLifestylesSuccess({Lifestyles: a.Lifestyles});
+      }),
+      catchError(errorMessage => {
+        return of(LifestylesActions.deleteLifestylesFailure({error: errorMessage}))
       })
     )
   });
@@ -48,7 +54,7 @@ export class LifestylesEffects {
     )
   });
 
-  loadLifeStyleById$ = createEffect(() => {
+  loadLifeStylesById$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(LifestylesActions.loadLifestylesById),
       switchMap((action) => this.dataBaseApiService.GetLifeStylesById(action.ids).pipe(
@@ -74,7 +80,6 @@ export class LifestylesEffects {
       )))
   });
 
-
   constructor(private actions$: Actions, private dataBaseApiService: LifestyleDatabaseApiService, private categoriesService: CategoriesService) {
   }
 }
@@ -97,12 +102,14 @@ export interface LifestylesDictionary {
   [id: string]: Lifestyle;
 }
 
-function castToItemArray(Items: any[] = [],categoriesService: CategoriesService ): Item[] {
+function castToItemArray(Items: any[] = [], categoriesService: CategoriesService): Item[] {
+
+  const NEWITEM = 'NEW ITEM';
 
   if (Items.length <= 0)
     return [{
       Id: uuidv4(),
-      Comment: 'NEW ITEM',
+      Comment: NEWITEM,
       Category: categoriesService.getDefaultCategory(),
       Cost: 0,
     }];

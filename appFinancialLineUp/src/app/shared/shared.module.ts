@@ -15,7 +15,6 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTableModule} from '@angular/material/table';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import {DataBaseConnectModule} from "./data-base-connect/data-base-connect.module";
 import {LifestyleDatabaseApiService} from "./data-base-connect/lifestyle-database-api.service";
 import {AngularFirestore} from "@angular/fire/firestore";
 
@@ -37,7 +36,6 @@ import {AngularFirestore} from "@angular/fire/firestore";
     MatStepperModule,
     MatSnackBarModule,
     MatExpansionModule,
-    DataBaseConnectModule,
   ],
   exports: [
     MatInputModule,
@@ -56,7 +54,6 @@ import {AngularFirestore} from "@angular/fire/firestore";
     MatSlideToggleModule,
     MatSnackBarModule,
     MatExpansionModule,
-    DataBaseConnectModule,
   ],
   providers: [LifestyleDatabaseApiService, AngularFirestore]
 })

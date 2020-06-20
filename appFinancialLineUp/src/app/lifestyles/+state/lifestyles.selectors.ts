@@ -8,16 +8,6 @@ export const getLifestylesComponentState = createFeatureSelector<LifestylesParti
 const { selectAll, selectEntities } = lifestylesComponentAdapter.getSelectors();
 
 
-export const getAllLifestylesComponent = createSelector(
-  getLifestylesComponentState,
-  (state: State) => selectAll(state)
-);
-
-export const getLifestylesComponentEntities = createSelector(
-  getLifestylesComponentState,
-  (state: State) => selectEntities(state)
-);
-
 
 export const getAllLifestyles = createSelector(
   getLifestylesComponentState,

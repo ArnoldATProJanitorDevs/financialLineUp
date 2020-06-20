@@ -65,9 +65,7 @@ export class LifestylesComponent implements OnInit, OnDestroy {
   }
 
   DeleteLifeStyle(lifestyle: Lifestyle) {
-    console.log(this.dbApi.DeleteLifeStyle(lifestyle.Id));
-
-    delete this.Lifestyles[lifestyle.Id];
+    this.lifestyleFacade.deleteLifestyle([lifestyle]);
   }
 
   exportLifestyles() {

@@ -9,6 +9,7 @@ import {LifeStylesEntity} from "./lifestyles.model";
 import * as LifestylesActions from './lifestyles.actions'
 import {LifestylesDictionary} from "./lifestyles.effects";
 import {Category} from "../../items/models/category.interface";
+import {deepCopy} from "../../shared/globals/deep-copy";
 
 
 export const LIFESTYLE_FEATURE_KEY = 'lifestyles';
@@ -31,6 +32,35 @@ export const initialState: State = lifestylesComponentAdapter.getInitialState({
 
 const lifeStyleReducer = createReducer(
   initialState,
+  on(LifestylesActions.createLifestyles, (state, action) => {
+      return {...state}
+    }
+  ),
+  on(LifestylesActions.createLifestylesSuccess, (state) => {
+      return {...state}
+    }
+  ),
+  on(LifestylesActions.createLifestylesFailure, (state, {error}) => {
+      console.log(error);
+      return {...state, error}
+    }
+  ),
+  on(LifestylesActions.deleteLifestyles, (state, action) => {
+      return {...state}
+    }
+  ),
+  on(LifestylesActions.deleteLifestylesSuccess, (state, {Lifestyles}) => {
+      const currentLifestyles= deepCopy(state.Lifestyles);
+      const updatedLifestyles = Lifestyles.map(ls => delete currentLifestyles[ls.Id]);
+
+      return {...state, updatedLifestyles}
+    }
+  ),
+  on(LifestylesActions.deleteLifestylesFailure, (state, {error}) => {
+      console.log(error);
+      return {...state, error}
+    }
+  ),
   on(LifestylesActions.loadLifestyles, (state, action) => {
       return {...state}
     }

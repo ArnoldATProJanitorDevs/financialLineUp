@@ -7,10 +7,7 @@ import {LocationStrategy} from '@angular/common';
 import {routerNavigationAction} from '@ngrx/router-store';
 import * as RouteActions from './app-router.actions';
 import * as LifeStyleActions from '../lifestyles/+state/lifestyles.actions';
-import {RouteComponentPartialState} from "./app-router.reducer";
-import {loadLifestyles} from "../lifestyles/+state/lifestyles.actions";
-import {Lifestyle} from "../lifestyle/models/lifestyle.interface";
-import {v4 as uuidv4} from 'uuid';
+
 
 
 export enum AppRouteNames {

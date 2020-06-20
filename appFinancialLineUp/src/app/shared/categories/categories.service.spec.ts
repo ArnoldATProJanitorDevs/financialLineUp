@@ -42,5 +42,4 @@ describe('CategoriesService', () => {
   it('getCategoriesAsObservable - should always return a categories as observable', () => {
 
   });
-
 });
