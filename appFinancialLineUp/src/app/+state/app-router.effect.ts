@@ -100,7 +100,6 @@ export class AppRouterEffects {
                 LifeStyleActions.loadLifestylesById({ids: getQueryParamsOfParam(this.LIFESTYLESQUERYPARAM,relativeUrl)}));
             }
           }
-
           return actionArray;
         }
       )
