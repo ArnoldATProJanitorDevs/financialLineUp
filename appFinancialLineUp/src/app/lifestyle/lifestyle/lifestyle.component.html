@@ -80,7 +80,8 @@
 
     </mat-expansion-panel>
     <h3>DESCRIPTION</h3>
-    <P>{{Lifestyle.Description}}</P>
+    <p *ngIf="!isEdit" (click)="isEdit=true; $event.stopPropagation()"> {{Lifestyle.Description}}</p>
+    <textarea matInput *ngIf="isEdit" (keydown.enter)="isEdit=false; $event.stopPropagation()" [(ngModel)]="Lifestyle.Description" (click)="$event.stopPropagation()"></textarea>
 
     <mat-action-row>
       <button mat-button class="add-button" color="accent"
