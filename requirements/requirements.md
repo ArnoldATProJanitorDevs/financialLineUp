@@ -27,10 +27,15 @@ An Angular Webapp, that allows a user to do the following:
  3. Firebase
  4. Cloud Firestore
  5. Google Analytics
-  
+ 
 ##Use-Case-Diagram  
-  
+   
 ![image usecaseDiagramm](res/img/uml_usecase.PNG)
+ 
+  
+##App-Topology
+  
+![image topology](res/img/topology.PNG)
   
   
 ##Class-Diagram
