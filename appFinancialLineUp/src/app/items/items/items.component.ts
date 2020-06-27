@@ -1,15 +1,17 @@
 import {
   Component,
-  EventEmitter,
   Input,
   OnInit,
-  Output
 } from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSelectChange} from "@angular/material/select";
 import {v4 as uuidv4} from 'uuid';
 import {Item} from "../models/item.interface";
 import {Category} from "../models/category.interface";
+import {LifestylesFacade} from "../../lifestyles/+state/lifestyles.facade";
+import {Subscription} from "rxjs";
+import {take} from "rxjs/operators";
+import {deepCopy} from "../../shared/globals/deep-copy";
 
 @Component({
   selector: 'app-items',
@@ -18,52 +20,106 @@ import {Category} from "../models/category.interface";
 })
 export class ItemsComponent implements OnInit {
 
-  //TODO: From NGRX
-  @Input() Categories: Category[] = [{name: 'housing', icon: 'house'}];
-  @Input() Items: Item[] = [];
 
-  @Output() ItemsChanged: EventEmitter<Item[]> = new EventEmitter<Item[]>();
+  @Input() LifestyleId: string;
 
-  tableData = new MatTableDataSource<Item>();
+  Categories: Category[] = [{name: 'housing', icon: 'house'}];
+  Items: Item[] = [];
+
+
   displayedColumns: string[] = ['CategoryIcon', 'Category', 'Comment', 'Cost', 'Delete'];
+  tableData = new MatTableDataSource<Item>();
 
-  constructor() {
+  private subs: Subscription[] = [];
+
+
+  constructor(private lifestyleFacade: LifestylesFacade) {
   }
+
   ngOnInit(): void {
-    this.tableData.data = this.Items;
+    this.setUpSubscriptions();
+
+    this.getCategoriesFromStore();
   }
 
-  toggleBetweenCategories(event: Category, itemOfTable) {
+  setUpSubscriptions() {
 
-    const item = this.getItemById(itemOfTable.Id);
-    const currentCategory = this.getCategoryByName(event.name);
-    const indexOfCurrentCategory = this.getCategoryIndex(currentCategory);
-    const indexOfNextCategory = indexOfCurrentCategory + 1;
+    this.subs.push(this.lifestyleFacade.getLifestyleItemsByLifestyleId(this.LifestyleId).pipe().subscribe(
+      next => {
+        this.Items = deepCopy(Object.values(next));
+        this.updateItemsInDataTable(this.Items);
+
+      }
+    ));
+  }
+
+  getCategoriesFromStore() {
+    this.lifestyleFacade.getCategoriesAll().pipe(take(1)).subscribe(
+      next => {
+        this.Categories = next;
+      }
+    );
+  }
+
+  handleToggleButton(event: Category, itemOfTable) {
+
+    this.toggleToNextCategory(event, itemOfTable);
+  }
+
+  toggleToNextCategory(category: Category, Item: Item) {
+
+    const itemCopy = deepCopy(this.getItemById(Item.Id));
+    const currentCategory = this.getCategoryByName(category.name);
+    const indexOfNextCategory = this.getCategoryIndex(currentCategory) + 1;
 
     if ((indexOfNextCategory) >= this.Categories.length)
-      item.Category = this.Categories[0];
+      itemCopy.Category = this.Categories[0];
     else
-      item.Category = this.Categories[indexOfNextCategory];
+      itemCopy.Category = this.Categories[indexOfNextCategory];
+
+    this.synchronize(itemCopy);
   }
 
-  updateCategory(event: MatSelectChange, element) {
 
-    const item = this.Items.filter(item => item.Id === element.Id)[0];
-    item.Category = this.Categories.filter(cat => cat.name == event.value)[0];
+  handleCategoryDropdown(event: MatSelectChange, element) {
+    this.updateCategory(event.value, element);
 
+  }
+
+  updateCategory(newValue: string, Item: Item) {
+    const item = deepCopy(this.Items.filter(item => item.Id === Item.Id)[0]);
+    item.Category = this.Categories.filter(cat => cat.name == newValue)[0];
+    this.synchronize(item);
+  }
+
+
+
+  HandleAddItemButton() {
+    this.addItem({
+      LifestyleId: this.LifestyleId,
+      Id: uuidv4(),
+      Comment: 'NEW ITEM',
+      Cost: 0,
+      Category: {name: 'housing', icon: 'home'}
+    })
+  }
+
+
+  addItem(item: Item) {
+    this.Items.push(item);
+    this.synchronize(item);
+  }
+
+  synchronize(item: Item) {
+    this.lifestyleFacade.updateLifestyleItem(item);
   }
 
   HandleButtonDeleteItem(item: Item) {
-    this.Items = this.removeItem(item);
-    this.updateItemsInDataTable(this.Items);
+    this.deleteItem(item)
   }
 
-  removeItem(item: Item): Item[] {
-
-    this.Items = this.Items.filter(oldItem => oldItem.Id !== item.Id);
-    this.publishChanges(this.Items);
-    return this.Items;
-
+  deleteItem(item: Item) {
+    this.lifestyleFacade.deleteLifestyleItem(item);
   }
 
   updateItemsInDataTable(newItems?: Item[]) {
@@ -75,13 +131,8 @@ export class ItemsComponent implements OnInit {
     this.tableData.data = newItems;
   }
 
-  clearDataTable() {
-    this.tableData.data = [];
-  }
-
   getItemById(givenId: uuidv4): Item {
     const result = this.Items.filter(item => item.Id === givenId)[0];
-
     return result ? result : null;
   }
 
@@ -93,50 +144,7 @@ export class ItemsComponent implements OnInit {
     return this.Categories.indexOf(category);
   }
 
-  HandleAddItemButton() {
-    this.addItem({
-      Id: uuidv4(),
-      Comment: 'NEW ITEM',
-      Cost: 0,
-      Category: {name: 'housing', icon: 'home'}
-    })
+  trackById(item: Item) {
+    return item.Id;
   }
-
-
-  addItem(item: Item) {
-    this.Items.push(item);
-    this.updateItemsInDataTable(this.Items);
-  }
-
-  private publishChanges(Items: Item[]) {
-    this.ItemsChanged.emit(Items);
-  }
-
-  updateItemById(id: uuidv4, newItem: Item) {
-
-    const itemToUpdate = this.getItemById(id);
-
-    itemToUpdate ? (() => {
-      this.Items = this.Items.map(item => {
-        if (item.Id === newItem.Id)
-          return newItem;
-
-        return item;
-      });
-
-    })() : (() => {
-      return null
-    })();
-  }
-
-  getItems(): Item[] {
-    return this.Items;
-  }
-
-  clearItems(): boolean {
-    this.Items = [];
-    return this.Items.length === 0;
-
-  }
-
 }

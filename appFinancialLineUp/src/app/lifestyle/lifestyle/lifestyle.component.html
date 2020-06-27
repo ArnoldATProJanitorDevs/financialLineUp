@@ -1,10 +1,11 @@
-<mat-accordion >
+<mat-accordion>
   <mat-expansion-panel [expanded]="true">
     <mat-expansion-panel-header>
       <mat-panel-title>
         <div style="display: flex ; flex-direction: row; align-items: center">
           <h2 *ngIf="!isEdit" (click)="isEdit=true; $event.stopPropagation()"> {{Lifestyle.Name}}</h2>
-          <input matInput *ngIf="isEdit" (keydown.enter)="isEdit=false; $event.stopPropagation()" [(ngModel)]="Lifestyle.Name" (click)="$event.stopPropagation()"/>
+          <input matInput *ngIf="isEdit" (keydown.enter)="isEdit=false; $event.stopPropagation(); synchronize()"
+                 [(ngModel)]="Lifestyle.Name" (click)="$event.stopPropagation()" (change)="synchronize()"/>
         </div>
       </mat-panel-title>
       <mat-panel-description>
@@ -22,10 +23,13 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
 
-      <app-summary #summary
-                   [Taxrates]="Lifestyle.TaxRates"
-                   [Items]="Lifestyle.Items"
-      >
+      <!--      <app-summary #summary-->
+      <!--                   [Taxrates]="Lifestyle.TaxRates"-->
+      <!--                   [Items]="Lifestyle.Items"-->
+      <!--      >-->
+      <!--      </app-summary>-->
+
+      <app-summary #summary>
       </app-summary>
     </mat-expansion-panel>
 
@@ -44,10 +48,10 @@
           <button mat-button color="accent" (click)="TaxratesComponent.HandleAddTaxrateButton()" style="width: 100%">
             ADD TAXRATE
           </button>
-         <app-taxrates #taxrates
-                        [Taxrates] = "Lifestyle.TaxRates"
-                       (TaxratesChanged)="updateTaxrates($event)"
-         ></app-taxrates>
+          <app-taxrates #taxrates
+                        [Taxrates]="Lifestyle.TaxRates"
+                        (TaxratesChanged)="updateTaxrates($event)"
+          ></app-taxrates>
         </div>
       </div>
     </mat-expansion-panel>
@@ -72,8 +76,7 @@
       </div>
 
       <app-items #items
-                 [Categories]="Categories"
-                 [Items]="Lifestyle.Items"
+                 [LifestyleId]="Lifestyle.Id"
                  (ItemsChanged)="updateItems($event)"
       >
       </app-items>
@@ -81,7 +84,9 @@
     </mat-expansion-panel>
     <h3>DESCRIPTION</h3>
     <p *ngIf="!isEdit" (click)="isEdit=true; $event.stopPropagation()"> {{Lifestyle.Description}}</p>
-    <textarea matInput *ngIf="isEdit" (keydown.enter)="isEdit=false; $event.stopPropagation()" [(ngModel)]="Lifestyle.Description" (click)="$event.stopPropagation()"></textarea>
+    <textarea matInput *ngIf="isEdit" (keydown.enter)="isEdit=false; $event.stopPropagation(); synchronize()"
+              [(ngModel)]="Lifestyle.Description" (click)="$event.stopPropagation()"
+              (change)="synchronize()"></textarea>
 
     <mat-action-row>
       <button mat-button class="add-button" color="accent"

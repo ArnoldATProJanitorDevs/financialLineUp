@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {async, ComponentFixture, inject, TestBed} from '@angular/core/testing';
 
 import {ItemsComponent} from './items.component';
 import {v4 as uuidv4} from 'uuid';
@@ -7,26 +7,75 @@ import {SharedModule} from "../../shared/shared.module";
 import {FormsModule} from "@angular/forms";
 import {Item} from "../models/item.interface";
 import {Category} from "../models/category.interface";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {LifestylesFacade} from "../../lifestyles/+state/lifestyles.facade";
+import {MockStore, provideMockStore} from "@ngrx/store/testing";
+import {ExampleLifestyles} from "../../lifestyles/models/lifestyle-example";
+import * as fromLifestyles from '../../lifestyles/+state/lifestyles.reducer'
+import * as fromLifestylesSelectors from '../../lifestyles/+state/lifestyles.selectors'
+import * as fromLifestylesActions from '../../lifestyles/+state/lifestyles.actions'
+import {MemoizedSelector, MemoizedSelectorWithProps} from "@ngrx/store";
+import {Categories} from "../../shared/categories/categories";
+import {ItemDictionary} from "../../lifestyle/models/lifestyle.interface";
+import {deepCopy} from "../../shared/globals/deep-copy";
+import {LifestyleComponent} from "../../lifestyle/lifestyle/lifestyle.component";
+import {cold, hot, time} from 'jest-marbles';
+
 
 describe('ItemsComponent', () => {
   let component: ItemsComponent;
   let fixture: ComponentFixture<ItemsComponent>;
+  let mockStore: MockStore<fromLifestyles.State>;
+  let updateSelector: MemoizedSelectorWithProps<fromLifestyles.State, 'alone', ItemDictionary>;
+  let categorySelector: MemoizedSelector<fromLifestyles.State, Category[]>;
+
+  const item: ItemDictionary = {
+    ['213']: {
+      LifestyleId: 'alone',
+      Id: '213',
+      Cost: 20,
+      Category: {name: 'housing', icon: 'home'},
+      Comment: "Rent"
+    }
+  };
+
+  let initialLifestyleState = {
+    Lifestyles: ExampleLifestyles,
+    Categories: Categories
+  } as fromLifestyles.State;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ItemsComponent],
       imports: [
+        BrowserAnimationsModule,
         ToggleIconButtonModule,
         SharedModule,
-        FormsModule]
+        FormsModule],
+      providers: [LifestylesFacade, provideMockStore({initialState: initialLifestyleState})]
     })
       .compileComponents();
+
+    mockStore = TestBed.inject(MockStore);
+
+
+    updateSelector = mockStore.overrideSelector(
+      fromLifestylesSelectors.getAllItemsOfLifestyleById,
+      item
+    );
+
+    categorySelector = mockStore.overrideSelector(
+      fromLifestylesSelectors.getAllCategories,
+      Categories
+    );
+
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ItemsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+
   });
 
   it('should create', () => {
@@ -37,6 +86,7 @@ describe('ItemsComponent', () => {
     component = fixture.componentInstance;
 
     component.Items = [{
+      LifestyleId: '12bf5b37-e0b8-42e0-8dcf-dc8c4aefc000',
       Id: '11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000',
       Cost: 0,
       Category: {
@@ -70,6 +120,7 @@ describe('ItemsComponent', () => {
     component = fixture.componentInstance;
 
     component.Items = [{
+      LifestyleId: '12bf5b37-e0b8-42e0-8dcf-dc8c4aefc000',
       Id: '11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000',
       Cost: 0,
       Category: {
@@ -79,151 +130,42 @@ describe('ItemsComponent', () => {
       Comment: 'Mockup'
     }];
 
-    const oldItemsList = component.getItems();
+    const oldItemsList = component.Items;
     expect(oldItemsList).toBeTruthy();
     expect(oldItemsList.length).toBeGreaterThan(0);
 
     const newItem: Item = {
+      LifestyleId: 'mockupId',
       Category: {name: 'housing', icon: 'home'},
       Cost: 52, Id: uuidv4(),
       Comment: "Electricity"
     };
     component.addItem(newItem);
-    const newItemsList = component.getItems();
+    const newItemsList = component.Items;
 
     expect(newItemsList).toBeTruthy();
     expect(newItemsList.length).toBe(2);
 
   });
 
-  it('removeItem - should remove an Item from the List', () => {
-    component = fixture.componentInstance;
-
-    component.Items = [{
-      Id: '11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000',
-      Cost: 0,
-      Category: {
-        icon: 'house',
-        name: 'housing'
-      },
-      Comment: 'Mockup'
-    }];
-
-    const oldItemsList = component.getItems();
-    expect(oldItemsList).toBeTruthy();
-    expect(oldItemsList.length).toBeGreaterThan(0);
-
-    component.removeItem(oldItemsList[0]);
-
-    const newItemsList = component.getItems();
-
-    expect(newItemsList).toBeTruthy();
-    expect(newItemsList.length).toBe(0);
-
+  it('deleteItem - should remove an Item from the List', async () => {
+    expect(false).toBe(true)
   });
 
-  it('removeItem - should return original ItemsList when Item from the List gets removed, which is not inside', () => {
+
+  it('deleteItem - should return original ItemsList when Item from the List gets removed, which is not inside', () => {
     component = fixture.componentInstance;
 
     const nonExistingItem: Item = {
+      LifestyleId: 'mockupId',
       Category: {name: 'housing', icon: 'home'},
       Cost: 0,
       Id: uuidv4(),
       Comment: "noComment"
     };
 
-    const returnedValue = component.removeItem(nonExistingItem);
-    expect(returnedValue).toBe(component.Items);
-
-  });
-
-  it('updateItemById - should update an Item from the List by Id', () => {
-    component = fixture.componentInstance;
-
-    component.Items = [{
-      Id: '11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000',
-      Cost: 0,
-      Category: {
-        icon: 'house',
-        name: 'housing'
-      },
-      Comment: 'Mockup'
-    }];
-
-    const currItem = {...component.getItems()[0]};
-    expect(currItem).toBeTruthy();
-    expect(currItem.Comment).toBe('Mockup');
-
-    currItem.Comment = 'differentCommentThanBefore';
-    expect(currItem.Comment).toBe('differentCommentThanBefore');
-
-    component.updateItemById(currItem.Id, currItem);
-
-    const updatedItem = component.getItemById(currItem.Id);
-
-
-    expect(updatedItem).toBeTruthy();
-    expect(updatedItem.Comment).toBe('differentCommentThanBefore');
-
-  });
-  it('updateItemById - should NOT update an Item from the List by Id when invalid Uuid or null is given', () => {
-    component = fixture.componentInstance;
-
-    component.Items = [{
-      Id: '11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000',
-      Cost: 0,
-      Category: {
-        icon: 'house',
-        name: 'housing'
-      },
-      Comment: 'Mockup'
-    }];
-
-    const currItem = {...component.getItems()[0]};
-    expect(currItem).toBeTruthy();
-    expect(currItem.Comment).toBe('Mockup');
-
-    currItem.Comment = 'differentCommentThanBefore';
-    expect(currItem.Comment).toBe('differentCommentThanBefore');
-
-    component.updateItemById(null, currItem);
-
-    const hopefullyNotUpdatedItemNull = component.getItemById(currItem.Id);
-    expect(hopefullyNotUpdatedItemNull.Comment).toBe('Mockup');
-
-    component.updateItemById('invalidUuid', currItem);
-
-    const hopefullyNotUpdatedItemInvalidUuid = component.getItemById(currItem.Id);
-    expect(hopefullyNotUpdatedItemInvalidUuid.Comment).toBe('Mockup');
-
-  });
-
-  it('clearItems - should delete all Items', () => {
-    component = fixture.componentInstance;
-
-    component.Items = [{
-      Id: '11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000',
-      Cost: 0,
-      Category: {
-        icon: 'house',
-        name: 'housing'
-      },
-      Comment: 'Mockup'
-    }];
-
-    let itemList = component.getItems();
-
-    expect(itemList).toBeTruthy();
-    expect(itemList.length).toBeGreaterThan(0);
-
-    const successfulDelete = component.clearItems();
-
-    expect(successfulDelete).toBeTruthy();
-
-    itemList = component.getItems();
-
-    expect(itemList).toBeTruthy();
-    expect(itemList.length).toBe(0);
+    component.deleteItem(nonExistingItem);
+    expect(component.Items).toBe(component.Items);
 
   });
 
@@ -232,6 +174,7 @@ describe('ItemsComponent', () => {
 
     const ItemList: Item[] = [
       {
+        LifestyleId: 'mockupId',
         Id: '49efab45-0005-4d50-8c45-88225eedf70c',
         Comment: 'noComment',
         Cost: 1,
@@ -239,12 +182,14 @@ describe('ItemsComponent', () => {
 
       },
       {
+        LifestyleId: 'mockupId',
         Id: '50efab45-0005-4d50-8c45-88225eedf70c',
         Comment: 'noComment',
         Cost: 2,
         Category: {name: 'housing', icon: 'home'},
       },
       {
+        LifestyleId: 'mockupId',
         Id: '51efab45-0005-4d50-8c45-88225eedf70c',
         Comment: 'noComment',
         Cost: 3,
@@ -278,81 +223,11 @@ describe('ItemsComponent', () => {
 
   });
 
-  it('toggleBetweenCategories - should return a category increased by 1', () => {
-
-
-    component.Items = [{
-      Id: '11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000',
-      Cost: 0,
-      Category: {
-        icon: 'house',
-        name: 'housing'
-      },
-      Comment: 'Mockup'
-    }];
-
-    const CategoryMockup: Category[] = [{
-      name: 'test1',
-      icon: 'test1'
-    },
-      {
-        name: 'test2',
-        icon: 'test2'
-      }
-    ];
-
-    component.Categories = CategoryMockup;
-
-    component = fixture.componentInstance;
-
-    component.Items[0].Category = CategoryMockup[0];
-    const indexOfCategoryBeforeIncrease = CategoryMockup.indexOf(component.Items[0].Category);
-
-    component.toggleBetweenCategories(CategoryMockup[0], component.Items[0]);
-
-    const indexOfCategoryAfterIncrease = CategoryMockup.indexOf(component.Items[0].Category);
-
-    expect(indexOfCategoryBeforeIncrease).toBe(0);
-    expect(indexOfCategoryAfterIncrease).toBe(1);
-
-
+  it('handleToggleButton - should return a category increased by 1', () => {
+    expect(false).toBe(true)
   });
 
-  it('toggleBetweenCategories - should return the first category if increased by 1 runs out of bounds', () => {
-    component = fixture.componentInstance;
-
-    component.Items = [{
-      Id: '11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000',
-      Cost: 0,
-      Category: {
-        icon: 'house',
-        name: 'housing'
-      },
-      Comment: 'Mockup'
-    }];
-
-    const CategoryMockup: Category[] = [{
-      name: 'test1',
-      icon: 'test1'
-    },
-      {
-        name: 'test2',
-        icon: 'test2'
-      }
-    ];
-
-    component.Categories = CategoryMockup;
-
-    component.Items[0].Category = CategoryMockup[1];
-    const indexOfCategoryBeforeIncrease = CategoryMockup.indexOf(component.Items[0].Category);
-
-    component.toggleBetweenCategories(CategoryMockup[1], component.Items[0]);
-
-    const indexOfCategoryAfterIncrease = CategoryMockup.indexOf(component.Items[0].Category);
-
-    expect(indexOfCategoryBeforeIncrease).toBe(CategoryMockup.length - 1);
-    expect(indexOfCategoryAfterIncrease).toBe(0);
-
-
+  it('handleToggleButton - should return the first category if increased by 1 runs out of bounds', () => {
+    expect(false).toBe(true)
   });
 });

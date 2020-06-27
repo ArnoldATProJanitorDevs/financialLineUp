@@ -1,7 +1,7 @@
 import {
-  Action,
-  createReducer,
-  MetaReducer, on
+  Action, createAction,
+  createReducer, createSelector,
+  MetaReducer, on, props
 } from '@ngrx/store';
 import {environment} from "../../../environments/environment.prod";
 import {createEntityAdapter, EntityAdapter, EntityState} from "@ngrx/entity";
@@ -10,6 +10,9 @@ import * as LifestylesActions from './lifestyles.actions'
 import {LifestylesDictionary} from "./lifestyles.effects";
 import {Category} from "../../items/models/category.interface";
 import {deepCopy} from "../../shared/globals/deep-copy";
+import {ItemDictionary, Lifestyle} from "../../lifestyle/models/lifestyle.interface";
+import {Item} from "../../items/models/item.interface";
+import {getLifestylesComponentState} from "./lifestyles.selectors";
 
 
 export const LIFESTYLE_FEATURE_KEY = 'lifestyles';
@@ -45,12 +48,37 @@ const lifeStyleReducer = createReducer(
       return {...state, error}
     }
   ),
+  on(LifestylesActions.updateLifestyle, (state, {Lifestyle}) => {
+      return {...state}
+    }
+  ),
+  on(LifestylesActions.updateLifestyleTaxes, (state, {Taxes}) => {
+      return {...state}
+    }
+  ),
+  on(LifestylesActions.updateLifestyleItems, (state, {Item}) => {
+
+    const lifestylesCopy = deepCopy(state.Lifestyles);
+
+    lifestylesCopy[Item.LifestyleId].Items[Item.Id] =  Item;
+
+    return withUpdatedValues(state, {Lifestyles: lifestylesCopy});
+  }),
+
+  on(LifestylesActions.deleteLifestyleItem, (state, {Item}) => {
+
+    const lifestylesCopy = deepCopy(state.Lifestyles);
+
+    delete lifestylesCopy[Item.LifestyleId].Items[Item.Id];
+
+    return withUpdatedValues(state, {Lifestyles: lifestylesCopy});
+  }),
   on(LifestylesActions.deleteLifestyles, (state, action) => {
       return {...state}
     }
   ),
   on(LifestylesActions.deleteLifestylesSuccess, (state, {Lifestyles}) => {
-      const currentLifestyles= deepCopy(state.Lifestyles);
+      const currentLifestyles = deepCopy(state.Lifestyles);
       const updatedLifestyles = Lifestyles.map(ls => delete currentLifestyles[ls.Id]);
 
       return {...state, updatedLifestyles}
@@ -70,7 +98,7 @@ const lifeStyleReducer = createReducer(
     }
   ),
   on(LifestylesActions.loadLifestylesFailure, (state, {error}) => {
-    console.log(error);
+      console.log(error);
       return {...state, error}
     }
   ),
@@ -119,3 +147,10 @@ export function reducer(state: State | undefined, action: Action) {
 }
 
 export const metaReducers: MetaReducer<State>[] = !environment.production ? [] : [];
+
+
+export function withUpdatedValues<T>(original: T, newValue: Partial<T>) {
+  return Object.assign({}, original, newValue);
+}
+
+

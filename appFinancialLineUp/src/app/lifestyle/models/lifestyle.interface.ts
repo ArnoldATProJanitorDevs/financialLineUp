@@ -6,5 +6,9 @@ export interface Lifestyle {
   TaxRates: number[];
   Name: string;
   Description: string;
-  Items: Item[];
+  Items: ItemDictionary;
+}
+
+export interface ItemDictionary{
+  [id: string]: Item;
 }

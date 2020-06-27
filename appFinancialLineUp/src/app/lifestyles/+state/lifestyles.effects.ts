@@ -45,7 +45,7 @@ export class LifestylesEffects {
       ofType(LifestylesActions.loadExampleLifestyles),
       switchMap(() => getExampleLifestylesAsObservable().pipe(
         map((lifestyles) => {
-          return LifestylesActions.loadExampleLifestylesSuccess({Lifestyles: convertArrayToDictionary(lifestyles, this.categoriesService)})
+          return LifestylesActions.loadExampleLifestylesSuccess({Lifestyles: lifestyles})
         }),
         catchError(errorMessage => {
           return of(LifestylesActions.loadExampleLifestylesFailure({error: errorMessage}))
@@ -92,7 +92,7 @@ function convertArrayToDictionary(lifestyles: Lifestyle[], categoriesService: Ca
       Name: lifestyle.Name,
       TaxRates: lifestyle.TaxRates,
       Description: lifestyle.Description,
-      Items: castToItemArray(lifestyle.Items, categoriesService),
+      Items: lifestyle.Items,
     };
   });
   return dictionary;
@@ -102,12 +102,13 @@ export interface LifestylesDictionary {
   [id: string]: Lifestyle;
 }
 
-function castToItemArray(Items: any[] = [], categoriesService: CategoriesService): Item[] {
+function castToItemArray(lifestyleId: string, Items: any[] = [], categoriesService: CategoriesService): Item[] {
 
   const NEWITEM = 'NEW ITEM';
 
   if (Items.length <= 0)
     return [{
+      LifestyleId:lifestyleId,
       Id: uuidv4(),
       Comment: NEWITEM,
       Category: categoriesService.getDefaultCategory(),
@@ -116,6 +117,7 @@ function castToItemArray(Items: any[] = [], categoriesService: CategoriesService
 
   return Items.map(newItem => {
     return {
+      LifestyleId:lifestyleId,
       Id: newItem.Id,
       Comment: newItem.Comment,
       Category: categoriesService.getExistingCategoryOrDefault(newItem.Category),
@@ -127,4 +129,9 @@ function castToItemArray(Items: any[] = [], categoriesService: CategoriesService
 function getExampleLifestylesAsObservable() {
   return of(ExampleLifestyles);
 }
+
+function getExampleLifestyles() {
+  return ExampleLifestyles;
+}
+
 

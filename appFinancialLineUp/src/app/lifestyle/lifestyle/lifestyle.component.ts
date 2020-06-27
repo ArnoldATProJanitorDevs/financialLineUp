@@ -4,7 +4,7 @@ import {
   Component,
   DoCheck,
   EventEmitter,
-  Input,
+  Input, OnInit,
   Output,
   ViewChild
 } from '@angular/core';
@@ -16,6 +16,10 @@ import {TaxratesComponent} from "../../taxrates/taxrates/taxrates.component";
 import {Category} from "../../items/models/category.interface";
 import {Item} from "../../items/models/item.interface";
 import {LifestylesFacade} from "../../lifestyles/+state/lifestyles.facade";
+import {Subscription} from "rxjs";
+import {take} from "rxjs/operators";
+
+const fixedId = uuidv4();
 
 @Component({
   selector: 'app-lifestyle',
@@ -31,13 +35,16 @@ export class LifestyleComponent implements DoCheck, AfterViewInit {
   @Input() Categories: Category[] = [{name: 'housing', icon: 'house'}];
   @Input() Lifestyle: Lifestyle = {
     Description: "THIS IS A DEFAULT LIFESTYLE, MADE FOR DEVELOPMENT.",
-    Id: uuidv4(),
-    Items: [{
-      Id: '11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000',
-      Category: {name: 'housing', icon: 'home'},
-      Comment: "Groceries",
-      Cost: 0,
-    }],
+    Id: fixedId,
+    Items: {
+      ['11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000']: {
+        LifestyleId: fixedId,
+        Id: '11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000',
+        Category: {name: 'housing', icon: 'home'},
+        Comment: "Groceries",
+        Cost: 0,
+      }
+    },
     Name: 'DEFAULT LIFESTYLE',
     TaxRates: [40, 42],
   };
@@ -51,6 +58,7 @@ export class LifestyleComponent implements DoCheck, AfterViewInit {
   constructor(private cdRef: ChangeDetectorRef, private lifestyleFacade: LifestylesFacade) {
   }
 
+
   ngDoCheck(): void {
     this.CalculateSummary();
   }
@@ -60,7 +68,10 @@ export class LifestyleComponent implements DoCheck, AfterViewInit {
   }
 
   HandleExportButton(lifestyle: Lifestyle) {
-    console.log("Export:", lifestyle);
+    this.lifestyleFacade.getLifeStyleById(lifestyle.Id).pipe(take(1)).subscribe(
+      next => console.log("Export:", lifestyle)
+    )
+
   }
 
   HandleShareButton(lifestyle: Lifestyle) {
@@ -77,8 +88,8 @@ export class LifestyleComponent implements DoCheck, AfterViewInit {
   }
 
   updateItems(event: Item[]) {
-    this.Lifestyle.Items = event;
-    this.cdRef.detectChanges();
+    // this.Lifestyle.Items = event;
+    // this.cdRef.detectChanges();
   }
 
   updateTaxrates(event: number[]) {
@@ -86,8 +97,18 @@ export class LifestyleComponent implements DoCheck, AfterViewInit {
     this.cdRef.detectChanges();
   }
 
+  getItemsAsArray() {
+    return Object.values(this.Lifestyle.Items)
+  }
+
+  synchronize() {
+    this.lifestyleFacade.updateLifestyle(this.Lifestyle)
+  }
+
   private CalculateSummary() {
     this.SummaryComponent?.calculateExpenses();
   }
+
+
 }
 

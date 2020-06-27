@@ -2,6 +2,30 @@ import {createAction, props} from '@ngrx/store';
 import {LifestylesDictionary} from "./lifestyles.effects";
 import {Category} from "../../items/models/category.interface";
 import {Lifestyle} from "../../lifestyle/models/lifestyle.interface";
+import {Item} from "../../items/models/item.interface";
+
+
+export const updateLifestyle = createAction(
+  '[Lifestyles] Update Lifestyle',
+  props<{ Lifestyle: Lifestyle}>()
+);
+export const updateLifestyleTaxes = createAction(
+  '[Lifestyles] Update Lifestyle Taxes',
+  props<{ Taxes: number[]}>()
+);
+
+export const updateLifestyleItems = createAction(
+  '[Lifestyles] Update Lifestyle Items',
+  props<{ Item: Item}>()
+);
+
+
+export const deleteLifestyleItem = createAction(
+  '[Lifestyles] Delete Lifestyle Items',
+  props<{ Item: Item}>()
+);
+
+
 
 
 export const createLifestyles = createAction(

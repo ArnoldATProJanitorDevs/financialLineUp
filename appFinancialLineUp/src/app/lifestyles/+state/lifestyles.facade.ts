@@ -4,7 +4,10 @@ import {Action, select, Store} from '@ngrx/store';
 import * as fromLifestyles from "./lifestyles.reducer";
 import * as LifestyleComponentSelectors from './lifestyles.selectors';
 import * as LifestyleActions from './lifestyles.actions';
-import {Lifestyle} from "../../lifestyle/models/lifestyle.interface";
+import {ItemDictionary, Lifestyle} from "../../lifestyle/models/lifestyle.interface";
+import {Item} from "../../items/models/item.interface";
+import {Observable} from "rxjs";
+
 
 @Injectable()
 export class LifestylesFacade {
@@ -17,29 +20,61 @@ export class LifestylesFacade {
     select(LifestyleComponentSelectors.getAllCategories)
   );
 
+  getLifeStyleItems$ : Observable<ItemDictionary> = new Observable<ItemDictionary>();
+
   constructor(
     private lifestylesStore: Store<fromLifestyles.LifestylesPartialState>,
   ) {
   }
 
-  dispatch(action: Action){
+  dispatch(action: Action) {
     this.lifestylesStore.dispatch(action)
   }
 
-  getLifeStylesAll(){
+  getLifeStylesAll() {
     return this.getLifeStylesAll$;
   }
 
-  getCategoriesAll(){
+  getLifeStyleById(Id: string) {
+    return this.lifestylesStore.pipe(select(LifestyleComponentSelectors.getAllLifestyles, {Id: Id}))
+  }
+
+  getCategoriesAll() {
     this.dispatch(LifestyleActions.loadCategories());
     return this.getCategoriesAll$;
   }
 
-  pushLifeStyleIntoCloud(lifestyles: Lifestyle[]){
+  pushLifeStyleIntoCloud(lifestyles: Lifestyle[]) {
     this.dispatch(LifestyleActions.createLifestyles({Lifestyles: lifestyles}))
   }
 
   deleteLifestyle(lifestyle: Lifestyle[]) {
     this.dispatch(LifestyleActions.deleteLifestyles({Lifestyles: lifestyle}))
   }
+
+
+  updateLifestyle(Lifestyle: Lifestyle) {
+    this.dispatch(LifestyleActions.updateLifestyle({Lifestyle: Lifestyle}))
+  }
+
+  updateLifestyleTaxes(Taxes: number[]) {
+    this.dispatch(LifestyleActions.updateLifestyleTaxes({Taxes: Taxes}))
+  }
+
+  updateLifestyleItem(Item: Item) {
+    this.dispatch(LifestyleActions.updateLifestyleItems({Item: Item}))
+  }
+
+  getLifestyleItemsByLifestyleId(Id: string) {
+    this.getLifeStyleItems$ = this.lifestylesStore.pipe(
+      select(LifestyleComponentSelectors.getAllItemsOfLifestyleById, {Id: Id})
+    );
+
+    return this.getLifeStyleItems$;
+  }
+
+  deleteLifestyleItem(Item: Item) {
+    this.dispatch(LifestyleActions.deleteLifestyleItem({Item: Item}))
+  }
+
 }

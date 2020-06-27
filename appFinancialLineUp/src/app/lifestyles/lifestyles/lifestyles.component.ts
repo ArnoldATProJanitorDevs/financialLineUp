@@ -24,7 +24,6 @@ export class LifestylesComponent implements OnInit, OnDestroy {
   private subs: Subscription[] = [];
 
   constructor(private lifestyleFacade: LifestylesFacade,
-              private dbApi: LifestyleDatabaseApiService
   ) {
   }
 
@@ -46,17 +45,21 @@ export class LifestylesComponent implements OnInit, OnDestroy {
 
   addNewLifestyle() {
     const newUuuid = uuidv4();
+    const newUuuid2 = uuidv4();
     this.Lifestyles[newUuuid] = {
       Id: newUuuid,
       Name: 'NEW LIFESTYLE',
       TaxRates: [40],
       Description: 'NEW DESCRIPTION',
-      Items: [{
-        Id: uuidv4(),
-        Category: {name: 'housing', icon: 'home'},
-        Cost: 0,
-        Comment: 'NEW COMMENT'
-      }]
+      Items: {
+        [newUuuid2]: {
+          LifestyleId: newUuuid,
+          Id: newUuuid2,
+          Cost: 20,
+          Category: {name: 'house', icon: 'house'},
+          Comment: "Rent"
+        },
+      }
     };
   }
 
