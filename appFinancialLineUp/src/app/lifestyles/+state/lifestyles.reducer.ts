@@ -49,7 +49,11 @@ const lifeStyleReducer = createReducer(
     }
   ),
   on(LifestylesActions.updateLifestyle, (state, {Lifestyle}) => {
-      return {...state}
+    let lifestylesCopy = Object.assign({}, state.Lifestyles);
+    lifestylesCopy[Lifestyle.Id] = Lifestyle;
+
+
+    return withUpdatedValues(state, {Lifestyles: lifestylesCopy});
     }
   ),
   on(LifestylesActions.updateLifestyleTaxes, (state, {Taxes}) => {
