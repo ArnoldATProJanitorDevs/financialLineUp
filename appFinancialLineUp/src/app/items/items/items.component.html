@@ -1,5 +1,10 @@
 <div class="box-shadow">
-
+  <div style="display:flex; flex-direction: row">
+    <button mat-button class="add-button" color="accent"
+            (click)="$event.stopPropagation(); HandleAddItemButton()" style="width: 100%">
+      ADD ITEM
+    </button>
+  </div>
   <div class="table-container">
     <mat-table [dataSource]="tableData" class="mat-elevation-z8" [trackBy]="trackById">
 

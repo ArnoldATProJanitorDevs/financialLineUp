@@ -8,8 +8,6 @@
                  [(ngModel)]="Lifestyle.Name" (click)="$event.stopPropagation()" (change)="synchronize()"/>
         </div>
       </mat-panel-title>
-      <mat-panel-description>
-      </mat-panel-description>
     </mat-expansion-panel-header>
 
     <!-- SUMMARY -->
@@ -18,18 +16,10 @@
         <mat-panel-title>
           <p><b>Summary</b></p>
         </mat-panel-title>
-        <mat-panel-description>
-
-        </mat-panel-description>
       </mat-expansion-panel-header>
-
-      <!--      <app-summary #summary-->
-      <!--                   [Taxrates]="Lifestyle.TaxRates"-->
-      <!--                   [Items]="Lifestyle.Items"-->
-      <!--      >-->
-      <!--      </app-summary>-->
-
-      <app-summary #summary>
+      <app-summary #summary
+                   [LifestyleId]="Lifestyle.Id"
+      >
       </app-summary>
     </mat-expansion-panel>
 
@@ -39,18 +29,11 @@
         <mat-panel-title>
           <p><b>Taxrates</b></p>
         </mat-panel-title>
-        <mat-panel-description>
-
-        </mat-panel-description>
       </mat-expansion-panel-header>
       <div style="display:flex; flex-direction: column">
         <div style="display:flex; flex-direction: column; flex-wrap: wrap;">
-          <button mat-button color="accent" (click)="TaxratesComponent.HandleAddTaxrateButton()" style="width: 100%">
-            ADD TAXRATE
-          </button>
           <app-taxrates #taxrates
-                        [Taxrates]="Lifestyle.TaxRates"
-                        (TaxratesChanged)="updateTaxrates($event)"
+                        [LifestyleId]="Lifestyle.Id"
           ></app-taxrates>
         </div>
       </div>
@@ -64,20 +47,11 @@
           <p><b>Items</b></p>
 
         </mat-panel-title>
-        <mat-panel-description>
-
-        </mat-panel-description>
       </mat-expansion-panel-header>
-      <div style="display:flex; flex-direction: row">
-        <button mat-button class="add-button" color="accent"
-                (click)="$event.stopPropagation(); ItemsComponent.HandleAddItemButton()" style="width: 100%">
-          ADD ITEM
-        </button>
-      </div>
+
 
       <app-items #items
                  [LifestyleId]="Lifestyle.Id"
-                 (ItemsChanged)="updateItems($event)"
       >
       </app-items>
 
