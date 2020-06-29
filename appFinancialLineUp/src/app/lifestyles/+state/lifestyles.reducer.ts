@@ -49,22 +49,24 @@ const lifeStyleReducer = createReducer(
     }
   ),
   on(LifestylesActions.updateLifestyle, (state, {Lifestyle}) => {
-    let lifestylesCopy = Object.assign({}, state.Lifestyles);
-    lifestylesCopy[Lifestyle.Id] = Lifestyle;
+      const lifestylesCopy = Object.assign({}, state.Lifestyles);
+      lifestylesCopy[Lifestyle.Id] = Lifestyle;
 
 
-    return withUpdatedValues(state, {Lifestyles: lifestylesCopy});
+      return withUpdatedValues(state, {Lifestyles: lifestylesCopy});
     }
   ),
   on(LifestylesActions.updateLifestyleTaxes, (state, {Taxes}) => {
       return {...state}
     }
   ),
-  on(LifestylesActions.updateLifestyleItems, (state, {Item}) => {
+  on(LifestylesActions.updateLifestyleItems, (state, {Items}) => {
 
     const lifestylesCopy = deepCopy(state.Lifestyles);
 
-    lifestylesCopy[Item.LifestyleId].Items[Item.Id] =  Item;
+    Items.forEach(Item =>
+      lifestylesCopy[Item.LifestyleId].Items[Item.Id] = Item
+    );
 
     return withUpdatedValues(state, {Lifestyles: lifestylesCopy});
   }),
@@ -77,8 +79,15 @@ const lifeStyleReducer = createReducer(
 
     return withUpdatedValues(state, {Lifestyles: lifestylesCopy});
   }),
-  on(LifestylesActions.deleteLifestyles, (state, action) => {
-      return {...state}
+  on(LifestylesActions.deleteLifestyles, (state, {Lifestyles}) => {
+      const lifestylesCopy = deepCopy(state.Lifestyles);
+
+      Object.values(Lifestyles).map(lifestyle =>
+        delete lifestylesCopy[lifestyle.Id]
+      );
+
+
+      return withUpdatedValues(state, {Lifestyles: lifestylesCopy});
     }
   ),
   on(LifestylesActions.deleteLifestylesSuccess, (state, {Lifestyles}) => {

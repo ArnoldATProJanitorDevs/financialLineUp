@@ -1,7 +1,7 @@
 import {
   Component,
-  Input,
-  OnInit,
+  Input, OnChanges, OnDestroy,
+  OnInit, SimpleChanges,
 } from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSelectChange} from "@angular/material/select";
@@ -18,7 +18,7 @@ import {deepCopy} from "../../shared/globals/deep-copy";
   templateUrl: './items.component.html',
   styleUrls: ['./items.component.scss']
 })
-export class ItemsComponent implements OnInit {
+export class ItemsComponent implements OnInit, OnChanges, OnDestroy {
 
 
   @Input() LifestyleId: string;
@@ -32,23 +32,27 @@ export class ItemsComponent implements OnInit {
 
   private subs: Subscription[] = [];
 
-
   constructor(private lifestyleFacade: LifestylesFacade) {
   }
 
   ngOnInit(): void {
     this.setUpSubscriptions();
-
     this.getCategoriesFromStore();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.unsubscribeAll();
+    this.setUpSubscriptions();
   }
 
   setUpSubscriptions() {
 
     this.subs.push(this.lifestyleFacade.getLifestyleItemsByLifestyleId(this.LifestyleId).pipe().subscribe(
       next => {
-        this.Items = deepCopy(Object.values(next));
-        this.updateItemsInDataTable(this.Items);
-
+        if (next) {
+          this.Items = deepCopy(Object.values(next));
+          this.updateItemsInDataTable(this.Items);
+        }
       }
     ));
   }
@@ -93,7 +97,6 @@ export class ItemsComponent implements OnInit {
   }
 
 
-
   HandleAddItemButton() {
     this.addItem({
       LifestyleId: this.LifestyleId,
@@ -111,7 +114,7 @@ export class ItemsComponent implements OnInit {
   }
 
   synchronize(item: Item) {
-    this.lifestyleFacade.updateLifestyleItem(item);
+    this.lifestyleFacade.updateLifestyleItem([item]);
   }
 
   HandleButtonDeleteItem(item: Item) {
@@ -146,5 +149,13 @@ export class ItemsComponent implements OnInit {
 
   trackById(item: Item) {
     return item.Id;
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribeAll();
+  }
+
+  unsubscribeAll() {
+    this.subs.forEach(sub => sub.unsubscribe());
   }
 }

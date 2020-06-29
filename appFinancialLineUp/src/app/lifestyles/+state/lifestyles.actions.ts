@@ -16,7 +16,7 @@ export const updateLifestyleTaxes = createAction(
 
 export const updateLifestyleItems = createAction(
   '[Lifestyles] Update Lifestyle Items',
-  props<{ Item: Item}>()
+  props<{ Items: Item[]}>()
 );
 
 

@@ -27,7 +27,7 @@ export const getAllCategories = createSelector(
 
 export const getAllItemsOfLifestyleById= createSelector(
   getLifestylesComponentState,
-  (state: State, props) => state.Lifestyles[props.Id].Items
+  (state: State, props) => state.Lifestyles[props.Id]?.Items || []
 );
 
 

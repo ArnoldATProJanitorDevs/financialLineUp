@@ -4,7 +4,7 @@ import {Observable, Subscription} from "rxjs";
 import {LifestylesDictionary} from "../+state/lifestyles.effects";
 import {v4 as uuidv4} from 'uuid';
 import {deepCopy} from "../../shared/globals/deep-copy";
-import {Lifestyle} from "../../lifestyle/models/lifestyle.interface";
+import {ItemDictionary, Lifestyle} from "../../lifestyle/models/lifestyle.interface";
 import {Category} from "../../items/models/category.interface";
 import {LifestyleDatabaseApiService} from "../../shared/data-base-connect/lifestyle-database-api.service";
 
@@ -87,15 +87,26 @@ export class LifestylesComponent implements OnInit, OnDestroy {
 
   }
 
-  CopyLifestyle(lifestyle: Lifestyle) {
-    const uuid = uuidv4();
-    this.Lifestyles[uuid] = {
-      Id: uuid,
+  DuplicateLifestyle(lifestyle: Lifestyle) {
+    const fixUuid = uuidv4();
+
+    const Lifestyle: Lifestyle = {
+      Id: fixUuid,
       TaxRates: lifestyle.TaxRates,
-      Name: lifestyle.Name + ' COPY',
-      Items: lifestyle.Items,
+      Name: 'COPY ' + lifestyle.Name,
+      Items: adjustLifestyleId(lifestyle.Items, fixUuid),
       Description: lifestyle.Description
     };
+
+    function adjustLifestyleId(Items: ItemDictionary, Id: string) {
+      Object.values(Items).map(item => item.LifestyleId = Id);
+
+      return Items;
+    }
+
+    this.lifestyleFacade.updateLifestyle(Lifestyle);
+    this.lifestyleFacade.updateLifestyleItem(Object.values(Lifestyle.Items));
+
   }
 
   trackById(lifestyle: Lifestyle) {

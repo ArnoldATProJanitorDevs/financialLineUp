@@ -61,8 +61,8 @@ export class LifestylesFacade {
     this.dispatch(LifestyleActions.updateLifestyleTaxes({Taxes: Taxes}))
   }
 
-  updateLifestyleItem(Item: Item) {
-    this.dispatch(LifestyleActions.updateLifestyleItems({Item: Item}))
+  updateLifestyleItem(Items: Item[]) {
+    this.dispatch(LifestyleActions.updateLifestyleItems({Items: Items}))
   }
 
   getLifestyleItemsByLifestyleId(Id: string) {

@@ -18,6 +18,13 @@ export const ExampleLifestyles: LifestylesDictionary = {
         Cost: 20,
         Category: {name: 'housing', icon: 'home'},
         Comment: "Rent"
+      },
+      [fixedId2]: {
+        LifestyleId: 'alone',
+        Id: fixedId2,
+        Cost: 20,
+        Category: {name: 'insurance', icon: 'security'},
+        Comment: "Rent"
       }
     },
     Description: 'This is an example for ...'
