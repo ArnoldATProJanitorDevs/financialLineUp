@@ -49,7 +49,7 @@ export class SummaryComponent {
       [this.lifestyleFacade.getLifestyleItemsByLifestyleId(this.LifestyleId),
         this.lifestyleFacade.getLifeStyleById(this.LifestyleId)],
       (items, lifestyle) => {
-        this.TaxRates = deepCopy(lifestyle.TaxRates) as number[];
+        this.TaxRates = deepCopy(lifestyle?.TaxRates|| []) as number[];
         this.calculateExpenses(Object.values(items), this.TaxRates);
 
       }
@@ -67,14 +67,14 @@ export class SummaryComponent {
     const MONTHLYMULTIPLIER = 1;
     const YEARLYMULTIPLIER = 12;
 
-    const monthlyExpensesBeforeTaxes = Items.map(item => item.Cost).reduce((accumulator, currentValue) => accumulator + currentValue);
+    const monthlyExpensesBeforeTaxes = Items.length > 0 ? Items.map(item => item.Cost)?.reduce((accumulator, currentValue) => accumulator + currentValue) : 0;
 
     this.IncomeNeeds.BeforeTaxes.Daily = monthlyExpensesBeforeTaxes * DAILYMULTIPLIER;
     this.IncomeNeeds.BeforeTaxes.Weekly = monthlyExpensesBeforeTaxes * WEEKLYMULTIPLIER;
     this.IncomeNeeds.BeforeTaxes.Monthly = monthlyExpensesBeforeTaxes * MONTHLYMULTIPLIER;
     this.IncomeNeeds.BeforeTaxes.Yearly = monthlyExpensesBeforeTaxes * YEARLYMULTIPLIER;
 
-    this.IncomeNeeds.AfterTaxes = TaxRates.map((taxrate): ExpensesInterface => {
+    this.IncomeNeeds.AfterTaxes = TaxRates?.map((taxrate): ExpensesInterface => {
       const monthlyExpensesAfterTaxes = this.calculatePercentage(monthlyExpensesBeforeTaxes, taxrate);
 
       return {

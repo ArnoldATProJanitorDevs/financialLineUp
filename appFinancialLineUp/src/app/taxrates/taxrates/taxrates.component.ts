@@ -47,7 +47,7 @@ export class TaxratesComponent implements OnChanges, OnDestroy {
 
   private setUpSubscriptions() {
     this.subs.push(this.lifestyleFacade.getLifeStyleById(this.LifestyleId).subscribe(next => {
-        this.TaxRates = deepCopy(next.TaxRates);
+        this.TaxRates = deepCopy(next?.TaxRates || []);
       }
     ));
   }
