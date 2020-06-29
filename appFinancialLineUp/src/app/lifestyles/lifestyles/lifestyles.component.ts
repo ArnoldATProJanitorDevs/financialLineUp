@@ -44,23 +44,26 @@ export class LifestylesComponent implements OnInit, OnDestroy {
   }
 
   addNewLifestyle() {
-    const newUuuid = uuidv4();
-    const newUuuid2 = uuidv4();
-    this.Lifestyles[newUuuid] = {
-      Id: newUuuid,
+    const lifestyleId = uuidv4();
+    const itemId = uuidv4();
+
+    const Lifestyle: Lifestyle = {
+      Id: lifestyleId,
       Name: 'NEW LIFESTYLE',
       TaxRates: [40],
       Description: 'NEW DESCRIPTION',
       Items: {
-        [newUuuid2]: {
-          LifestyleId: newUuuid,
-          Id: newUuuid2,
+        [itemId]: {
+          LifestyleId: lifestyleId,
+          Id: itemId,
           Cost: 20,
           Category: {name: 'house', icon: 'house'},
           Comment: "Rent"
         },
       }
     };
+
+    this.lifestyleFacade.updateLifestyles(Lifestyle);
   }
 
   OnDeleteLifestyle(lifestyle: Lifestyle) {
@@ -104,7 +107,7 @@ export class LifestylesComponent implements OnInit, OnDestroy {
       return Items;
     }
 
-    this.lifestyleFacade.updateLifestyle(Lifestyle);
+    this.lifestyleFacade.updateLifestyles(Lifestyle);
     this.lifestyleFacade.updateLifestyleItem(Object.values(Lifestyle.Items));
 
   }

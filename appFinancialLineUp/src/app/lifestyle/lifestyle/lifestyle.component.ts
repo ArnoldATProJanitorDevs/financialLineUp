@@ -102,7 +102,7 @@ export class LifestyleComponent implements DoCheck, AfterViewInit {
   }
 
   synchronize() {
-    this.lifestyleFacade.updateLifestyle(this.Lifestyle)
+    this.lifestyleFacade.updateLifestyles(this.Lifestyle)
   }
 
   private CalculateSummary() {

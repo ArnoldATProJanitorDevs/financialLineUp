@@ -53,7 +53,7 @@ export class LifestylesFacade {
   }
 
 
-  updateLifestyle(Lifestyle: Lifestyle) {
+  updateLifestyles(Lifestyle: Lifestyle) {
     this.dispatch(LifestyleActions.updateLifestyle({Lifestyle: Lifestyle}))
   }
 
