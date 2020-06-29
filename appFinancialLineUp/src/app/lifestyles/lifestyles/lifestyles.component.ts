@@ -7,6 +7,7 @@ import {deepCopy} from "../../shared/globals/deep-copy";
 import {ItemDictionary, Lifestyle} from "../../lifestyle/models/lifestyle.interface";
 import {Category} from "../../items/models/category.interface";
 import {LifestyleDatabaseApiService} from "../../shared/data-base-connect/lifestyle-database-api.service";
+import {take} from "rxjs/operators";
 
 @Component({
   selector: 'app-lifestyles',
@@ -18,8 +19,6 @@ export class LifestylesComponent implements OnInit, OnDestroy {
   Lifestyles$: Observable<LifestylesDictionary>;
   Lifestyles: LifestylesDictionary = {};
 
-  Categories$: Observable<Category[]>;
-  Categories: Category[] = [];
 
   private subs: Subscription[] = [];
 
@@ -33,7 +32,6 @@ export class LifestylesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.Lifestyles$ = this.lifestyleFacade.getLifeStylesAll();
-    this.Categories$ = this.lifestyleFacade.getCategoriesAll();
 
     this.addSubscriptions();
 
@@ -57,7 +55,7 @@ export class LifestylesComponent implements OnInit, OnDestroy {
           LifestyleId: lifestyleId,
           Id: itemId,
           Cost: 20,
-          Category: {name: 'house', icon: 'house'},
+          Category: {name: 'housing', icon: 'home'},
           Comment: "Rent"
         },
       }
@@ -119,11 +117,6 @@ export class LifestylesComponent implements OnInit, OnDestroy {
   private addSubscriptions() {
     this.subs.push(this.Lifestyles$.subscribe(next => {
         this.Lifestyles = LifestylesComponent.makeDeepCopyForLocalModification(next);
-      }
-    ));
-
-    this.subs.push(this.Categories$.subscribe(next => {
-        this.Categories = LifestylesComponent.makeDeepCopyForLocalModification(next);
       }
     ));
   }

@@ -56,8 +56,13 @@ const lifeStyleReducer = createReducer(
       return withUpdatedValues(state, {Lifestyles: lifestylesCopy});
     }
   ),
-  on(LifestylesActions.updateLifestyleTaxes, (state, {Taxes}) => {
-      return {...state}
+  on(LifestylesActions.updateLifestyleTaxes, (state, {LifestyleId, Taxes}) => {
+
+      const lifestylesCopy =deepCopy(state.Lifestyles);
+      lifestylesCopy[LifestyleId].TaxRates = Taxes;
+
+
+    return withUpdatedValues(state, {Lifestyles: lifestylesCopy});
     }
   ),
   on(LifestylesActions.updateLifestyleItems, (state, {Items}) => {

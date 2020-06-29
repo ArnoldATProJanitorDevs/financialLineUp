@@ -1,43 +1,72 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
+import {deepCopy} from "../../shared/globals/deep-copy";
+import {Subscription} from "rxjs";
+import {LifestylesFacade} from "../../lifestyles/+state/lifestyles.facade";
 
 @Component({
   selector: 'app-taxrates',
   templateUrl: './taxrates.component.html',
   styleUrls: ['./taxrates.component.scss']
 })
-export class TaxratesComponent {
+export class TaxratesComponent implements OnChanges, OnDestroy {
 
-  @Input() Taxrates: number[];
+  @Input() LifestyleId: string;
 
-  @Output() TaxratesChanged: EventEmitter<number[]> = new EventEmitter<number[]>();
+  TaxRates: number[];
 
-  constructor() {
+  private subs: Subscription[] = [];
+
+  constructor(private lifestyleFacade: LifestylesFacade) {
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.unsubscribeAll();
+    this.setUpSubscriptions();
   }
 
   updateTaxrate(i: number, value: number) {
-    this.Taxrates[i] = value;
-    this.publishChanges(this.Taxrates);
+    this.TaxRates[i] = value;
+    this.updateTaxesInStore(this.LifestyleId, this.TaxRates);
   }
 
   HandleAddTaxrateButton() {
     this.addTaxrate();
   }
 
-  HandleRemoveTaxrateButton(index: number) {
-    this.removeTaxrate(index);
+  HandleDeleteTaxrateButton(index: number) {
+    this.deleteTaxrate(index);
   }
 
-  addTaxrate() {
-    this.Taxrates.push(0);
-    this.publishChanges(this.Taxrates);
+  trackByNumber(taxrate: number){
+    return taxrate;
   }
 
-  removeTaxrate(index: number) {
-    this.Taxrates.splice(index, 1);
-    this.publishChanges(this.Taxrates);
+  ngOnDestroy(): void {
+    this.unsubscribeAll();
   }
 
-  publishChanges(taxrates: number[]) {
-    this.TaxratesChanged.emit(taxrates);
+  private setUpSubscriptions() {
+    this.subs.push(this.lifestyleFacade.getLifeStyleById(this.LifestyleId).subscribe(next => {
+        this.TaxRates = deepCopy(next.TaxRates);
+      }
+    ));
+  }
+
+  private addTaxrate() {
+    this.TaxRates.push(0);
+    this.updateTaxesInStore(this.LifestyleId, this.TaxRates);
+  }
+
+  private deleteTaxrate(index: number) {
+    this.TaxRates.splice(index, 1);
+    this.updateTaxesInStore(this.LifestyleId, this.TaxRates);
+  }
+
+  private updateTaxesInStore(LifestyleId: string, TaxRates: number[]) {
+    this.lifestyleFacade.updateLifestyleTaxes(LifestyleId, TaxRates);
+  }
+
+  private unsubscribeAll() {
+    this.subs.forEach(sub => sub.unsubscribe());
   }
 }

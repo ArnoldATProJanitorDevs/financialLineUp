@@ -36,7 +36,7 @@ export class LifestylesFacade {
   }
 
   getLifeStyleById(Id: string) {
-    return this.lifestylesStore.pipe(select(LifestyleComponentSelectors.getAllLifestyles, {Id: Id}))
+    return this.lifestylesStore.pipe(select(LifestyleComponentSelectors.getLifestyleById, {Id: Id}))
   }
 
   getCategoriesAll() {
@@ -57,8 +57,8 @@ export class LifestylesFacade {
     this.dispatch(LifestyleActions.updateLifestyle({Lifestyle: Lifestyle}))
   }
 
-  updateLifestyleTaxes(Taxes: number[]) {
-    this.dispatch(LifestyleActions.updateLifestyleTaxes({Taxes: Taxes}))
+  updateLifestyleTaxes(LifestyleId:string, Taxes: number[]) {
+    this.dispatch(LifestyleActions.updateLifestyleTaxes({LifestyleId: LifestyleId, Taxes: Taxes}))
   }
 
   updateLifestyleItem(Items: Item[]) {

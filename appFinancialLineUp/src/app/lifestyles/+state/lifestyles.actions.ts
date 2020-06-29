@@ -11,7 +11,7 @@ export const updateLifestyle = createAction(
 );
 export const updateLifestyleTaxes = createAction(
   '[Lifestyles] Update Lifestyle Taxes',
-  props<{ Taxes: number[]}>()
+  props<{ LifestyleId: string, Taxes: number[]}>()
 );
 
 export const updateLifestyleItems = createAction(
@@ -19,11 +19,12 @@ export const updateLifestyleItems = createAction(
   props<{ Items: Item[]}>()
 );
 
-
 export const deleteLifestyleItem = createAction(
   '[Lifestyles] Delete Lifestyle Items',
   props<{ Item: Item}>()
 );
+
+
 
 
 

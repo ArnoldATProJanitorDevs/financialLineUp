@@ -18,14 +18,12 @@ import {deepCopy} from "../../shared/globals/deep-copy";
   templateUrl: './items.component.html',
   styleUrls: ['./items.component.scss']
 })
-export class ItemsComponent implements OnInit, OnChanges, OnDestroy {
-
+export class ItemsComponent implements OnChanges, OnDestroy {
 
   @Input() LifestyleId: string;
 
-  Categories: Category[] = [{name: 'housing', icon: 'house'}];
+  Categories: Category[] = [];
   Items: Item[] = [];
-
 
   displayedColumns: string[] = ['CategoryIcon', 'Category', 'Comment', 'Cost', 'Delete'];
   tableData = new MatTableDataSource<Item>();
@@ -35,18 +33,13 @@ export class ItemsComponent implements OnInit, OnChanges, OnDestroy {
   constructor(private lifestyleFacade: LifestylesFacade) {
   }
 
-  ngOnInit(): void {
+  ngOnChanges(changes: SimpleChanges): void {
+    this.unsubscribeAll();
     this.setUpSubscriptions();
     this.getCategoriesFromStore();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    this.unsubscribeAll();
-    this.setUpSubscriptions();
-  }
-
   setUpSubscriptions() {
-
     this.subs.push(this.lifestyleFacade.getLifestyleItemsByLifestyleId(this.LifestyleId).pipe().subscribe(
       next => {
         if (next) {
@@ -151,11 +144,11 @@ export class ItemsComponent implements OnInit, OnChanges, OnDestroy {
     return item.Id;
   }
 
-  ngOnDestroy(): void {
-    this.unsubscribeAll();
-  }
-
   unsubscribeAll() {
     this.subs.forEach(sub => sub.unsubscribe());
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribeAll();
   }
 }
