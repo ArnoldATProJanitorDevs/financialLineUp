@@ -4,7 +4,7 @@
       <mat-panel-title>
         <div style="display: flex ; flex-direction: row; align-items: center">
           <h2 *ngIf="!isEdit" (click)="isEdit=true; $event.stopPropagation()"> {{Lifestyle.Name}}</h2>
-          <input matInput *ngIf="isEdit" (keydown.enter)="isEdit=false; $event.stopPropagation(); synchronize()"
+          <input matInput *ngIf="isEdit" (keydown.space)="$event.stopPropagation();" (keydown.enter)="isEdit=false; $event.stopPropagation(); synchronize()"
                  [(ngModel)]="Lifestyle.Name" (click)="$event.stopPropagation()" (change)="synchronize()"/>
         </div>
       </mat-panel-title>
