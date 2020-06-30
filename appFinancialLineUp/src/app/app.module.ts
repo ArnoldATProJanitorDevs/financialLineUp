@@ -21,6 +21,7 @@ import {AngularFireModule} from "@angular/fire";
 import {PendingChangesGuard} from "./shared/guards/pending-changes.guard";
 import {MatDialogModule} from "@angular/material/dialog";
 import {AngularFirestoreModule} from "@angular/fire/firestore";
+import {NavbarModule} from "./navbar/navbar.module";
 
 @NgModule({
   declarations: [
@@ -56,7 +57,7 @@ import {AngularFirestoreModule} from "@angular/fire/firestore";
     LifestylesModule,
     BrowserAnimationsModule,
     SharedModule,
-    MatDialogModule
+    NavbarModule,
   ],
   providers: [AppRouterFacade, PendingChangesGuard],
   exports: [],

@@ -1,0 +1,39 @@
+// Import library functions for theme creation.
+@import '~@angular/material/theming';
+
+// Define a mixin that accepts a theme and outputs the theme-specific styles.
+@mixin navbar-theme($theme) {
+  // Extract the palettes you need from the theme definition.
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+
+  .headerDiv {
+    background-color: mat-color($md-primary, 800);
+    -webkit-box-shadow: 0px 5px 20px 0px rgba(41, 41, 41, 1);
+    -moz-box-shadow: 0px 5px 20px 0px rgba(41, 41, 41, 1);
+    box-shadow: 0px 5px 20px 0px rgba(41, 41, 41, 1);
+  }
+
+  .h1Text {
+    font-family: 'noir', 'arial', sans-serif;
+    font-size: 2rem;
+    font-style: normal;
+  }
+
+  .h2Text {
+    font-size: 1.5rem;
+    font-style: normal;
+  }
+
+  ::ng-deep .mat-menu-content {
+    background-color: mat-color($primary, 700);
+  }
+
+  .mat-menu-content:not(:empty) {
+    background-color: mat-color($primary, 700);
+  }
+
+}

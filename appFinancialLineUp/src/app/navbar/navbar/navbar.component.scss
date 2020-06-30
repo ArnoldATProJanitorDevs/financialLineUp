@@ -1,0 +1,51 @@
+
+.headerDiv {
+  //display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+  height: 100px;
+
+}
+
+
+.headSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  padding-top: 10px;
+
+}
+
+.logo{
+  margin: calc((100px - 75px) / 2);
+  width: 75px;
+  height: 75px;
+  order: -1;
+  font-size: 3em;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.headSectionMobile {
+  @extend .headSection;
+  flex-direction: row;
+}
+
+.h1Text {
+  font-size: 2.5rem;
+  font-style: normal;
+
+}
+
+.h2Text {
+  font-size: 1.2rem;
+  font-style: normal;
+}
+
+

@@ -1,0 +1,181 @@
+html,
+body,
+.page {
+  height: 100vh; /* needed for proper layout */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-style: normal;
+}
+
+*{
+    font-family: 'noir', 'arial', sans-serif;
+}
+
+
+body {
+  overflow: hidden;
+}
+
+p {
+  margin-bottom: 1em;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+}
+
+.page-header {
+  flex: 0 0 auto;
+  //background-color: #06d6a0;
+  justify-content: center;
+  align-self: center;
+  text-align: center;
+  width: 100vw;
+}
+
+
+.page-content {
+  width: 100vw;
+  justify-content: center;
+  align-self: center;
+  flex: 1 1 auto;
+  position: relative; /* need this to position inner content */
+  overflow-y: auto;
+  height: 100vh;
+  //margin: 1vmin;
+  //background-color: deepskyblue;
+
+
+}
+
+.stripe {
+  flex-direction: column;
+  align-self: center;
+  width: 100vw;
+
+  display: flex;
+}
+
+.content {
+  align-self: center;
+  width: 100%;
+  max-width: 1280px;
+  margin: 20px;
+  padding: 20px;
+}
+
+.contentFlex {
+  @extend .content;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-self: stretch;
+}
+
+
+.page-content::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE and Edge */
+.page-content {
+  -ms-overflow-style: none;
+}
+
+.page-footer {
+  flex: 0 0 auto;
+  background-color: #dcdcdc;
+}
+
+main {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  background: silver;
+  overflow: hidden;
+
+}
+
+main > * {
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 280px;
+}
+
+.media {
+  background: black;
+  min-height: 280px;
+}
+
+.placeholderLine {
+  margin-top: 10vmin;
+}
+
+.iphoneHover {
+
+  background-color: grey;
+  width: 200px;
+  height: 200px;
+}
+
+.iphoneHover:hover {
+  background-color: red;
+  width: 350px;
+  height: 350px;
+}
+
+.iphoneHoverToClick {
+  transition: all 0.7s;
+  background-color: green;
+  width: 200px;
+  height: 200px;
+}
+
+.iphoneHoverToClickClicked {
+  transition: all 0.7s;
+  background-color: mediumvioletred;
+  width: 400px;
+  height: 400px;
+}
+
+
+@media screen and (max-width: 768px) {
+
+  .page-header {
+    flex: 0 0 auto;
+    display: flex;
+    //background-color: #06d6a0;
+    align-self: center;
+    text-align: center;
+    width: 100vw;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+
+  }
+
+  //.h1Text {
+  //  font-size: 2.875rem;
+  //  line-height: 1.15;
+  //  font-weight: 900;
+  //  letter-spacing: -0.012em;
+  //}
+
+  .h2Text {
+    font-size: .5rem;
+    font-style: normal;
+  }
+
+  .headerDiv {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 5px;
+    flex-wrap: nowrap;
+  }
+
+
+}

@@ -1,0 +1,124 @@
+/* For use in src/lib/core/theming/_palette.scss */
+/* For use in src/lib/core/theming/_palette.scss */
+$md-primary: (
+  50 : #fefefb,
+  100 : #fefbf4,
+  200 : #fdf9ed,
+  300 : #fcf7e6,
+  400 : #fbf5e0,
+  500 : #faf3db,
+  600 : #f9f1d7,
+  700 : #f9efd2,
+  800 : #f8edcd,
+  900 : #f6eac4,
+  A100 : #ffffff,
+  A200 : #ffffff,
+  A400 : #ffffff,
+  A700 : #ffffff,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #000000,
+    500 : #000000,
+    600 : #000000,
+    700 : #000000,
+    800 : #000000,
+    900 : #000000,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
+);
+
+$md-accent: (
+  50 : #e8ebea,
+  100 : #c5cec9,
+  200 : #9eaea6,
+  300 : #778d82,
+  400 : #597467,
+  500 : #3c5c4c,
+  600 : #365445,
+  700 : #2e4a3c,
+  800 : #274133,
+  900 : #1a3024,
+  A100 : #74ffaf,
+  A200 : #41ff91,
+  A400 : #0eff74,
+  A700 : #00f467,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #ffffff,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
+);
+
+$md-warn: (
+  50 : #fee5eb,
+  100 : #fcbfce,
+  200 : #fa94ae,
+  300 : #f8698d,
+  400 : #f74974,
+  500 : #f5295c,
+  600 : #f42454,
+  700 : #f21f4a,
+  800 : #f01941,
+  900 : #ee0f30,
+  A100 : #ffffff,
+  A200 : #ffe6e9,
+  A400 : #ffb3bc,
+  A700 : #ff9aa6,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #000000,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
+);
+
+p, article, span, div {
+  color: black;
+}
+
+h1 {
+  color: mat-color($md-accent, 500);
+}
+
+.stripe:nth-of-type(odd) {
+  background-color: mat-color($md-primary, 600, 0.7);
+}
+
+.stripe:nth-of-type(even) {
+  background-color: mat-color($md-primary, 400, 0.7);
+}
+
+.stripe:first-of-type {
+  height: 500px;
+  background-position: center;
+  background-size: cover;
+  background-blend-mode: darken, luminosity;
+  background-color: transparent;
+}

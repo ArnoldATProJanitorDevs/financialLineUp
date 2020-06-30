@@ -1,0 +1,31 @@
+@import '../node_modules/@angular/material/theming';
+
+@import "app/navbar/theme-navbar";
+@import "app/app-theme";
+@import "app/lifestyle/theme-lifestyle";
+
+@import "themes/financial-light-theme";
+
+
+@include mat-core();
+
+$custom-theme-primary: mat-palette($md-primary);
+$custom-theme-accent: mat-palette($md-accent);
+$custom-theme-warn: mat-palette($md-warn);
+
+$custom-theme: mat-light-theme(
+    $custom-theme-primary,
+    $custom-theme-accent,
+    $custom-theme-warn
+);
+
+@mixin custom-theme($theme) {
+  @include app-theme($theme);
+  @include navbar-theme($theme);
+  @include lifestyle-theme($theme);
+}
+
+@include angular-material-theme($custom-theme);
+
+@include custom-theme($custom-theme);
+
