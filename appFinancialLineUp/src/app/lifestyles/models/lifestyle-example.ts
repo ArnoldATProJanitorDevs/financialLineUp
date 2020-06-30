@@ -1,7 +1,5 @@
-import {Lifestyle} from "../../lifestyle/models/lifestyle.interface";
 import {v4 as uuidv4} from 'uuid';
-import {ItemDictionary} from "../../lifestyle/models/lifestyle.interface";
-import {LifestylesDictionary} from "../+state/lifestyles.effects";
+import {LifestylesDictionary} from "./lifestylesDictionary.interface";
 
 const fixedId = uuidv4();
 const fixedId2 = uuidv4();

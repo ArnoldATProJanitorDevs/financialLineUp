@@ -4,10 +4,11 @@ import {Action, select, Store} from '@ngrx/store';
 import * as fromLifestyles from "./lifestyles.reducer";
 import * as LifestyleComponentSelectors from './lifestyles.selectors';
 import * as LifestyleActions from './lifestyles.actions';
-import {ItemDictionary, Lifestyle} from "../../lifestyle/models/lifestyle.interface";
 import {Item} from "../../items/models/item.interface";
 import {Observable} from "rxjs";
 import {Category} from "../../items/models/category.interface";
+import {ItemDictionary} from "../../items/models/itemDictionary.interface";
+import {Lifestyle} from "../../lifestyle/models/lifestyle.interface";
 
 
 @Injectable()

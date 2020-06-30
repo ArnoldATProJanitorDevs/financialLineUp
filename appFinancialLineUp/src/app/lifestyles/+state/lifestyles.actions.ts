@@ -1,8 +1,8 @@
 import {createAction, props} from '@ngrx/store';
-import {LifestylesDictionary} from "./lifestyles.effects";
 import {Category} from "../../items/models/category.interface";
 import {Lifestyle} from "../../lifestyle/models/lifestyle.interface";
 import {Item} from "../../items/models/item.interface";
+import {LifestylesDictionary} from "../models/lifestylesDictionary.interface";
 
 
 export const updateLifestyle = createAction(

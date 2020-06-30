@@ -1,4 +1,4 @@
-function convertDictionaryToArray(dictionary: any) {
+function convertDictionaryToArray(dictionary: any): any[] {
 
   let array = [];
 

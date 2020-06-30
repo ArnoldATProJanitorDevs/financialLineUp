@@ -1,10 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {LifestylesFacade} from "../+state/lifestyles.facade";
 import {Observable, Subscription} from "rxjs";
-import {LifestylesDictionary} from "../+state/lifestyles.effects";
 import {v4 as uuidv4} from 'uuid';
 import {deepCopy} from "../../shared/globals/deep-copy";
-import {ItemDictionary, Lifestyle} from "../../lifestyle/models/lifestyle.interface";
+import {LifestylesDictionary} from "../models/lifestylesDictionary.interface";
+import {Lifestyle} from "../../lifestyle/models/lifestyle.interface";
 
 @Component({
   selector: 'app-lifestyles',

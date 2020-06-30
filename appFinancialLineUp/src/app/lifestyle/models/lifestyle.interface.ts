@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import {Item} from "../../items/models/item.interface";
+import {ItemDictionary} from "../../items/models/itemDictionary.interface";
 
 export interface Lifestyle {
   Id: uuidv4;
@@ -7,8 +7,4 @@ export interface Lifestyle {
   Name: string;
   Description: string;
   Items: ItemDictionary;
-}
-
-export interface ItemDictionary{
-  [id: string]: Item;
 }

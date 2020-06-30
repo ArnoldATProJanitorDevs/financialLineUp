@@ -10,6 +10,7 @@ import {v4 as uuidv4} from 'uuid';
 
 import {ExampleLifestyles} from "../models/lifestyle-example";
 import {CategoriesService} from "../../shared/categories/categories.service";
+import {LifestylesDictionary} from "../models/lifestylesDictionary.interface";
 
 @Injectable()
 export class LifestylesEffects {
@@ -98,9 +99,7 @@ function convertArrayToDictionary(lifestyles: Lifestyle[], categoriesService: Ca
   return dictionary;
 }
 
-export interface LifestylesDictionary {
-  [id: string]: Lifestyle;
-}
+
 
 function castToItemArray(lifestyleId: string, Items: any[] = [], categoriesService: CategoriesService): Item[] {
 

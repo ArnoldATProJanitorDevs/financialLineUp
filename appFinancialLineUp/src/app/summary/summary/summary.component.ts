@@ -16,7 +16,7 @@ import {Lifestyle} from "../../lifestyle/models/lifestyle.interface";
 export class SummaryComponent {
 
   TaxRates: number[] = [];
-  @Input() Items: Item[] = [];
+  Items: Item[] = [];
   IncomeNeeds: IncomeNeeds = {
     BeforeTaxes: {Daily: 0, Weekly: 0, Monthly: 0, Yearly: 0},
     AfterTaxes: [{Daily: 0, Weekly: 0, Monthly: 0, Yearly: 0}]
@@ -38,9 +38,8 @@ export class SummaryComponent {
     this.setSubscriptionOnInputChange();
   }
 
-  setSubscriptionOnInputChange() {
-    this.unsubscribeAll();
-    this.setUpSubscriptions();
+  private static calculatePercentage(amount: number, percentageInteger: number): number {
+    return roundToTwo(amount / ((100 - percentageInteger) * 0.01));
   }
 
   setUpSubscriptions() {
@@ -49,18 +48,14 @@ export class SummaryComponent {
       [this.lifestyleFacade.getLifestyleItemsByLifestyleId(this.LifestyleId),
         this.lifestyleFacade.getLifeStyleById(this.LifestyleId)],
       (items, lifestyle) => {
-        this.TaxRates = deepCopy(lifestyle?.TaxRates|| []) as number[];
+        this.TaxRates = deepCopy(lifestyle?.TaxRates || []) as number[];
         this.calculateExpenses(Object.values(items), this.TaxRates);
 
       }
     ).subscribe());
   }
 
-  unsubscribeAll() {
-    this.subs.forEach(sub => sub.unsubscribe());
-  }
-
-  calculateExpenses(Items: Item[], TaxRates: number[]) {
+  private calculateExpenses(Items: Item[], TaxRates: number[]) {
 
     const DAILYMULTIPLIER = 1 / 30;
     const WEEKLYMULTIPLIER = 1 / 4;
@@ -75,7 +70,7 @@ export class SummaryComponent {
     this.IncomeNeeds.BeforeTaxes.Yearly = monthlyExpensesBeforeTaxes * YEARLYMULTIPLIER;
 
     this.IncomeNeeds.AfterTaxes = TaxRates?.map((taxrate): ExpensesInterface => {
-      const monthlyExpensesAfterTaxes = this.calculatePercentage(monthlyExpensesBeforeTaxes, taxrate);
+      const monthlyExpensesAfterTaxes = SummaryComponent.calculatePercentage(monthlyExpensesBeforeTaxes, taxrate);
 
       return {
         Daily: monthlyExpensesAfterTaxes * DAILYMULTIPLIER,
@@ -86,12 +81,13 @@ export class SummaryComponent {
     });
   }
 
-  calculateTotal(input: number[]): number {
-    return input.reduce((a, b) => a + b, 0);
+  private setSubscriptionOnInputChange() {
+    this.unsubscribeAll();
+    this.setUpSubscriptions();
   }
 
-  calculatePercentage(amount: number, percentageInteger: number): number {
-    return roundToTwo(amount / ((100 - percentageInteger) * 0.01));
+  private unsubscribeAll() {
+    this.subs.forEach(sub => sub.unsubscribe());
   }
 }
 

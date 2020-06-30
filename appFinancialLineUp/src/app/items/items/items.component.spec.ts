@@ -16,10 +16,7 @@ import * as fromLifestylesSelectors from '../../lifestyles/+state/lifestyles.sel
 import * as fromLifestylesActions from '../../lifestyles/+state/lifestyles.actions'
 import {MemoizedSelector, MemoizedSelectorWithProps} from "@ngrx/store";
 import {Categories} from "../../shared/categories/categories";
-import {ItemDictionary} from "../../lifestyle/models/lifestyle.interface";
-import {deepCopy} from "../../shared/globals/deep-copy";
-import {LifestyleComponent} from "../../lifestyle/lifestyle/lifestyle.component";
-import {cold, hot, time} from 'jest-marbles';
+import {ItemDictionary} from "../models/itemDictionary.interface";
 
 
 describe('ItemsComponent', () => {

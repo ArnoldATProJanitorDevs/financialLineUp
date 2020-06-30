@@ -1,8 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import {LIFESTYLE_FEATURE_KEY, lifestylesComponentAdapter, LifestylesPartialState, State} from './lifestyles.reducer';
-import {ItemDictionary} from "../../lifestyle/models/lifestyle.interface";
-
 export const getLifestylesComponentState = createFeatureSelector<LifestylesPartialState,
   State>(LIFESTYLE_FEATURE_KEY);
 

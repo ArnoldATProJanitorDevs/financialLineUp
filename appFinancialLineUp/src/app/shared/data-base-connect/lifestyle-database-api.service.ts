@@ -58,7 +58,7 @@ export class LifestyleDatabaseApiService {
     return this.db.collection('lifestyles').snapshotChanges() as Observable<DocumentChangeAction<Lifestyle>[]>;
   }
 
-  GetLifeStylesById(Id: uuidv4[]) {
+  GetLifeStylesById(Id: uuidv4[]):Observable<Lifestyle[][]> {
 
     const fieldName = 'Id';
 

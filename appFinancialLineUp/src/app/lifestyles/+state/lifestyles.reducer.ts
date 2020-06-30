@@ -7,12 +7,9 @@ import {environment} from "../../../environments/environment.prod";
 import {createEntityAdapter, EntityAdapter, EntityState} from "@ngrx/entity";
 import {LifeStylesEntity} from "./lifestyles.model";
 import * as LifestylesActions from './lifestyles.actions'
-import {LifestylesDictionary} from "./lifestyles.effects";
 import {Category} from "../../items/models/category.interface";
 import {deepCopy} from "../../shared/globals/deep-copy";
-import {ItemDictionary, Lifestyle} from "../../lifestyle/models/lifestyle.interface";
-import {Item} from "../../items/models/item.interface";
-import {getLifestylesComponentState} from "./lifestyles.selectors";
+import {LifestylesDictionary} from "../models/lifestylesDictionary.interface";
 
 
 export const LIFESTYLE_FEATURE_KEY = 'lifestyles';

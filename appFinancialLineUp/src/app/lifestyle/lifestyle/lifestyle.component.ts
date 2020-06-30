@@ -1,24 +1,13 @@
 import {
-  AfterViewInit,
-  ChangeDetectorRef,
   Component,
-  DoCheck,
-  EventEmitter,
-  Input, OnInit,
-  Output,
-  ViewChild
+  Input,
 } from '@angular/core';
-import {ItemDictionary, Lifestyle} from "../models/lifestyle.interface";
 import {v4 as uuidv4} from 'uuid';
-import {SummaryComponent} from "../../summary/summary/summary.component";
-import {ItemsComponent} from "../../items/items/items.component";
-import {TaxratesComponent} from "../../taxrates/taxrates/taxrates.component";
-import {Category} from "../../items/models/category.interface";
-import {Item} from "../../items/models/item.interface";
 import {LifestylesFacade} from "../../lifestyles/+state/lifestyles.facade";
-import {Observable, Subscription} from "rxjs";
 import {take} from "rxjs/operators";
 import {deepCopy} from "../../shared/globals/deep-copy";
+import {Lifestyle} from "../models/lifestyle.interface";
+import {ItemDictionary} from "../../items/models/itemDictionary.interface";
 
 const fixedId = uuidv4();
 
@@ -45,13 +34,9 @@ export class LifestyleComponent {
     TaxRates: [40, 42],
   };
 
-  @Output() deleteLifestyle: EventEmitter<Lifestyle> = new EventEmitter<Lifestyle>();
-  @Output() EventCopyLifestyle: EventEmitter<Lifestyle> = new EventEmitter<Lifestyle>();
-
-
   isEdit = false;
 
-  constructor(private cdRef: ChangeDetectorRef, private lifestyleFacade: LifestylesFacade) {
+  constructor(private lifestyleFacade: LifestylesFacade) {
   }
 
 
@@ -59,26 +44,28 @@ export class LifestyleComponent {
     this.deleteLifeStyle(lifestyle);
   }
 
-  deleteLifeStyle(lifestyle: Lifestyle) {
-    this.lifestyleFacade.deleteLifestyle([lifestyle]);
-  }
-
   HandleExportButton(lifestyle: Lifestyle) {
-    this.lifestyleFacade.getLifeStyleById(lifestyle.Id).pipe(take(1)).subscribe(
-      next => console.log("Export:", lifestyle)
-    )
+    this.exportLifestyle(lifestyle);
   }
 
   HandleShareButton(lifestyle: Lifestyle) {
     console.log("Cloud:", lifestyle);
-    this.lifestyleFacade.pushLifeStyleIntoCloud([lifestyle]);
+    this.shareLifestyles(lifestyle);
   }
 
   HandleDuplicateButton(Lifestyle: Lifestyle) {
     this.duplicateLifestyle(Lifestyle);
   }
 
-  duplicateLifestyle(lifestyle: Lifestyle) {
+  synchronize() {
+    this.lifestyleFacade.updateLifestyles(this.Lifestyle)
+  }
+
+  private shareLifestyles(lifestyle: Lifestyle) {
+    this.lifestyleFacade.pushLifeStyleIntoCloud([lifestyle]);
+  }
+
+  private duplicateLifestyle(lifestyle: Lifestyle) {
     const fixUuid = uuidv4();
 
     const Lifestyle: Lifestyle = {
@@ -100,13 +87,14 @@ export class LifestyleComponent {
 
   }
 
-
-  getItemsAsArray() {
-    return Object.values(this.Lifestyle.Items)
+  private deleteLifeStyle(lifestyle: Lifestyle) {
+    this.lifestyleFacade.deleteLifestyle([lifestyle]);
   }
 
-  synchronize() {
-    this.lifestyleFacade.updateLifestyles(this.Lifestyle)
+  private exportLifestyle(lifestyle: Lifestyle) {
+    this.lifestyleFacade.getLifeStyleById(lifestyle.Id).pipe(take(1)).subscribe(
+      next => console.log("Export:", lifestyle)
+    )
   }
 
 
