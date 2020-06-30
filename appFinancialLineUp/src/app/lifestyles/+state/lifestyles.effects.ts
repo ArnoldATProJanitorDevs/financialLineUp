@@ -4,13 +4,11 @@ import * as LifestylesActions from './lifestyles.actions'
 import {catchError, map, switchMap, take} from "rxjs/operators";
 import {of} from "rxjs";
 import {Lifestyle} from "../../lifestyle/models/lifestyle.interface";
-import {Item} from "../../items/models/item.interface";
 import {LifestyleDatabaseApiService} from "../../shared/data-base-connect/lifestyle-database-api.service";
-import {v4 as uuidv4} from 'uuid';
 
-import {ExampleLifestyles} from "../models/lifestyle-example";
-import {CategoriesService} from "../../shared/categories/categories.service";
 import {LifestylesDictionary} from "../models/lifestylesDictionary.interface";
+import {getCategoriesAsObservable} from "../../shared/categories/categories";
+import {getExampleLifestylesAsObservable} from "../models/lifestyle-example";
 
 @Injectable()
 export class LifestylesEffects {
@@ -61,7 +59,7 @@ export class LifestylesEffects {
       switchMap((action) => this.dataBaseApiService.GetLifeStylesById(action.ids).pipe(
         map((lifestyle) => {
           const lifestyles: Lifestyle[] = [].concat(...lifestyle);
-          return LifestylesActions.getLifestylesByIdSuccess({Lifestyles: convertArrayToDictionary(lifestyles, this.categoriesService)})
+          return LifestylesActions.getLifestylesByIdSuccess({Lifestyles: convertLifestyleArrayToDictionary(lifestyles)})
         }),
         catchError(errorMessage => {
           return of(LifestylesActions.getLifestylesByIdFailure({error: errorMessage}))
@@ -73,7 +71,7 @@ export class LifestylesEffects {
   getCategories$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(LifestylesActions.getCategories),
-      switchMap(() => this.categoriesService.getCategoriesAsObservable().pipe(
+      switchMap(() => getCategoriesAsObservable().pipe(
         map((categories) => LifestylesActions.getCategoriesSuccess({Categories: categories})),
         catchError(errorMessage => {
           return of(LifestylesActions.getCategoriesFailure({error: errorMessage}))
@@ -81,11 +79,11 @@ export class LifestylesEffects {
       )))
   });
 
-  constructor(private actions$: Actions, private dataBaseApiService: LifestyleDatabaseApiService, private categoriesService: CategoriesService) {
+  constructor(private actions$: Actions, private dataBaseApiService: LifestyleDatabaseApiService) {
   }
 }
 
-function convertArrayToDictionary(lifestyles: Lifestyle[], categoriesService: CategoriesService) {
+function convertLifestyleArrayToDictionary(lifestyles: Lifestyle[]) {
   const dictionary: LifestylesDictionary = {};
   lifestyles.map(lifestyle => {
     dictionary[lifestyle.Id] = {
@@ -97,40 +95,6 @@ function convertArrayToDictionary(lifestyles: Lifestyle[], categoriesService: Ca
     };
   });
   return dictionary;
-}
-
-
-
-function castToItemArray(lifestyleId: string, Items: any[] = [], categoriesService: CategoriesService): Item[] {
-
-  const NEWITEM = 'NEW ITEM';
-
-  if (Items.length <= 0)
-    return [{
-      LifestyleId:lifestyleId,
-      Id: uuidv4(),
-      Comment: NEWITEM,
-      Category: categoriesService.getDefaultCategory(),
-      Cost: 0,
-    }];
-
-  return Items.map(newItem => {
-    return {
-      LifestyleId:lifestyleId,
-      Id: newItem.Id,
-      Comment: newItem.Comment,
-      Category: categoriesService.getExistingCategoryOrDefault(newItem.Category),
-      Cost: Number(newItem.Cost),
-    };
-  })
-}
-
-function getExampleLifestylesAsObservable() {
-  return of(ExampleLifestyles);
-}
-
-function getExampleLifestyles() {
-  return ExampleLifestyles;
 }
 
 

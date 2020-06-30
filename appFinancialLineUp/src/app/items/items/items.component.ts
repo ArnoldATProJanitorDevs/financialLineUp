@@ -66,32 +66,10 @@ export class ItemsComponent implements OnInit, OnChanges, OnDestroy {
     this.toggleToNextCategory(event, itemOfTable);
   }
 
-  toggleToNextCategory(category: Category, Item: Item) {
-
-    const itemCopy = deepCopy(this.getItemById(Item.Id));
-    const currentCategory = this.getCategoryByName(category.name);
-    const indexOfNextCategory = this.getCategoryIndex(currentCategory) + 1;
-
-    if ((indexOfNextCategory) >= this.Categories.length)
-      itemCopy.Category = this.Categories[0];
-    else
-      itemCopy.Category = this.Categories[indexOfNextCategory];
-
-    this.synchronize(itemCopy);
-  }
-
-
   handleCategoryDropdown(event: MatSelectChange, element) {
     this.updateCategory(event.value, element);
 
   }
-
-  updateCategory(newValue: string, Item: Item) {
-    const item = deepCopy(this.Items.filter(item => item.Id === Item.Id)[0]);
-    item.Category = this.Categories.filter(cat => cat.name == newValue)[0];
-    this.synchronize(item);
-  }
-
 
   HandleAddItemButton() {
     this.addItem({
@@ -103,31 +81,12 @@ export class ItemsComponent implements OnInit, OnChanges, OnDestroy {
     })
   }
 
-
-  addItem(item: Item) {
-    this.Items.push(item);
-    this.synchronize(item);
-  }
-
   synchronize(item: Item) {
     this.lifestyleFacade.updateLifestyleItem([item]);
   }
 
   HandleButtonDeleteItem(item: Item) {
     this.deleteItem(item)
-  }
-
-  deleteItem(item: Item) {
-    this.lifestyleFacade.deleteLifestyleItem(item);
-  }
-
-  updateItemsInDataTable(newItems?: Item[]) {
-    if (!newItems || newItems.length <= 0) {
-      this.tableData.data = this.Items;
-      return;
-    }
-
-    this.tableData.data = newItems;
   }
 
   getItemById(givenId: uuidv4): Item {
@@ -147,11 +106,49 @@ export class ItemsComponent implements OnInit, OnChanges, OnDestroy {
     return item.Id;
   }
 
-  unsubscribeAll() {
-    this.subs.forEach(sub => sub.unsubscribe());
-  }
-
   ngOnDestroy(): void {
     this.unsubscribeAll();
+  }
+
+  private toggleToNextCategory(category: Category, Item: Item) {
+
+    const itemCopy = deepCopy(this.getItemById(Item.Id));
+    const currentCategory = this.getCategoryByName(category.name);
+    const indexOfNextCategory = this.getCategoryIndex(currentCategory) + 1;
+
+    if ((indexOfNextCategory) >= this.Categories.length)
+      itemCopy.Category = this.Categories[0];
+    else
+      itemCopy.Category = this.Categories[indexOfNextCategory];
+
+    this.synchronize(itemCopy);
+  }
+
+  private updateCategory(newValue: string, Item: Item) {
+    const item = deepCopy(this.Items.filter(item => item.Id === Item.Id)[0]);
+    item.Category = this.Categories.filter(cat => cat.name == newValue)[0];
+    this.synchronize(item);
+  }
+
+  private addItem(item: Item) {
+    this.Items.push(item);
+    this.synchronize(item);
+  }
+
+  private deleteItem(item: Item) {
+    this.lifestyleFacade.deleteLifestyleItem(item);
+  }
+
+  private updateItemsInDataTable(newItems?: Item[]) {
+    if (!newItems || newItems.length <= 0) {
+      this.tableData.data = this.Items;
+      return;
+    }
+
+    this.tableData.data = newItems;
+  }
+
+  private unsubscribeAll() {
+    this.subs.forEach(sub => sub.unsubscribe());
   }
 }

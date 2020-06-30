@@ -8,7 +8,7 @@ import {LifestylesFacade} from "../../lifestyles/+state/lifestyles.facade";
   templateUrl: './taxrates.component.html',
   styleUrls: ['./taxrates.component.scss']
 })
-export class TaxratesComponent implements OnChanges, OnDestroy {
+export class TaxratesComponent implements OnInit, OnDestroy {
 
   @Input() LifestyleId: string;
 
@@ -19,7 +19,7 @@ export class TaxratesComponent implements OnChanges, OnDestroy {
   constructor(private lifestyleFacade: LifestylesFacade) {
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnInit(): void {
     this.unsubscribeAll();
     this.setUpSubscriptions();
   }
@@ -37,7 +37,7 @@ export class TaxratesComponent implements OnChanges, OnDestroy {
     this.deleteTaxrate(index);
   }
 
-  trackByNumber(taxrate: number){
+  trackByNumber(taxrate: number) {
     return taxrate;
   }
 

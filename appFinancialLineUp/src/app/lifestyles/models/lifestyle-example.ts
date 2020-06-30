@@ -1,5 +1,16 @@
 import {v4 as uuidv4} from 'uuid';
 import {LifestylesDictionary} from "./lifestylesDictionary.interface";
+import {of} from "rxjs";
+
+
+export function getExampleLifestyles() {
+  return ExampleLifestyles;
+}
+
+export function getExampleLifestylesAsObservable() {
+  return of(ExampleLifestyles);
+}
+
 
 const fixedId = uuidv4();
 const fixedId2 = uuidv4();

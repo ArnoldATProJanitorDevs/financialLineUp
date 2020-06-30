@@ -1,5 +1,9 @@
 import {Category} from "../../items/models/category.interface";
+import {of} from "rxjs";
 
+export function getCategoriesAsObservable() {
+  return of(Categories);
+}
 
 export const Categories: Category[] = [
   {
@@ -127,5 +131,3 @@ export const Categories: Category[] = [
     icon: 'work_outline'
   }
 ];
-
-
