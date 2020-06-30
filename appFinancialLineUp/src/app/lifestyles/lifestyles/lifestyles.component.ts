@@ -5,6 +5,7 @@ import {v4 as uuidv4} from 'uuid';
 import {deepCopy} from "../../shared/globals/deep-copy";
 import {LifestylesDictionary} from "../models/lifestylesDictionary.interface";
 import {Lifestyle} from "../../lifestyle/models/lifestyle.interface";
+import {convertDictionaryToArray} from "../../shared/globals/convert-dictionary-to-array";
 
 @Component({
   selector: 'app-lifestyles',

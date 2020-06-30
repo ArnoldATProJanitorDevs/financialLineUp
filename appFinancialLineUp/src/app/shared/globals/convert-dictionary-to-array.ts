@@ -1,4 +1,4 @@
-function convertDictionaryToArray(dictionary: any): any[] {
+export function convertDictionaryToArray(dictionary: any): any[] {
 
   let array = [];
 
