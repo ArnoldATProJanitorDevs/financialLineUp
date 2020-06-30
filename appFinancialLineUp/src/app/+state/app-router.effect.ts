@@ -93,11 +93,11 @@ export class AppRouterEffects {
           if (relativeUrl.pathSegments.includes(AppRouteNames.LifeStyles)) {
             if (!relativeUrl.queryParams) {
               actionArray.push(
-                LifeStyleActions.loadExampleLifestyles()
+                LifeStyleActions.getExampleLifestyles()
               );
             } else {
               actionArray.push(
-                LifeStyleActions.loadLifestylesById({ids: getQueryParamsOfParam(this.LIFESTYLESQUERYPARAM,relativeUrl)}));
+                LifeStyleActions.getLifestylesById({ids: getQueryParamsOfParam(this.LIFESTYLESQUERYPARAM,relativeUrl)}));
             }
           }
           return actionArray;

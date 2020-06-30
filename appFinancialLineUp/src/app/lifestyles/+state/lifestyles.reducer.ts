@@ -35,15 +35,15 @@ export const initialState: State = lifestylesComponentAdapter.getInitialState({
 
 const lifeStyleReducer = createReducer(
   initialState,
-  on(LifestylesActions.createLifestyles, (state, action) => {
+  on(LifestylesActions.saveLifestyleToDatabase, (state, action) => {
       return {...state}
     }
   ),
-  on(LifestylesActions.createLifestylesSuccess, (state) => {
+  on(LifestylesActions.saveLifestyleToDatabaseSuccess, (state) => {
       return {...state}
     }
   ),
-  on(LifestylesActions.createLifestylesFailure, (state, {error}) => {
+  on(LifestylesActions.saveLifestyleToDatabaseFailure, (state, {error}) => {
       console.log(error);
       return {...state, error}
     }
@@ -58,11 +58,11 @@ const lifeStyleReducer = createReducer(
   ),
   on(LifestylesActions.updateLifestyleTaxes, (state, {LifestyleId, Taxes}) => {
 
-      const lifestylesCopy =deepCopy(state.Lifestyles);
+      const lifestylesCopy = deepCopy(state.Lifestyles);
       lifestylesCopy[LifestyleId].TaxRates = Taxes;
 
 
-    return withUpdatedValues(state, {Lifestyles: lifestylesCopy});
+      return withUpdatedValues(state, {Lifestyles: lifestylesCopy});
     }
   ),
   on(LifestylesActions.updateLifestyleItems, (state, {Items}) => {
@@ -84,77 +84,60 @@ const lifeStyleReducer = createReducer(
 
     return withUpdatedValues(state, {Lifestyles: lifestylesCopy});
   }),
-  on(LifestylesActions.deleteLifestyles, (state, {Lifestyles}) => {
+  on(LifestylesActions.deleteLifestylesLocalAndDatabase, (state, {Lifestyles}) => {
+      return {...state}
+    }
+  ),
+  on(LifestylesActions.deleteLifestylesLocalAndDatabaseSuccess, (state, {Lifestyles}) => {
       const lifestylesCopy = deepCopy(state.Lifestyles);
 
       Object.values(Lifestyles).map(lifestyle =>
         delete lifestylesCopy[lifestyle.Id]
       );
 
-
       return withUpdatedValues(state, {Lifestyles: lifestylesCopy});
     }
   ),
-  on(LifestylesActions.deleteLifestylesSuccess, (state, {Lifestyles}) => {
-      const currentLifestyles = deepCopy(state.Lifestyles);
-      const updatedLifestyles = Lifestyles.map(ls => delete currentLifestyles[ls.Id]);
-
-      return {...state, updatedLifestyles}
-    }
-  ),
-  on(LifestylesActions.deleteLifestylesFailure, (state, {error}) => {
+  on(LifestylesActions.deleteLifestylesLocalAndDatabaseFailure, (state, {error}) => {
       console.log(error);
       return {...state, error}
     }
   ),
-  on(LifestylesActions.loadLifestyles, (state, action) => {
+  on(LifestylesActions.getExampleLifestyles, (state, action) => {
       return {...state}
     }
   ),
-  on(LifestylesActions.loadLifestylesSuccess, (state, {Lifestyles}) => {
+  on(LifestylesActions.getExampleLifestylesSuccess, (state, {Lifestyles}) => {
       return {...state, Lifestyles}
     }
   ),
-  on(LifestylesActions.loadLifestylesFailure, (state, {error}) => {
+  on(LifestylesActions.getExampleLifestylesFailure, (state, {error}) => {
       console.log(error);
       return {...state, error}
     }
   ),
-  on(LifestylesActions.loadExampleLifestyles, (state, action) => {
+  on(LifestylesActions.getLifestylesById, (state, action) => {
       return {...state}
     }
   ),
-  on(LifestylesActions.loadExampleLifestylesSuccess, (state, {Lifestyles}) => {
+  on(LifestylesActions.getLifestylesByIdSuccess, (state, {Lifestyles}) => {
       return {...state, Lifestyles}
     }
   ),
-  on(LifestylesActions.loadExampleLifestylesFailure, (state, {error}) => {
+  on(LifestylesActions.getLifestylesByIdFailure, (state, {error}) => {
       console.log(error);
       return {...state, error}
     }
   ),
-  on(LifestylesActions.loadLifestylesById, (state, action) => {
+  on(LifestylesActions.getCategories, (state, action) => {
       return {...state}
     }
   ),
-  on(LifestylesActions.loadLifestylesByIdSuccess, (state, {Lifestyles}) => {
-      return {...state, Lifestyles}
-    }
-  ),
-  on(LifestylesActions.loadLifestylesByIdFailure, (state, {error}) => {
-      console.log(error);
-      return {...state, error}
-    }
-  ),
-  on(LifestylesActions.loadCategories, (state, action) => {
-      return {...state}
-    }
-  ),
-  on(LifestylesActions.loadCategoriesSuccess, (state, {Categories}) => {
+  on(LifestylesActions.getCategoriesSuccess, (state, {Categories}) => {
       return {...state, Categories}
     }
   ),
-  on(LifestylesActions.loadCategoriesFailure, (state, {error}) => {
+  on(LifestylesActions.getCategoriesFailure, (state, {error}) => {
       return {...state, error}
     }
   ),

@@ -14,68 +14,68 @@ import {CategoriesService} from "../../shared/categories/categories.service";
 @Injectable()
 export class LifestylesEffects {
 
-  createLifeStyles$ = createEffect(() => {
+  saveLifestyleToDatabase$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(LifestylesActions.createLifestyles),
+      ofType(LifestylesActions.saveLifestyleToDatabase),
       map((a) => {
         this.dataBaseApiService.CreateLifeStyles(a.Lifestyles);
-        return LifestylesActions.createLifestylesSuccess();
+        return LifestylesActions.saveLifestyleToDatabaseSuccess();
       }),
       catchError(errorMessage => {
-        return of(LifestylesActions.createLifestylesFailure({error: errorMessage}))
+        return of(LifestylesActions.saveLifestyleToDatabaseFailure({error: errorMessage}))
       })
     )
   });
 
-  deleteLifeStyles$ = createEffect(() => {
+  deleteLifestylesLocalAndDatabase$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(LifestylesActions.deleteLifestyles),
+      ofType(LifestylesActions.deleteLifestylesLocalAndDatabase),
       map((a) => {
         a.Lifestyles.map(ls => this.dataBaseApiService.DeleteLifeStyle(ls.Id));
-        return LifestylesActions.deleteLifestylesSuccess({Lifestyles: a.Lifestyles});
+        return LifestylesActions.deleteLifestylesLocalAndDatabaseSuccess({Lifestyles: a.Lifestyles});
       }),
       catchError(errorMessage => {
-        return of(LifestylesActions.deleteLifestylesFailure({error: errorMessage}))
+        return of(LifestylesActions.deleteLifestylesLocalAndDatabaseFailure({error: errorMessage}))
       })
     )
   });
 
-  loadExampleLifestyles$ = createEffect(() => {
+  getExampleLifestyles$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(LifestylesActions.loadExampleLifestyles),
+      ofType(LifestylesActions.getExampleLifestyles),
       switchMap(() => getExampleLifestylesAsObservable().pipe(
         map((lifestyles) => {
-          return LifestylesActions.loadExampleLifestylesSuccess({Lifestyles: lifestyles})
+          return LifestylesActions.getExampleLifestylesSuccess({Lifestyles: lifestyles})
         }),
         catchError(errorMessage => {
-          return of(LifestylesActions.loadExampleLifestylesFailure({error: errorMessage}))
+          return of(LifestylesActions.getExampleLifestylesFailure({error: errorMessage}))
         })
       ))
     )
   });
 
-  loadLifeStylesById$ = createEffect(() => {
+  getLifestylesById$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(LifestylesActions.loadLifestylesById),
+      ofType(LifestylesActions.getLifestylesById),
       switchMap((action) => this.dataBaseApiService.GetLifeStylesById(action.ids).pipe(
         map((lifestyle) => {
           const lifestyles: Lifestyle[] = [].concat(...lifestyle);
-          return LifestylesActions.loadLifestylesByIdSuccess({Lifestyles: convertArrayToDictionary(lifestyles, this.categoriesService)})
+          return LifestylesActions.getLifestylesByIdSuccess({Lifestyles: convertArrayToDictionary(lifestyles, this.categoriesService)})
         }),
         catchError(errorMessage => {
-          return of(LifestylesActions.loadLifestylesFailure({error: errorMessage}))
+          return of(LifestylesActions.getLifestylesByIdFailure({error: errorMessage}))
         })
       ))
     )
   });
 
-  loadCategories$ = createEffect(() => {
+  getCategories$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(LifestylesActions.loadCategories),
+      ofType(LifestylesActions.getCategories),
       switchMap(() => this.categoriesService.getCategoriesAsObservable().pipe(
-        map((categories) => LifestylesActions.loadCategoriesSuccess({Categories: categories})),
+        map((categories) => LifestylesActions.getCategoriesSuccess({Categories: categories})),
         catchError(errorMessage => {
-          return of(LifestylesActions.loadCategoriesFailure({error: errorMessage}))
+          return of(LifestylesActions.getCategoriesFailure({error: errorMessage}))
         })
       )))
   });

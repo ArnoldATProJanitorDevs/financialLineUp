@@ -8,7 +8,7 @@ import {
   Output,
   ViewChild
 } from '@angular/core';
-import {Lifestyle} from "../models/lifestyle.interface";
+import {ItemDictionary, Lifestyle} from "../models/lifestyle.interface";
 import {v4 as uuidv4} from 'uuid';
 import {SummaryComponent} from "../../summary/summary/summary.component";
 import {ItemsComponent} from "../../items/items/items.component";
@@ -18,6 +18,7 @@ import {Item} from "../../items/models/item.interface";
 import {LifestylesFacade} from "../../lifestyles/+state/lifestyles.facade";
 import {Observable, Subscription} from "rxjs";
 import {take} from "rxjs/operators";
+import {deepCopy} from "../../shared/globals/deep-copy";
 
 const fixedId = uuidv4();
 
@@ -55,7 +56,11 @@ export class LifestyleComponent {
 
 
   HandleButtonDeleteLifestyle(lifestyle: Lifestyle) {
-    this.deleteLifestyle.emit(lifestyle);
+    this.deleteLifeStyle(lifestyle);
+  }
+
+  deleteLifeStyle(lifestyle: Lifestyle) {
+    this.lifestyleFacade.deleteLifestyle([lifestyle]);
   }
 
   HandleExportButton(lifestyle: Lifestyle) {
@@ -69,8 +74,30 @@ export class LifestyleComponent {
     this.lifestyleFacade.pushLifeStyleIntoCloud([lifestyle]);
   }
 
-  HandleCopyButton(Lifestyle: Lifestyle) {
-    this.EventCopyLifestyle.emit(Lifestyle);
+  HandleDuplicateButton(Lifestyle: Lifestyle) {
+    this.duplicateLifestyle(Lifestyle);
+  }
+
+  duplicateLifestyle(lifestyle: Lifestyle) {
+    const fixUuid = uuidv4();
+
+    const Lifestyle: Lifestyle = {
+      Id: fixUuid,
+      TaxRates: lifestyle.TaxRates,
+      Name: 'COPY ' + lifestyle.Name,
+      Items: adjustLifestyleId(deepCopy(lifestyle.Items), fixUuid),
+      Description: lifestyle.Description
+    };
+
+    function adjustLifestyleId(Items: ItemDictionary, Id: string) {
+      Object.values(Items).map(item => item.LifestyleId = Id);
+
+      return Items;
+    }
+
+    this.lifestyleFacade.updateLifestyles(Lifestyle);
+    this.lifestyleFacade.updateLifestyleItem(Object.values(Lifestyle.Items));
+
   }
 
 

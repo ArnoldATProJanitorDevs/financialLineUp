@@ -5,9 +5,6 @@ import {LifestylesDictionary} from "../+state/lifestyles.effects";
 import {v4 as uuidv4} from 'uuid';
 import {deepCopy} from "../../shared/globals/deep-copy";
 import {ItemDictionary, Lifestyle} from "../../lifestyle/models/lifestyle.interface";
-import {Category} from "../../items/models/category.interface";
-import {LifestyleDatabaseApiService} from "../../shared/data-base-connect/lifestyle-database-api.service";
-import {take} from "rxjs/operators";
 
 @Component({
   selector: 'app-lifestyles',
@@ -33,13 +30,10 @@ export class LifestylesComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.Lifestyles$ = this.lifestyleFacade.getLifeStylesAll();
 
-    this.addSubscriptions();
+    this.setUpSubscriptions();
 
   }
 
-  ngOnDestroy(): void {
-    this.subs.map(sub => sub.unsubscribe());
-  }
 
   addNewLifestyle() {
     const lifestyleId = uuidv4();
@@ -64,15 +58,7 @@ export class LifestylesComponent implements OnInit, OnDestroy {
     this.lifestyleFacade.updateLifestyles(Lifestyle);
   }
 
-  OnDeleteLifestyle(lifestyle: Lifestyle) {
-    this.DeleteLifeStyle(lifestyle);
-  }
-
-  DeleteLifeStyle(lifestyle: Lifestyle) {
-    this.lifestyleFacade.deleteLifestyle([lifestyle]);
-  }
-
-  exportLifestyles() {
+  exportLifestyles(lifestyles: LifestylesDictionary) {
 
   }
 
@@ -84,54 +70,19 @@ export class LifestylesComponent implements OnInit, OnDestroy {
     this.lifestyleFacade.pushLifeStyleIntoCloud(convertDictionaryToArray(this.Lifestyles));
   }
 
-  deleteAllLifestyles() {
-
-  }
-
-  DuplicateLifestyle(lifestyle: Lifestyle) {
-    const fixUuid = uuidv4();
-
-    const Lifestyle: Lifestyle = {
-      Id: fixUuid,
-      TaxRates: lifestyle.TaxRates,
-      Name: 'COPY ' + lifestyle.Name,
-      Items: adjustLifestyleId(lifestyle.Items, fixUuid),
-      Description: lifestyle.Description
-    };
-
-    function adjustLifestyleId(Items: ItemDictionary, Id: string) {
-      Object.values(Items).map(item => item.LifestyleId = Id);
-
-      return Items;
-    }
-
-    this.lifestyleFacade.updateLifestyles(Lifestyle);
-    this.lifestyleFacade.updateLifestyleItem(Object.values(Lifestyle.Items));
-
-  }
-
-  trackById(lifestyle: Lifestyle) {
+  trackById(lifestyle: Lifestyle): string {
     return lifestyle.Id;
   }
 
-  private addSubscriptions() {
+  ngOnDestroy(): void {
+    this.subs.map(sub => sub.unsubscribe());
+  }
+
+  private setUpSubscriptions() {
     this.subs.push(this.Lifestyles$.subscribe(next => {
         this.Lifestyles = LifestylesComponent.makeDeepCopyForLocalModification(next);
       }
     ));
   }
 
-
 }
-
-function convertDictionaryToArray(dictionary: any) {
-
-  let array = [];
-
-  for (let key in dictionary) {
-    array.push(dictionary[key]);
-  }
-
-  return array;
-}
-

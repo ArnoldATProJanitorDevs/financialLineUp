@@ -26,8 +26,6 @@
   <div class="lifestyle" *ngFor="let Lifestyle of Lifestyles | keyvalue; trackBy: trackById">
     <app-lifestyle
       [Lifestyle]="Lifestyle.value"
-      (deleteLifestyle)="OnDeleteLifestyle($event)"
-      (EventCopyLifestyle)="DuplicateLifestyle($event)"
     >
     </app-lifestyle>
   </div>

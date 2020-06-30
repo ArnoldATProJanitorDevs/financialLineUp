@@ -18,7 +18,7 @@ import {deepCopy} from "../../shared/globals/deep-copy";
   templateUrl: './items.component.html',
   styleUrls: ['./items.component.scss']
 })
-export class ItemsComponent implements OnChanges, OnDestroy {
+export class ItemsComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() LifestyleId: string;
 
@@ -33,10 +33,13 @@ export class ItemsComponent implements OnChanges, OnDestroy {
   constructor(private lifestyleFacade: LifestylesFacade) {
   }
 
+  ngOnInit(): void {
+    this.getCategoriesFromStore();
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     this.unsubscribeAll();
     this.setUpSubscriptions();
-    this.getCategoriesFromStore();
   }
 
   setUpSubscriptions() {

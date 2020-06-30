@@ -7,6 +7,7 @@ import * as LifestyleActions from './lifestyles.actions';
 import {ItemDictionary, Lifestyle} from "../../lifestyle/models/lifestyle.interface";
 import {Item} from "../../items/models/item.interface";
 import {Observable} from "rxjs";
+import {Category} from "../../items/models/category.interface";
 
 
 @Injectable()
@@ -39,17 +40,17 @@ export class LifestylesFacade {
     return this.lifestylesStore.pipe(select(LifestyleComponentSelectors.getLifestyleById, {Id: Id}))
   }
 
-  getCategoriesAll() {
-    this.dispatch(LifestyleActions.loadCategories());
+  getCategoriesAll(): Observable<Category[]> {
+    this.dispatch(LifestyleActions.getCategories());
     return this.getCategoriesAll$;
   }
 
   pushLifeStyleIntoCloud(lifestyles: Lifestyle[]) {
-    this.dispatch(LifestyleActions.createLifestyles({Lifestyles: lifestyles}))
+    this.dispatch(LifestyleActions.saveLifestyleToDatabase({Lifestyles: lifestyles}))
   }
 
   deleteLifestyle(lifestyle: Lifestyle[]) {
-    this.dispatch(LifestyleActions.deleteLifestyles({Lifestyles: lifestyle}))
+    this.dispatch(LifestyleActions.deleteLifestylesLocalAndDatabase({Lifestyles: lifestyle}))
   }
 
 

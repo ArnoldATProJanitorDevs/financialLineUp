@@ -25,97 +25,76 @@ export const deleteLifestyleItem = createAction(
 );
 
 
-
-
-
-
-export const createLifestyles = createAction(
-  '[Lifestyles] Create Lifestyles',
+export const saveLifestyleToDatabase = createAction(
+  '[Lifestyles] Save Lifestyles to Database',
   props<{ Lifestyles: Lifestyle[] }>()
 );
 
-export const createLifestylesSuccess = createAction(
-  '[Lifestyles] Create Lifestyles Success',
+export const saveLifestyleToDatabaseSuccess = createAction(
+  '[Lifestyles] Save Lifestyles to Database Success',
 );
 
-export const createLifestylesFailure = createAction(
-  '[Lifestyles] Create Lifestyles Failure',
+export const saveLifestyleToDatabaseFailure = createAction(
+  '[Lifestyles] Save Lifestyles to Database Failure',
   props<{ error: any }>()
 );
 
 
-
-export const deleteLifestyles = createAction(
-  '[Lifestyles] Delete Lifestyles',
+export const deleteLifestylesLocalAndDatabase = createAction(
+  '[Lifestyles] Delete Lifestyles Local and Database',
   props<{ Lifestyles: Lifestyle[] }>()
 );
 
-export const deleteLifestylesSuccess = createAction(
-  '[Lifestyles] Delete Lifestyles Success',
+export const deleteLifestylesLocalAndDatabaseSuccess = createAction(
+  '[Lifestyles]  Delete Lifestyles Local and Database Success',
   props<{ Lifestyles: Lifestyle[] }>()
 );
 
-export const deleteLifestylesFailure = createAction(
-  '[Lifestyles] Delete Lifestyles Failure',
+export const deleteLifestylesLocalAndDatabaseFailure = createAction(
+  '[Lifestyles]  Delete Lifestyles Local and Database Failure',
   props<{ error: any }>()
 );
 
-
-export const loadLifestyles = createAction(
-  '[Lifestyles] Load Lifestyles'
-);
-
-export const loadLifestylesSuccess = createAction(
-  '[Lifestyles] Load Lifestyles Success',
-  props<{ Lifestyles: LifestylesDictionary }>()
-);
-
-export const loadLifestylesFailure = createAction(
-  '[Lifestyles] Load Lifestyles Failure',
-  props<{ error: any }>()
-);
-
-
-export const loadLifestylesById = createAction(
-  '[Lifestyles] Load Lifestyles by Id',
+export const getLifestylesById = createAction(
+  '[Lifestyles] Get Lifestyles by Id',
   props<{ ids: string[] }>()
 );
 
-export const loadLifestylesByIdSuccess = createAction(
-  '[Lifestyles]  Load Lifestyles by Id Success',
+export const getLifestylesByIdSuccess = createAction(
+  '[Lifestyles]  Get Lifestyles by Id Success',
   props<{ Lifestyles: LifestylesDictionary }>()
 );
 
-export const loadLifestylesByIdFailure = createAction(
-  '[Lifestyles] Load Lifestyles by Id Failure',
+export const getLifestylesByIdFailure = createAction(
+  '[Lifestyles] Get Lifestyles by Id Failure',
   props<{ error: any }>()
 );
 
-export const loadExampleLifestyles = createAction(
-  '[Lifestyles] Load Example Lifestyles'
+export const getExampleLifestyles = createAction(
+  '[Lifestyles] Get Example Lifestyles'
 );
 
-export const loadExampleLifestylesSuccess = createAction(
-  '[Lifestyles] Load Example Lifestyles Success',
+export const getExampleLifestylesSuccess = createAction(
+  '[Lifestyles] Get Example Lifestyles Success',
   props<{ Lifestyles: LifestylesDictionary }>()
 );
 
-export const loadExampleLifestylesFailure = createAction(
-  '[Lifestyles] Load Example Lifestyles Failure',
+export const getExampleLifestylesFailure = createAction(
+  '[Lifestyles] Get Example Lifestyles Failure',
   props<{ error: any }>()
 );
 
-export const loadCategories = createAction(
-  '[Lifestyles] Load Categories'
+export const getCategories = createAction(
+  '[Lifestyles] Get Categories'
 );
 
-export const loadCategoriesSuccess = createAction(
-  '[Lifestyles] Load Categories Success',
+export const getCategoriesSuccess = createAction(
+  '[Lifestyles] Get Categories Success',
   props<{ Categories: Category[] }>()
 );
 
-export const loadCategoriesFailure = createAction(
-  '[Lifestyles] Load Categories Failure',
+export const getCategoriesFailure = createAction(
+  '[Lifestyles] Get Categories Failure',
   props<{ error: any }>()
 );
 
