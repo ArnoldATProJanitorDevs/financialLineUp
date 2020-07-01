@@ -1,4 +1,4 @@
-import {Category} from "./category.interface";
+import {Category} from "../../shared/categories/category.interface";
 import { v4 as uuidv4 } from 'uuid';
 
 export interface Item {

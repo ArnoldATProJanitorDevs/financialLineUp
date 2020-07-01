@@ -1,21 +1,22 @@
 import {
-  Action, createAction,
-  createReducer, createSelector,
-  MetaReducer, on, props
-} from '@ngrx/store';
+  Action,
+  createReducer,
+  MetaReducer, on,} from '@ngrx/store';
 import {environment} from "../../../environments/environment.prod";
 import {createEntityAdapter, EntityAdapter, EntityState} from "@ngrx/entity";
 import {LifeStylesEntity} from "./lifestyles.model";
 import * as LifestylesActions from './lifestyles.actions'
-import {Category} from "../../items/models/category.interface";
+import {Category} from "../../shared/categories/category.interface";
 import {deepCopy} from "../../shared/globals/deep-copy";
 import {LifestylesDictionary} from "../models/lifestylesDictionary.interface";
+import {CategoryGroups} from "../../shared/categories/category-groups.interface";
 
 
 export const LIFESTYLE_FEATURE_KEY = 'lifestyles';
 
 export interface State extends EntityState<LifeStylesEntity> {
   Lifestyles: LifestylesDictionary;
+  CategoryGroups: CategoryGroups[];
   Categories: Category[];
 }
 
@@ -27,6 +28,7 @@ export const lifestylesComponentAdapter: EntityAdapter<LifeStylesEntity> = creat
 
 export const initialState: State = lifestylesComponentAdapter.getInitialState({
   Lifestyles: {},
+  CategoryGroups: [],
   Categories: [],
 });
 
@@ -135,6 +137,19 @@ const lifeStyleReducer = createReducer(
     }
   ),
   on(LifestylesActions.getCategoriesFailure, (state, {error}) => {
+      return {...state, error}
+    }
+  ),
+
+  on(LifestylesActions.getCategoryGroups, (state, action) => {
+      return {...state}
+    }
+  ),
+  on(LifestylesActions.getCategoryGroupsSuccess, (state, {CategoryGroups}) => {
+      return {...state, CategoryGroups}
+    }
+  ),
+  on(LifestylesActions.getCategoryGroupsFailure, (state, {error}) => {
       return {...state, error}
     }
   ),

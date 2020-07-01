@@ -6,9 +6,10 @@ import * as LifestyleComponentSelectors from './lifestyles.selectors';
 import * as LifestyleActions from './lifestyles.actions';
 import {Item} from "../../items/models/item.interface";
 import {Observable} from "rxjs";
-import {Category} from "../../items/models/category.interface";
+import {Category} from "../../shared/categories/category.interface";
 import {ItemDictionary} from "../../items/models/itemDictionary.interface";
 import {Lifestyle} from "../../lifestyle/models/lifestyle.interface";
+import {CategoryGroups} from "../../shared/categories/category-groups.interface";
 
 
 @Injectable()
@@ -22,11 +23,21 @@ export class LifestylesFacade {
     select(LifestyleComponentSelectors.getAllCategories)
   );
 
+  getCategoryGroupsAll$ = this.lifestylesStore.pipe(
+    select(LifestyleComponentSelectors.getAllCategoryGroups)
+  );
+
   getLifeStyleItems$ : Observable<ItemDictionary> = new Observable<ItemDictionary>();
 
   constructor(
     private lifestylesStore: Store<fromLifestyles.LifestylesPartialState>,
   ) {
+    this.initStore();
+  }
+
+  initStore(){
+    this.dispatch(LifestyleActions.getCategoryGroups());
+    this.dispatch(LifestyleActions.getCategories());
   }
 
   dispatch(action: Action) {
@@ -42,8 +53,11 @@ export class LifestylesFacade {
   }
 
   getCategoriesAll(): Observable<Category[]> {
-    this.dispatch(LifestyleActions.getCategories());
     return this.getCategoriesAll$;
+  }
+
+  getCategoryGroupsAll(): Observable<CategoryGroups[]> {
+    return this.getCategoryGroupsAll$;
   }
 
   pushLifeStyleIntoCloud(lifestyles: Lifestyle[]) {

@@ -1,8 +1,9 @@
 import {createAction, props} from '@ngrx/store';
-import {Category} from "../../items/models/category.interface";
+import {Category} from "../../shared/categories/category.interface";
 import {Lifestyle} from "../../lifestyle/models/lifestyle.interface";
 import {Item} from "../../items/models/item.interface";
 import {LifestylesDictionary} from "../models/lifestylesDictionary.interface";
+import {CategoryGroups} from "../../shared/categories/category-groups.interface";
 
 
 export const updateLifestyle = createAction(
@@ -95,6 +96,20 @@ export const getCategoriesSuccess = createAction(
 
 export const getCategoriesFailure = createAction(
   '[Lifestyles] Get Categories Failure',
+  props<{ error: any }>()
+);
+
+export const getCategoryGroups = createAction(
+  '[Lifestyles] Get Category Groups'
+);
+
+export const getCategoryGroupsSuccess = createAction(
+  '[Lifestyles] Get Category Groups Success',
+  props<{ CategoryGroups: CategoryGroups[] }>()
+);
+
+export const getCategoryGroupsFailure = createAction(
+  '[Lifestyles] Get Category Groups Failure',
   props<{ error: any }>()
 );
 

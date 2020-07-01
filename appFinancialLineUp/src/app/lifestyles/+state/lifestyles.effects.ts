@@ -9,6 +9,7 @@ import {LifestyleDatabaseApiService} from "../../shared/data-base-connect/lifest
 import {LifestylesDictionary} from "../models/lifestylesDictionary.interface";
 import {getCategoriesAsObservable} from "../../shared/categories/categories";
 import {getExampleLifestylesAsObservable} from "../models/lifestyle-example";
+import {getCategoryGroupsAsObservable, mapCategoriesToGroups} from "../../shared/categories/category-groups";
 
 @Injectable()
 export class LifestylesEffects {
@@ -72,9 +73,25 @@ export class LifestylesEffects {
     return this.actions$.pipe(
       ofType(LifestylesActions.getCategories),
       switchMap(() => getCategoriesAsObservable().pipe(
-        map((categories) => LifestylesActions.getCategoriesSuccess({Categories: categories})),
+        map((categories) => {
+          mapCategoriesToGroups();
+          return LifestylesActions.getCategoriesSuccess({Categories: categories})
+        }),
         catchError(errorMessage => {
           return of(LifestylesActions.getCategoriesFailure({error: errorMessage}))
+        })
+      )))
+  });
+
+  getCategoryGroups$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(LifestylesActions.getCategoryGroups),
+      switchMap(() => getCategoryGroupsAsObservable().pipe(
+        map((categoryGroups) =>
+          LifestylesActions.getCategoryGroupsSuccess({CategoryGroups: categoryGroups})
+        ),
+        catchError(errorMessage => {
+          return of(LifestylesActions.getCategoryGroupsFailure({error: errorMessage}))
         })
       )))
   });

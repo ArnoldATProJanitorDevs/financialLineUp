@@ -23,6 +23,12 @@ export const getAllCategories = createSelector(
   (state: State) => state.Categories
 );
 
+export const getAllCategoryGroups = createSelector(
+  getLifestylesComponentState,
+  (state: State) => state.CategoryGroups
+);
+
+
 export const getAllItemsOfLifestyleById= createSelector(
   getLifestylesComponentState,
   (state: State, props) => state.Lifestyles[props.Id]?.Items || {}

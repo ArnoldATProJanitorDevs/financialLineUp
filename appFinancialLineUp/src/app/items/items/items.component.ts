@@ -7,11 +7,12 @@ import {MatTableDataSource} from "@angular/material/table";
 import {MatSelectChange} from "@angular/material/select";
 import {v4 as uuidv4} from 'uuid';
 import {Item} from "../models/item.interface";
-import {Category} from "../models/category.interface";
+import {Category} from "../../shared/categories/category.interface";
 import {LifestylesFacade} from "../../lifestyles/+state/lifestyles.facade";
 import {Subscription} from "rxjs";
 import {take} from "rxjs/operators";
 import {deepCopy} from "../../shared/globals/deep-copy";
+import {CategoryGroups} from "../../shared/categories/category-groups.interface";
 
 @Component({
   selector: 'app-items',
@@ -23,6 +24,7 @@ export class ItemsComponent implements OnInit, OnChanges, OnDestroy {
   @Input() LifestyleId: string;
 
   Categories: Category[] = [];
+  CategoryGroups: CategoryGroups[] = [];
   Items: Item[] = [];
 
   displayedColumns: string[] = ['CategoryIcon', 'Category', 'Comment', 'Cost', 'Delete'];
@@ -35,6 +37,7 @@ export class ItemsComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit(): void {
     this.getCategoriesFromStore();
+    this.getCategoryGroupsFromStore();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -51,6 +54,15 @@ export class ItemsComponent implements OnInit, OnChanges, OnDestroy {
         }
       }
     ));
+  }
+
+
+  getCategoryGroupsFromStore() {
+    this.lifestyleFacade.getCategoryGroupsAll().pipe(take(1)).subscribe(
+      next => {
+        this.CategoryGroups = next;
+      }
+    );
   }
 
   getCategoriesFromStore() {

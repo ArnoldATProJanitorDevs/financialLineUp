@@ -26,10 +26,13 @@
         <mat-header-cell *matHeaderCellDef> Category</mat-header-cell>
         <mat-cell *matCellDef="let element">
           <mat-select [value]="element.Category.name" (selectionChange)="handleCategoryDropdown($event, element)">
-            <mat-option *ngFor="let category of Categories" [value]="category.name">
-              {{ category.name}}
-            </mat-option>
+            <mat-optgroup *ngFor="let group of CategoryGroups" [label]="group.name">
+              <mat-option *ngFor="let item of group.group" [value]="item.name">
+                {{item.name}}
+              </mat-option>
+            </mat-optgroup>
           </mat-select>
+
         </mat-cell>
       </ng-container>
 
