@@ -1,35 +1,45 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {LifestylesFacade} from "../+state/lifestyles.facade";
 import {Observable, Subscription} from "rxjs";
 import {v4 as uuidv4} from 'uuid';
 import {deepCopy} from "../../shared/globals/deep-copy";
 import {LifestylesDictionary} from "../models/lifestylesDictionary.interface";
 import {Lifestyle} from "../../lifestyle/models/lifestyle.interface";
+import {ComponentCanDeactivate} from "../../shared/guards/pending-changes.guard";
+import {LifestyleDatabaseApiService} from "../../shared/data-base-connect/lifestyle-database-api.service";
+import {take} from "rxjs/operators";
+import {convertLifestyleArrayToDictionary} from "../+state/lifestyles.effects";
+import {ComparerHelpFunctionsService} from "../../shared/services/comparer-help-functions.service";
+
 
 @Component({
   selector: 'app-lifestyles',
   templateUrl: './lifestyles.component.html',
   styleUrls: ['./lifestyles.component.scss']
 })
-export class LifestylesComponent implements OnInit, OnDestroy {
+export class LifestylesComponent implements OnInit, OnDestroy, ComponentCanDeactivate {
 
   Lifestyles$: Observable<LifestylesDictionary>;
   Lifestyles: LifestylesDictionary = {};
-
+  unsavedChanges = false;
 
   private subs: Subscription[] = [];
 
   constructor(private lifestyleFacade: LifestylesFacade,
+              private lifestyleDatabaseApiService: LifestyleDatabaseApiService,
+              private comparer: ComparerHelpFunctionsService
   ) {
   }
 
-  private static makeDeepCopyForLocalModification(object: any) {
-    return deepCopy(object);
+  @HostListener('window:beforeunload') canDeactivate(): Observable<boolean> | boolean {
+    // insert logic to check if there are pending changes here;
+    // returning true will navigate without confirmation
+    // returning false will show a confirm dialog before navigating away
+    return !this.unsavedChanges;
   }
 
   ngOnInit(): void {
     this.Lifestyles$ = this.lifestyleFacade.getLifeStylesAll();
-
     this.setUpSubscriptions();
 
   }
@@ -74,15 +84,33 @@ export class LifestylesComponent implements OnInit, OnDestroy {
     return lifestyle.Id;
   }
 
+
   ngOnDestroy(): void {
     this.subs.map(sub => sub.unsubscribe());
   }
 
   private setUpSubscriptions() {
     this.subs.push(this.Lifestyles$.subscribe(next => {
-        this.Lifestyles = LifestylesComponent.makeDeepCopyForLocalModification(next);
+        this.Lifestyles = deepCopy(next);
+
+        this.compareLocalLifestylesWithBackend(next);
       }
     ));
+  }
+
+  private compareLocalLifestylesWithBackend(lifestyles: LifestylesDictionary) {
+    const Ids = Object.values(lifestyles).map(lifestyle => {
+      return lifestyle.Id
+    });
+
+    this.lifestyleDatabaseApiService.GetLifeStylesById(Ids).pipe(take(1)).subscribe(next => {
+      const lifestyles: Lifestyle[] = [].concat(...next);
+      const lifestyleDictionary = convertLifestyleArrayToDictionary(lifestyles);
+
+      this.unsavedChanges = this.comparer.ifLargerThan(Object.values(this.Lifestyles).length, lifestyles.length);
+      if (!this.unsavedChanges)
+        this.unsavedChanges = !this.comparer.ifEqual(this.Lifestyles, lifestyleDictionary);
+    });
   }
 
 }

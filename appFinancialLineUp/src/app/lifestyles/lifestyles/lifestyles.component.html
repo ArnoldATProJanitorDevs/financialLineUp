@@ -1,3 +1,16 @@
+<mat-card class="unsavedBox" *ngIf="unsavedChanges">
+  <span>
+    <b class="unsavedWarning">
+      WARNING: Unsaved lifestyle(s)!
+    </b>
+  </span>
+  <span>
+    <article>
+      For saving you have to download the lifestyle(s).
+    </article>
+  </span>
+</mat-card>
+
 <div class="console">
   <button mat-raised-button class="consoleItem" color="primary"
           (click)="$event.stopPropagation(); addNewLifestyle()">
@@ -5,7 +18,7 @@
     <span>&nbsp;ADD LIFESTYLE</span>
   </button>
   <button mat-raised-button class="consoleItem" color="accent"
-          (click)="$event.stopPropagation(); exportLifestyles()()">
+          (click)="$event.stopPropagation(); exportLifestyles(Lifestyles)">
     <mat-icon>save_alt</mat-icon>
     <span>&nbsp;EXPORT LIFESTYLES</span>
   </button>
@@ -19,9 +32,10 @@
     <mat-icon>share</mat-icon>
     <span>&nbsp;SHARE LIFESTYLES</span>
   </button>
-
-
 </div>
+
+
+
 <div class="lifestyleContainer">
   <div class="lifestyle" *ngFor="let Lifestyle of Lifestyles | keyvalue; trackBy: trackById">
     <app-lifestyle

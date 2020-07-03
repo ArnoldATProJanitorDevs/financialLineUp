@@ -38,8 +38,14 @@ const lifeStyleReducer = createReducer(
       return {...state}
     }
   ),
-  on(LifestylesActions.saveLifestyleToDatabaseSuccess, (state) => {
-      return {...state}
+  on(LifestylesActions.saveLifestyleToDatabaseSuccess, (state, {Lifestyles}) => {
+    const lifestylesCopy = Object.assign({}, state.Lifestyles);
+
+    Lifestyles.map(lifestyle =>
+      lifestylesCopy[lifestyle.Id] = lifestyle
+    );
+
+    return withUpdatedValues(state, {Lifestyles: lifestylesCopy});
     }
   ),
   on(LifestylesActions.saveLifestyleToDatabaseFailure, (state, {error}) => {

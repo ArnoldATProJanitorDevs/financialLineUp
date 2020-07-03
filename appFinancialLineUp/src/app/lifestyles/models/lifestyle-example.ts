@@ -14,50 +14,51 @@ export function getExampleLifestylesAsObservable() {
 
 const fixedId = uuidv4();
 const fixedId2 = uuidv4();
+const fixedId3 = uuidv4();
 
 export const ExampleLifestyles: LifestylesDictionary = {
-  ['alone']: {
-    Id: 'alone',
+  [fixedId]: {
+    Id: fixedId,
     Name: 'Alone',
     TaxRates: [42],
     Items: {
-      [fixedId]: {
-        LifestyleId: 'alone',
-        Id: fixedId,
-        Cost: 20,
-        Category: {name: 'housing', icon: 'home'},
-        Comment: "Rent"
-      },
       [fixedId2]: {
-        LifestyleId: 'alone',
+        LifestyleId: fixedId,
         Id: fixedId2,
         Cost: 20,
+        Category: {name: 'housing', icon: 'house'},
+        Comment: "Re1"
+      },
+      [fixedId3]: {
+        LifestyleId: fixedId,
+        Id: fixedId3,
+        Cost: 20,
         Category: {name: 'insurance', icon: 'security'},
-        Comment: "Rent"
+        Comment: "In1"
       }
     },
     Description: 'This is an example for ...'
   },
-  ['together']:
+  [fixedId3]:
     {
-      Id: 'together',
+      Id: fixedId3,
       Name: 'Together',
       TaxRates: [35],
       Items: {
         [fixedId]: {
-          LifestyleId: 'together',
+          LifestyleId: fixedId3,
           Id: fixedId,
           Cost: 20,
-          Category: {name: 'housing', icon: 'home'},
-          Comment: "Rent"
+          Category: {name: 'housing', icon: 'house'},
+          Comment: "Re2"
         },
         [fixedId2]:
           {
-            LifestyleId: 'together',
+            LifestyleId: fixedId3,
             Id: fixedId2,
             Cost: 20,
             Category: {name: 'groceries', icon: 'kitchen'},
-            Comment: "Food"
+            Comment: "Fo2"
           }
       },
       Description: 'This is an example for ...'

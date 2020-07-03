@@ -17,6 +17,7 @@ import {MatTableModule} from '@angular/material/table';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {LifestyleDatabaseApiService} from "./data-base-connect/lifestyle-database-api.service";
 import {AngularFirestore} from "@angular/fire/firestore";
+import {ComparerHelpFunctionsService} from "./services/comparer-help-functions.service";
 
 @NgModule({
   declarations: [],
@@ -55,7 +56,7 @@ import {AngularFirestore} from "@angular/fire/firestore";
     MatSnackBarModule,
     MatExpansionModule,
   ],
-  providers: [LifestyleDatabaseApiService, AngularFirestore]
+  providers: [LifestyleDatabaseApiService, AngularFirestore, ComparerHelpFunctionsService]
 })
 export class SharedModule {
 }

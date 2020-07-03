@@ -18,6 +18,7 @@ import {AppRouterFacade} from "./+state/app-router.facade";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {SharedModule} from "./shared/shared.module";
 import {AngularFireModule} from "@angular/fire";
+import {PendingChangesGuard} from "./shared/guards/pending-changes.guard";
 
 @NgModule({
   declarations: [
@@ -53,7 +54,7 @@ import {AngularFireModule} from "@angular/fire";
     BrowserAnimationsModule,
     SharedModule
   ],
-  providers: [AppRouterFacade],
+  providers: [AppRouterFacade, PendingChangesGuard],
   exports: [],
   bootstrap: [AppComponent]
 })

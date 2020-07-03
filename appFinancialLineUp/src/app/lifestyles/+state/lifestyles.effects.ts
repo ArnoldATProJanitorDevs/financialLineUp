@@ -19,7 +19,7 @@ export class LifestylesEffects {
       ofType(LifestylesActions.saveLifestyleToDatabase),
       map((a) => {
         this.dataBaseApiService.CreateLifeStyles(a.Lifestyles);
-        return LifestylesActions.saveLifestyleToDatabaseSuccess();
+        return LifestylesActions.saveLifestyleToDatabaseSuccess({Lifestyles: a.Lifestyles});
       }),
       catchError(errorMessage => {
         return of(LifestylesActions.saveLifestyleToDatabaseFailure({error: errorMessage}))
@@ -100,7 +100,7 @@ export class LifestylesEffects {
   }
 }
 
-function convertLifestyleArrayToDictionary(lifestyles: Lifestyle[]) {
+export function convertLifestyleArrayToDictionary(lifestyles: Lifestyle[]) {
   const dictionary: LifestylesDictionary = {};
   lifestyles.map(lifestyle => {
     dictionary[lifestyle.Id] = {

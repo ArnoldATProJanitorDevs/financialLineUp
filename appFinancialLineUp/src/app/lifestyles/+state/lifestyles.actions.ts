@@ -33,6 +33,8 @@ export const saveLifestyleToDatabase = createAction(
 
 export const saveLifestyleToDatabaseSuccess = createAction(
   '[Lifestyles] Save Lifestyles to Database Success',
+  props<{ Lifestyles: Lifestyle[] }>()
+
 );
 
 export const saveLifestyleToDatabaseFailure = createAction(
