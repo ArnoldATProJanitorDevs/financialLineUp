@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ComparerHelpFunctionsService } from './comparer-help-functions.service';
+import { LifestyleComparingService } from './lifestyle-comparing.service';
 
 describe('ComparerHelpFunctionsService', () => {
-  let service: ComparerHelpFunctionsService;
+  let service: LifestyleComparingService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ComparerHelpFunctionsService);
+    service = TestBed.inject(LifestyleComparingService);
   });
 
   it('should be created', () => {

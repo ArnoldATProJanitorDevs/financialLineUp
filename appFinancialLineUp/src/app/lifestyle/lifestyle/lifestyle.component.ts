@@ -8,6 +8,8 @@ import {take} from "rxjs/operators";
 import {deepCopy} from "../../shared/globals/deep-copy";
 import {Lifestyle} from "../models/lifestyle.interface";
 import {ItemDictionary} from "../../items/models/itemDictionary.interface";
+import {ExportDialogComponent} from "../../shared/modalDialog/export-dialog.component";
+import {MatDialog} from "@angular/material/dialog";
 
 const fixedId = uuidv4();
 
@@ -35,8 +37,12 @@ export class LifestyleComponent {
   };
 
   isEdit = false;
+  sharingAvailable = false;
 
-  constructor(private lifestyleFacade: LifestylesFacade) {
+  constructor(
+    private lifestyleFacade: LifestylesFacade,
+    public dialog: MatDialog
+  ) {
   }
 
 
@@ -61,8 +67,27 @@ export class LifestyleComponent {
     this.lifestyleFacade.updateLifestyles(this.Lifestyle)
   }
 
+  openDialog(): void {
+    const dialogRef = this.dialog.open(ExportDialogComponent, {
+      width: '650px',
+      data: {}
+    });
+
+    this.handleDialogReturn(dialogRef);
+  }
+
+  private handleDialogReturn(dialogRef) {
+    dialogRef.afterClosed().subscribe(result => {
+      if (result?.export)
+        this.exportLifestyle(this.Lifestyle);
+    });
+  }
+
   private shareLifestyles(lifestyle: Lifestyle) {
-    this.lifestyleFacade.pushLifeStyleIntoCloud([lifestyle]);
+    if (this.sharingAvailable)
+      this.lifestyleFacade.pushLifeStyleIntoCloud([lifestyle]);
+    else
+      this.openDialog();
   }
 
   private duplicateLifestyle(lifestyle: Lifestyle) {

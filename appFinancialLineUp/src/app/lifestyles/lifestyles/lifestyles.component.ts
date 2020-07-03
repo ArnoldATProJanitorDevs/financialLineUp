@@ -1,4 +1,4 @@
-import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
+import {Component, HostListener, Inject, OnDestroy, OnInit} from '@angular/core';
 import {LifestylesFacade} from "../+state/lifestyles.facade";
 import {Observable, Subscription} from "rxjs";
 import {v4 as uuidv4} from 'uuid';
@@ -9,8 +9,9 @@ import {ComponentCanDeactivate} from "../../shared/guards/pending-changes.guard"
 import {LifestyleDatabaseApiService} from "../../shared/data-base-connect/lifestyle-database-api.service";
 import {take} from "rxjs/operators";
 import {convertLifestyleArrayToDictionary} from "../+state/lifestyles.effects";
-import {ComparerHelpFunctionsService} from "../../shared/services/comparer-help-functions.service";
-
+import {LifestyleComparingService} from "../../shared/services/lifestyle-comparing.service";
+import {MatDialog} from "@angular/material/dialog";
+import {ExportDialogComponent, ExportDialogReturn} from "../../shared/modalDialog/export-dialog.component";
 
 @Component({
   selector: 'app-lifestyles',
@@ -22,12 +23,13 @@ export class LifestylesComponent implements OnInit, OnDestroy, ComponentCanDeact
   Lifestyles$: Observable<LifestylesDictionary>;
   Lifestyles: LifestylesDictionary = {};
   unsavedChanges = false;
-
+  sharingAvailable = false;
   private subs: Subscription[] = [];
 
   constructor(private lifestyleFacade: LifestylesFacade,
               private lifestyleDatabaseApiService: LifestyleDatabaseApiService,
-              private comparer: ComparerHelpFunctionsService
+              private comparer: LifestyleComparingService,
+              public dialog: MatDialog
   ) {
   }
 
@@ -69,24 +71,46 @@ export class LifestylesComponent implements OnInit, OnDestroy, ComponentCanDeact
   }
 
   exportLifestyles(lifestyles: LifestylesDictionary) {
-
+    //TODO: Implement EXPORT service
+    console.log(lifestyles);
   }
 
   importLifestyles() {
-
+    //TODO: Implement IMPORT service
+    console.log("IMPORT");
   }
 
   shareLifestyles() {
-    this.lifestyleFacade.pushLifeStyleIntoCloud(Object.values(this.Lifestyles));
+    if (this.sharingAvailable)
+      this.lifestyleFacade.pushLifeStyleIntoCloud(Object.values(this.Lifestyles));
+    else
+      this.openDialog();
+
   }
+
 
   trackById(lifestyle: Lifestyle): string {
     return lifestyle.Id;
   }
 
+  openDialog(): void {
+    const dialogRef = this.dialog.open(ExportDialogComponent, {
+      width: '650px',
+      data: {}
+    });
+
+    this.handleDialogReturn(dialogRef);
+  }
 
   ngOnDestroy(): void {
     this.subs.map(sub => sub.unsubscribe());
+  }
+
+  private handleDialogReturn(dialogRef) {
+    dialogRef.afterClosed().subscribe(result => {
+      if (result?.export)
+        this.exportLifestyles(this.Lifestyles);
+    });
   }
 
   private setUpSubscriptions() {
@@ -114,3 +138,5 @@ export class LifestylesComponent implements OnInit, OnDestroy, ComponentCanDeact
   }
 
 }
+
+

@@ -19,6 +19,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {SharedModule} from "./shared/shared.module";
 import {AngularFireModule} from "@angular/fire";
 import {PendingChangesGuard} from "./shared/guards/pending-changes.guard";
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import {PendingChangesGuard} from "./shared/guards/pending-changes.guard";
     StoreRouterConnectingModule.forRoot({stateKey: 'router'}),
     LifestylesModule,
     BrowserAnimationsModule,
-    SharedModule
+    SharedModule,
+    MatDialogModule
   ],
   providers: [AppRouterFacade, PendingChangesGuard],
   exports: [],

@@ -6,7 +6,7 @@ import {Lifestyle} from "../../lifestyle/models/lifestyle.interface";
 @Injectable({
   providedIn: 'root'
 })
-export class ComparerHelpFunctionsService {
+export class LifestyleComparingService {
 
   constructor() { }
 

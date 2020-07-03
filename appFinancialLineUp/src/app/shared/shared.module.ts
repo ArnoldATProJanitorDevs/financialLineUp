@@ -17,10 +17,11 @@ import {MatTableModule} from '@angular/material/table';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {LifestyleDatabaseApiService} from "./data-base-connect/lifestyle-database-api.service";
 import {AngularFirestore} from "@angular/fire/firestore";
-import {ComparerHelpFunctionsService} from "./services/comparer-help-functions.service";
+import {LifestyleComparingService} from "./services/lifestyle-comparing.service";
+import {ExportDialogComponent} from "./modalDialog/export-dialog.component";
 
 @NgModule({
-  declarations: [],
+  declarations: [ExportDialogComponent],
   imports: [
     MatInputModule,
     MatCardModule,
@@ -56,7 +57,7 @@ import {ComparerHelpFunctionsService} from "./services/comparer-help-functions.s
     MatSnackBarModule,
     MatExpansionModule,
   ],
-  providers: [LifestyleDatabaseApiService, AngularFirestore, ComparerHelpFunctionsService]
+  providers: [LifestyleDatabaseApiService, AngularFirestore, LifestyleComparingService]
 })
 export class SharedModule {
 }
