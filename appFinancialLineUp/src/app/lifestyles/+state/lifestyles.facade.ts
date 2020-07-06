@@ -93,4 +93,8 @@ export class LifestylesFacade {
     this.dispatch(LifestyleActions.deleteLifestyleItem({Item: Item}))
   }
 
+  exportLifestyles(Lifestyles: Lifestyle[]){
+    this.dispatch(LifestyleActions.exportLifestyles({Lifestyles: Lifestyles}))
+  }
+
 }

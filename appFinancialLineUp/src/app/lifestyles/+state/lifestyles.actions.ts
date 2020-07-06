@@ -8,21 +8,21 @@ import {CategoryGroups} from "../../shared/categories/category-groups.interface"
 
 export const updateLifestyle = createAction(
   '[Lifestyles] Update Lifestyle',
-  props<{ Lifestyle: Lifestyle}>()
+  props<{ Lifestyle: Lifestyle }>()
 );
 export const updateLifestyleTaxes = createAction(
   '[Lifestyles] Update Lifestyle Taxes',
-  props<{ LifestyleId: string, Taxes: number[]}>()
+  props<{ LifestyleId: string, Taxes: number[] }>()
 );
 
 export const updateLifestyleItems = createAction(
   '[Lifestyles] Update Lifestyle Items',
-  props<{ Items: Item[]}>()
+  props<{ Items: Item[] }>()
 );
 
 export const deleteLifestyleItem = createAction(
   '[Lifestyles] Delete Lifestyle Items',
-  props<{ Item: Item}>()
+  props<{ Item: Item }>()
 );
 
 
@@ -34,7 +34,6 @@ export const saveLifestyleToDatabase = createAction(
 export const saveLifestyleToDatabaseSuccess = createAction(
   '[Lifestyles] Save Lifestyles to Database Success',
   props<{ Lifestyles: Lifestyle[] }>()
-
 );
 
 export const saveLifestyleToDatabaseFailure = createAction(
@@ -115,3 +114,18 @@ export const getCategoryGroupsFailure = createAction(
   props<{ error: any }>()
 );
 
+
+export const exportLifestyles = createAction(
+  '[Lifestyles] Export Lifestyles',
+  props<{ Lifestyles: Lifestyle[] }>()
+);
+
+export const exportLifestylesSuccess = createAction(
+  '[Lifestyles] Export Lifestyles Success'
+
+);
+
+export const exportLifestylesFailure = createAction(
+  '[Lifestyles] Export Lifestyles Failure',
+  props<{ error: any }>()
+);

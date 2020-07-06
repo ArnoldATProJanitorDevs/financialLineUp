@@ -118,7 +118,7 @@ export class LifestyleComponent {
 
   private exportLifestyle(lifestyle: Lifestyle) {
     this.lifestyleFacade.getLifeStyleById(lifestyle.Id).pipe(take(1)).subscribe(
-      next => console.log("Export:", lifestyle)
+      next => this.lifestyleFacade.exportLifestyles([next])
     )
   }
 

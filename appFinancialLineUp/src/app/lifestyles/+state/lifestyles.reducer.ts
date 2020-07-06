@@ -1,7 +1,8 @@
 import {
   Action,
   createReducer,
-  MetaReducer, on,} from '@ngrx/store';
+  MetaReducer, on,
+} from '@ngrx/store';
 import {environment} from "../../../environments/environment.prod";
 import {createEntityAdapter, EntityAdapter, EntityState} from "@ngrx/entity";
 import {LifeStylesEntity} from "./lifestyles.model";
@@ -39,13 +40,13 @@ const lifeStyleReducer = createReducer(
     }
   ),
   on(LifestylesActions.saveLifestyleToDatabaseSuccess, (state, {Lifestyles}) => {
-    const lifestylesCopy = Object.assign({}, state.Lifestyles);
+      const lifestylesCopy = Object.assign({}, state.Lifestyles);
 
-    Lifestyles.map(lifestyle =>
-      lifestylesCopy[lifestyle.Id] = lifestyle
-    );
+      Lifestyles.map(lifestyle =>
+        lifestylesCopy[lifestyle.Id] = lifestyle
+      );
 
-    return withUpdatedValues(state, {Lifestyles: lifestylesCopy});
+      return withUpdatedValues(state, {Lifestyles: lifestylesCopy});
     }
   ),
   on(LifestylesActions.saveLifestyleToDatabaseFailure, (state, {error}) => {
@@ -156,6 +157,20 @@ const lifeStyleReducer = createReducer(
     }
   ),
   on(LifestylesActions.getCategoryGroupsFailure, (state, {error}) => {
+      return {...state, error}
+    }
+  ),
+
+
+  on(LifestylesActions.exportLifestyles, (state, action) => {
+      return {...state}
+    }
+  ),
+  on(LifestylesActions.exportLifestylesSuccess, (state) => {
+      return {...state}
+    }
+  ),
+  on(LifestylesActions.exportLifestylesFailure, (state, {error}) => {
       return {...state, error}
     }
   ),

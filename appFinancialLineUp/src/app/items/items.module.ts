@@ -13,7 +13,7 @@ import {FormsModule} from "@angular/forms";
     CommonModule,
     ToggleIconButtonModule,
     SharedModule,
-    FormsModule
+    FormsModule,
   ]
 })
 export class ItemsModule{

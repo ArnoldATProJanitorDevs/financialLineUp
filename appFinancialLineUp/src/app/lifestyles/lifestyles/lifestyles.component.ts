@@ -71,8 +71,7 @@ export class LifestylesComponent implements OnInit, OnDestroy, ComponentCanDeact
   }
 
   exportLifestyles(lifestyles: LifestylesDictionary) {
-    //TODO: Implement EXPORT service
-    console.log(lifestyles);
+    this.lifestyleFacade.exportLifestyles(Object.values(lifestyles))
   }
 
   importLifestyles() {

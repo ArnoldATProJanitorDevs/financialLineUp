@@ -9,6 +9,8 @@ import {LifestylesDictionary} from "../models/lifestylesDictionary.interface";
 import {getCategoriesAsObservable} from "../../shared/categories/categories";
 import {getExampleLifestylesAsObservable} from "../models/lifestyle-example";
 import {getCategoryGroupsAsObservable, mapCategoriesToGroups} from "../../shared/categories/category-groups.service";
+import {ExportService} from "../../export/export.service";
+import {ExportLifestylesService} from "../../export/export-lifestyles.service";
 
 @Injectable()
 export class LifestylesEffects {
@@ -95,7 +97,22 @@ export class LifestylesEffects {
       )))
   });
 
-  constructor(private actions$: Actions, private dataBaseApiService: LifestyleDatabaseApiService) {
+  exportLifestyles$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(LifestylesActions.exportLifestyles),
+      map((a) => {
+          const dataToExport = this.exportLifestyleService.cleanDataStructureForExport(a.Lifestyles);
+          this.exportLifestyleService.downloadLifestylesForEachAFile(dataToExport);
+          return LifestylesActions.exportLifestylesSuccess();
+        }
+      ),
+      catchError(errorMessage => {
+        return of(LifestylesActions.exportLifestylesFailure({error: errorMessage}))
+      })
+    )
+  });
+
+  constructor(private actions$: Actions, private dataBaseApiService: LifestyleDatabaseApiService, private exportLifestyleService: ExportLifestylesService) {
   }
 }
 

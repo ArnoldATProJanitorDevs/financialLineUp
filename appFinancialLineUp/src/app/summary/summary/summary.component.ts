@@ -7,6 +7,7 @@ import {deepCopy} from "../../shared/globals/deep-copy";
 import {LifestylesFacade} from "../../lifestyles/+state/lifestyles.facade";
 import {combineLatest, Subscription} from "rxjs";
 import {Lifestyle} from "../../lifestyle/models/lifestyle.interface";
+import {ExpensesCalculationService} from "../expenses-calculation.service";
 
 @Component({
   selector: 'app-summary',
@@ -24,7 +25,9 @@ export class SummaryComponent {
   private _lifestyleId: string;
   private subs: Subscription[] = [];
 
-  constructor(private lifestyleFacade: LifestylesFacade) {
+  constructor(private lifestyleFacade: LifestylesFacade,
+              private expensesCalculationService: ExpensesCalculationService
+              ) {
   }
 
   get LifestyleId(): string {
@@ -38,10 +41,6 @@ export class SummaryComponent {
     this.setSubscriptionOnInputChange();
   }
 
-  private static calculatePercentage(amount: number, percentageInteger: number): number {
-    return roundToTwo(amount / ((100 - percentageInteger) * 0.01));
-  }
-
   setUpSubscriptions() {
 
     this.subs.push(combineLatest(
@@ -49,36 +48,10 @@ export class SummaryComponent {
         this.lifestyleFacade.getLifeStyleById(this.LifestyleId)],
       (items, lifestyle) => {
         this.TaxRates = deepCopy(lifestyle?.TaxRates || []) as number[];
-        this.calculateExpenses(Object.values(items), this.TaxRates);
+        this.IncomeNeeds = this.expensesCalculationService.calculateExpenses(Object.values(items), this.TaxRates);
 
       }
     ).subscribe());
-  }
-
-  private calculateExpenses(Items: Item[], TaxRates: number[]) {
-
-    const DAILYMULTIPLIER = 1 / 30;
-    const WEEKLYMULTIPLIER = 1 / 4;
-    const MONTHLYMULTIPLIER = 1;
-    const YEARLYMULTIPLIER = 12;
-
-    const monthlyExpensesBeforeTaxes = Items.length > 0 ? Items.map(item => item.Cost)?.reduce((accumulator, currentValue) => accumulator + currentValue) : 0;
-
-    this.IncomeNeeds.BeforeTaxes.Daily = monthlyExpensesBeforeTaxes * DAILYMULTIPLIER;
-    this.IncomeNeeds.BeforeTaxes.Weekly = monthlyExpensesBeforeTaxes * WEEKLYMULTIPLIER;
-    this.IncomeNeeds.BeforeTaxes.Monthly = monthlyExpensesBeforeTaxes * MONTHLYMULTIPLIER;
-    this.IncomeNeeds.BeforeTaxes.Yearly = monthlyExpensesBeforeTaxes * YEARLYMULTIPLIER;
-
-    this.IncomeNeeds.AfterTaxes = TaxRates?.map((taxrate): ExpensesInterface => {
-      const monthlyExpensesAfterTaxes = SummaryComponent.calculatePercentage(monthlyExpensesBeforeTaxes, taxrate);
-
-      return {
-        Daily: monthlyExpensesAfterTaxes * DAILYMULTIPLIER,
-        Weekly: monthlyExpensesAfterTaxes * WEEKLYMULTIPLIER,
-        Monthly: monthlyExpensesAfterTaxes * MONTHLYMULTIPLIER,
-        Yearly: monthlyExpensesAfterTaxes * YEARLYMULTIPLIER
-      }
-    });
   }
 
   private setSubscriptionOnInputChange() {

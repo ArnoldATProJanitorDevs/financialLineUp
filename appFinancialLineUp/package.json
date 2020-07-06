@@ -31,11 +31,13 @@
     "@ngrx/store": "^9.2.0",
     "@ngrx/store-devtools": "^9.2.0",
     "core-js": "^2.5.4",
+    "file-saver": "^2.0.2",
+    "firebase": ">= 5.5.7 <8",
     "rxjs": "~6.3.3",
+    "save-as": "^0.1.8",
     "tslib": "^1.13.0",
     "uuid": "^8.1.0",
-    "zone.js": "~0.8.26",
-    "firebase": ">= 5.5.7 <8"
+    "zone.js": "~0.8.26"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.901.7",
