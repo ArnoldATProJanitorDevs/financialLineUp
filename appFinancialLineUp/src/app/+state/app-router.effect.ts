@@ -7,6 +7,7 @@ import {LocationStrategy} from '@angular/common';
 import {routerNavigationAction} from '@ngrx/router-store';
 import * as RouteActions from './app-router.actions';
 import * as LifeStyleActions from '../lifestyles/+state/lifestyles.actions';
+import {routerGo} from "./app-router.actions";
 
 
 
@@ -65,7 +66,8 @@ function getQueryParamsOfParam(compareTo , relativeUrl) {
     if (qp.Name == compareTo)
       qp.Params.map(qpp => lifestyleIds.push(qpp));
   });
-  return lifestyleIds;
+
+  return relativeUrl.queryParams[0].Params;
 }
 
 @Injectable()
@@ -93,7 +95,11 @@ export class AppRouterEffects {
           if (relativeUrl.pathSegments.includes(AppRouteNames.LifeStyles)) {
             if (!relativeUrl.queryParams) {
               actionArray.push(
-                LifeStyleActions.getExampleLifestyles()
+                routerGo({
+                  path: ['lifestyles'],
+                  queryParams: {ids: '3f749798-7505-41a6-ac60-1bc81773fc4b~da472560-9380-4487-a742-735c80fd3c93'}
+                })
+                // LifeStyleActions.getExampleLifestyles()
               );
             } else {
               actionArray.push(
