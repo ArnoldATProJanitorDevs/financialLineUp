@@ -20,6 +20,7 @@ import {SharedModule} from "./shared/shared.module";
 import {AngularFireModule} from "@angular/fire";
 import {PendingChangesGuard} from "./shared/guards/pending-changes.guard";
 import {MatDialogModule} from "@angular/material/dialog";
+import {AngularFirestoreModule} from "@angular/fire/firestore";
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import {MatDialogModule} from "@angular/material/dialog";
   imports: [
     BrowserModule,
     AppRoutingModule,
+    AngularFirestoreModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
     EffectsModule.forRoot([AppComponentEffects, AppRouterEffects]),
