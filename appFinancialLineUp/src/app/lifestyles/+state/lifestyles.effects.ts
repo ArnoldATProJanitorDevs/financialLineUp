@@ -5,11 +5,10 @@ import {catchError, map, switchMap, take} from "rxjs/operators";
 import {of} from "rxjs";
 import {Lifestyle} from "../../lifestyle/models/lifestyle.interface";
 import {LifestyleDatabaseApiService} from "../../shared/data-base-connect/lifestyle-database-api.service";
-
 import {LifestylesDictionary} from "../models/lifestylesDictionary.interface";
 import {getCategoriesAsObservable} from "../../shared/categories/categories";
 import {getExampleLifestylesAsObservable} from "../models/lifestyle-example";
-import {getCategoryGroupsAsObservable, mapCategoriesToGroups} from "../../shared/categories/category-groups";
+import {getCategoryGroupsAsObservable, mapCategoriesToGroups} from "../../shared/categories/category-groups.service";
 
 @Injectable()
 export class LifestylesEffects {
