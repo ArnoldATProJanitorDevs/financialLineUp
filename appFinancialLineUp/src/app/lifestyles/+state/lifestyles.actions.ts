@@ -44,7 +44,7 @@ export const saveLifestyleToDatabaseFailure = createAction(
 
 export const deleteLifestylesLocalAndDatabase = createAction(
   '[Lifestyles] Delete Lifestyles Local and Database',
-  props<{ Lifestyles: Lifestyle[] }>()
+  props<{ Lifestyles: Lifestyle[], onlyLocal: boolean }>()
 );
 
 export const deleteLifestylesLocalAndDatabaseSuccess = createAction(

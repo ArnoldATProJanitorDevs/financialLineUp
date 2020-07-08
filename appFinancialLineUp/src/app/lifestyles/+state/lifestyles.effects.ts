@@ -32,7 +32,9 @@ export class LifestylesEffects {
     return this.actions$.pipe(
       ofType(LifestylesActions.deleteLifestylesLocalAndDatabase),
       map((a) => {
-        a.Lifestyles.map(ls => this.dataBaseApiService.DeleteLifeStyle(ls.Id));
+        if(!a.onlyLocal)
+          a.Lifestyles.map(ls => this.dataBaseApiService.DeleteLifeStyle(ls.Id));
+
         return LifestylesActions.deleteLifestylesLocalAndDatabaseSuccess({Lifestyles: a.Lifestyles});
       }),
       catchError(errorMessage => {

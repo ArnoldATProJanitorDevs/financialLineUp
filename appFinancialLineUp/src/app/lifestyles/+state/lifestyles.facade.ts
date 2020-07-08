@@ -64,8 +64,8 @@ export class LifestylesFacade {
     this.dispatch(LifestyleActions.saveLifestyleToDatabase({Lifestyles: lifestyles}))
   }
 
-  deleteLifestyle(lifestyle: Lifestyle[]) {
-    this.dispatch(LifestyleActions.deleteLifestylesLocalAndDatabase({Lifestyles: lifestyle}))
+  deleteLifestyle(lifestyle: Lifestyle[], onlyLocal: boolean) {
+    this.dispatch(LifestyleActions.deleteLifestylesLocalAndDatabase({Lifestyles: lifestyle, onlyLocal: onlyLocal}))
   }
 
 

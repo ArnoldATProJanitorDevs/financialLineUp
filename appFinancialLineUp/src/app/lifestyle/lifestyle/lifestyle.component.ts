@@ -38,6 +38,7 @@ export class LifestyleComponent {
 
   isEdit = false;
   sharingAvailable = false;
+  onlyLocalDeletion = true;
 
   constructor(
     private lifestyleFacade: LifestylesFacade,
@@ -113,7 +114,7 @@ export class LifestyleComponent {
   }
 
   private deleteLifeStyle(lifestyle: Lifestyle) {
-    this.lifestyleFacade.deleteLifestyle([lifestyle]);
+    this.lifestyleFacade.deleteLifestyle([lifestyle], this.onlyLocalDeletion);
   }
 
   private exportLifestyle(lifestyle: Lifestyle) {

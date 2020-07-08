@@ -97,7 +97,7 @@ export class AppRouterEffects {
               actionArray.push(
                 routerGo({
                   path: ['lifestyles'],
-                  queryParams: {ids: '3f749798-7505-41a6-ac60-1bc81773fc4b~da472560-9380-4487-a742-735c80fd3c93'}
+                  queryParams: {ids: '0557ce12-dd98-4961-bc1f-a31345165706~e3553af1-553b-4171-8654-003146fc440a'}
                 })
                 // LifeStyleActions.getExampleLifestyles()
               );
