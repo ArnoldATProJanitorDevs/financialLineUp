@@ -39,4 +39,68 @@
       color: mat-color($accent, 700);
     }
   }
+
+
+  mat-header-cell, mat-cell, .mat-card {
+    background-color: mat-color($primary, 700);
+  }
+
+  .mat-cell:last-of-type, .mat-footer-cell:last-of-type, .mat-header-cell:last-of-type {
+    padding-right: 0;
+    flex: 0.5;
+  }
+  .mat-cell:first-of-type, .mat-footer-cell:first-of-type, .mat-header-cell:first-of-type {
+    padding-left: 14px;
+    flex: 0.8;
+  }
+  .mat-form-field-infix {
+    width: auto !important;
+  }
+
+  .mat-column-Comment {
+    padding-right: 10px;
+  }
+  //.mat-header-row:hover, .mat-row:hover,.mat-footer-row:hover {
+  //  background-color: mat-color($accent,800);
+  //}
+
+  .mat-cell, .mat-footer-cell, .mat-header-cell {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    word-wrap: break-word;
+    min-height: inherit;
+    justify-content: space-between;
+  }
+
+  .page {
+    background-color: mat-color($primary, 200);
+  }
+
+  .mat-footer-row, .mat-header-row, .mat-row {
+    align-items: normal;
+  }
+
+  .lifestyleContainer {
+    background-color: mat-color($primary, 200);
+  }
+
+  .unsavedBox {
+    background-color: mat-color($accent, 400);
+  }
+
+  .mat-input-element {
+    height: 1.2rem;
+  }
+  .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+    padding-bottom: 0.7em;
+  }
+
+  .mat-form-field-appearance-legacy .mat-form-field-infix {
+    padding: 0.4375em 0;
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+  }
 }

@@ -11,7 +11,7 @@
   $foreground: map-get($theme, foreground);
 
   .headerDiv {
-    background-color: mat-color($md-primary, 800);
+    background-color: mat-color($md-primary, 900);
     -webkit-box-shadow: 0px 5px 20px 0px rgba(41, 41, 41, 1);
     -moz-box-shadow: 0px 5px 20px 0px rgba(41, 41, 41, 1);
     box-shadow: 0px 5px 20px 0px rgba(41, 41, 41, 1);

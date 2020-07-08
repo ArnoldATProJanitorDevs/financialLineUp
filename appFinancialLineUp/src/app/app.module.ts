@@ -58,6 +58,7 @@ import {NavbarModule} from "./navbar/navbar.module";
     BrowserAnimationsModule,
     SharedModule,
     NavbarModule,
+    MatDialogModule,
   ],
   providers: [AppRouterFacade, PendingChangesGuard],
   exports: [],

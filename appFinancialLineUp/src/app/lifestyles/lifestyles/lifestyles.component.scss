@@ -32,11 +32,10 @@
   align-items: center;
   padding: 15px;
   align-self: center;
-  background-color: lightgoldenrodyellow;
 }
 
 .unsavedWarning {
-  color: red;
+  color: #ff5666;
   animation: flashy;
   animation-duration: 5s;
   animation-iteration-count:infinite;
@@ -44,8 +43,8 @@
 
 
 @keyframes flashy {
-  25%  {color: red;}
-  50%  {color: black;}
-  75%  {color: red;}
+  25%  {color: #ff5666; }
+  50%  {color: black;   }
+  75%  {color: #ff5666; }
 }
 
