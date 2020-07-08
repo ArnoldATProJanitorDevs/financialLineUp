@@ -13,9 +13,9 @@
 
 <div class="console">
   <button mat-raised-button class="consoleItem" color="primary"
-          (click)="$event.stopPropagation(); addNewLifestyle()">
+          (click)="$event.stopPropagation(); HandleAddNewLifestyleButton()">
     <mat-icon>add</mat-icon>
-    <span>&nbsp;ADD LIFESTYLE</span>
+    <span>&nbsp;ADD LIFESTYLE {{lifestylesCount}}/{{limitLifestyles}}</span>
   </button>
   <button mat-raised-button class="consoleItem" color="accent"
           (click)="$event.stopPropagation(); exportLifestyles(Lifestyles)">

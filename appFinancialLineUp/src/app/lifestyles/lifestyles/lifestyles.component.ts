@@ -25,6 +25,8 @@ export class LifestylesComponent implements OnInit, OnDestroy, ComponentCanDeact
   unsavedChanges = false;
   sharingAvailable = false;
   private subs: Subscription[] = [];
+  private limitLifestyles = 5;
+  private lifestylesCount: number = 0;
 
   constructor(private lifestyleFacade: LifestylesFacade,
               private lifestyleDatabaseApiService: LifestyleDatabaseApiService,
@@ -47,7 +49,16 @@ export class LifestylesComponent implements OnInit, OnDestroy, ComponentCanDeact
   }
 
 
+  HandleAddNewLifestyleButton() {
+    if (this.lifestylesCount >= this.limitLifestyles)
+      return;
+
+    this.addNewLifestyle();
+  }
+
   addNewLifestyle() {
+
+
     const lifestyleId = uuidv4();
     const itemId = uuidv4();
 
@@ -105,6 +116,7 @@ export class LifestylesComponent implements OnInit, OnDestroy, ComponentCanDeact
     this.subs.map(sub => sub.unsubscribe());
   }
 
+
   private handleDialogReturn(dialogRef) {
     dialogRef.afterClosed().subscribe(result => {
       if (result?.export)
@@ -115,6 +127,7 @@ export class LifestylesComponent implements OnInit, OnDestroy, ComponentCanDeact
   private setUpSubscriptions() {
     this.subs.push(this.Lifestyles$.subscribe(next => {
         this.Lifestyles = deepCopy(next);
+        this.lifestylesCount = Object.values(this.Lifestyles).length;
 
         this.compareLocalLifestylesWithBackend(next);
       }
@@ -135,7 +148,6 @@ export class LifestylesComponent implements OnInit, OnDestroy, ComponentCanDeact
         this.unsavedChanges = !this.comparer.ifEqual(this.Lifestyles, lifestyleDictionary);
     });
   }
-
 }
 
 
