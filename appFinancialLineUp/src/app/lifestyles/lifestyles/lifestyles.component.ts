@@ -25,8 +25,8 @@ export class LifestylesComponent implements OnInit, OnDestroy, ComponentCanDeact
   unsavedChanges = false;
   sharingAvailable = false;
   private subs: Subscription[] = [];
-  private limitLifestyles = 5;
-  private lifestylesCount: number = 0;
+  limitLifestyles = 5;
+  lifestylesCount: number = 0;
 
   constructor(private lifestyleFacade: LifestylesFacade,
               private lifestyleDatabaseApiService: LifestyleDatabaseApiService,
