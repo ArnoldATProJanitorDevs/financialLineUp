@@ -36,13 +36,13 @@
     color: white;
 
     &:hover {
-      color: mat-color($accent, 700);
+      color: mat-color($accent, 600);
     }
   }
 
 
-  mat-header-cell, mat-cell, .mat-card {
-    background-color: mat-color($primary, 700);
+  mat-header-cell, mat-cell, .mat-card ,.mat-select-panel:not([class*='mat-elevation-z']) {
+    background-color: mat-color($primary, 200);
   }
 
   .mat-cell:last-of-type, .mat-footer-cell:last-of-type, .mat-header-cell:last-of-type {
@@ -51,7 +51,7 @@
   }
   .mat-cell:first-of-type, .mat-footer-cell:first-of-type, .mat-header-cell:first-of-type {
     padding-left: 14px;
-    flex: 0.8;
+    flex: 0.5;
   }
   .mat-form-field-infix {
     width: auto !important;
@@ -60,9 +60,6 @@
   .mat-column-Comment {
     padding-right: 10px;
   }
-  //.mat-header-row:hover, .mat-row:hover,.mat-footer-row:hover {
-  //  background-color: mat-color($accent,800);
-  //}
 
   .mat-cell, .mat-footer-cell, .mat-header-cell {
     flex: 1;
@@ -75,7 +72,7 @@
   }
 
   .page {
-    background-color: mat-color($primary, 200);
+    background-color: mat-color($primary, 100);
   }
 
   .mat-footer-row, .mat-header-row, .mat-row {
@@ -102,5 +99,27 @@
     display: flex;
     flex-direction: row;
     align-items: baseline;
+  }
+
+  .cdk-column-Category {
+    padding-right: 10px !important;
+  }
+
+
+
+
+  .mat-select-panel .mat-option.mat-selected:not(.mat-option-multiple) {
+    background-color: mat-color($accent, 600);
+  }
+
+  .mat-option:hover:not(.mat-option-disabled), .mat-option:focus:not(.mat-option-disabled) {
+    background: mat-color($accent, 400);
+  }
+
+  ::selection {
+    background: mat-color($accent, 600);
+  }
+  ::-moz-selection {
+    background: mat-color($accent, 600);
   }
 }

@@ -14,21 +14,10 @@
 
     background-color: mat-color($primary, 200);
 
-    //#firstIcon  {
-    //  .iconImage {
-    //    border: none;
-    //    border-radius: 0px;
-    //  }
-    //}
-    //
-    //.iconImage {
-    //  border-radius: 100px;
-    //  border: 5px solid mat-color($accent, 500);
-    //}
   }
 
   mat-expansion-panel:hover {
-    background-color: mat-color($primary, 800 , 0.7 );
+    background-color: mat-color($primary, 300);
   }
 
 
