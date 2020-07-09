@@ -10,7 +10,7 @@ import {loadAppComponent} from "./+state/app-component.actions";
 })
 export class AppComponent implements OnInit{
   title = 'Financial Line Up';
-  subTitle = 'Plan your financial Lifestyle/s';
+  subTitle = 'Financial Lifestyle Planner';
 
 
   constructor(private store: Store<AppComponentPartialState>) {
