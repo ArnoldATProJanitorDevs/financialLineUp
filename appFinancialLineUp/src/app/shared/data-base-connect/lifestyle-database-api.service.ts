@@ -71,7 +71,7 @@ export class LifestyleDatabaseApiService {
   }
 
   UpdateLifeStyle(lifestyle: Lifestyle) {
-    this.db.collection("lifestyles").doc(lifestyle.Id).set(lifestyle, {merge: true});
+    this.db.collection("lifestyles").doc(lifestyle.Id).set(lifestyle, {merge: false});
   }
 
   DeleteLifeStyle(Id: uuidv4) {
