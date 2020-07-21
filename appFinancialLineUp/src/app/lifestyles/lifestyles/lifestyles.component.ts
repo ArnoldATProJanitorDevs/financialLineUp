@@ -145,6 +145,7 @@ export class LifestylesComponent implements OnInit, OnDestroy, ComponentCanDeact
       const lifestyleDictionary = convertLifestyleArrayToDictionary(lifestyles);
 
       this.unsavedChanges = this.comparer.ifLargerThan(Object.values(this.Lifestyles).length, lifestyles.length);
+
       if (!this.unsavedChanges)
         this.unsavedChanges = !this.comparer.ifEqual(this.Lifestyles, lifestyleDictionary);
     });

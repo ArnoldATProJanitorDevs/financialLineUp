@@ -1,0 +1,35 @@
+<div class="legislationContainer">
+  <div class="legislation">
+    <div class="imPrint linkWithoutAccentColor" (click)="navigateTo('imprint')">
+      Imprint
+    </div>
+    &nbsp; / &nbsp;
+    <div class="privacyDisclaimer linkWithoutAccentColor" (click)="navigateTo('privacy-disclaimer')">
+      Privacy Disclaimer
+    </div>
+    &nbsp; / &nbsp;
+    <div class="termsAndConditions linkWithoutAccentColor" (click)="navigateTo('tac')">
+      Terms and Conditions
+    </div>
+  </div>
+
+  <div class="note">
+    <article>
+      This website does not use tracking-cookies and does not load content from any other site in the web.
+      Because of that I don't have to annoy you with a cookie-usage-popup.
+      I am saving and processing data in compliance with the rules of the european government and especially
+      with the rules of germany.
+      Which data I am gathering and processing is written inside my
+      <a class="link" (click)="navigateTo('privacy-disclaimer')"> Privacy Disclaimer</a>&nbsp;.
+    </article>
+  </div>
+
+  <p></p>
+
+  <div class="note">
+    Version
+    <br>
+    {{versionNumber}}
+  </div>
+
+</div>

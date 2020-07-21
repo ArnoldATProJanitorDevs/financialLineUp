@@ -8,16 +8,24 @@ import {loadAppComponent} from "./+state/app-component.actions";
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   title = 'Financial Line Up';
   subTitle = 'Financial Lifestyle Planner';
+
+  majorVersion: number = 0;
+  minorVersion: number = 911;
+  devState: string = 'beta';
 
 
   constructor(private store: Store<AppComponentPartialState>) {
   }
 
 
-  ngOnInit(){
+  getVersionString(){
+    return this.majorVersion + '.' + this.minorVersion + '-' + this.devState;
+  }
+
+  ngOnInit() {
     this.store.dispatch(loadAppComponent());
   }
 }

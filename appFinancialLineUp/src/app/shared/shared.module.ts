@@ -19,9 +19,13 @@ import {LifestyleDatabaseApiService} from "./data-base-connect/lifestyle-databas
 import {AngularFirestore} from "@angular/fire/firestore";
 import {LifestyleComparingService} from "./services/lifestyle-comparing.service";
 import {ExportDialogComponent} from "./modalDialog/export-dialog.component";
+import {LegislationFooterComponent} from "./legislation-footer/legislation-footer.component";
 
 @NgModule({
-  declarations: [ExportDialogComponent],
+  declarations: [
+    ExportDialogComponent,
+    LegislationFooterComponent,
+  ],
   imports: [
     MatInputModule,
     MatCardModule,
@@ -56,6 +60,7 @@ import {ExportDialogComponent} from "./modalDialog/export-dialog.component";
     MatSlideToggleModule,
     MatSnackBarModule,
     MatExpansionModule,
+    LegislationFooterComponent,
   ],
   providers: [LifestyleDatabaseApiService, AngularFirestore, LifestyleComparingService]
 })

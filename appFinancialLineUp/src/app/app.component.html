@@ -11,9 +11,9 @@
       <router-outlet></router-outlet>
     </section>
     <section>
-      <!--TODO:
-      <monorepo-legislation-footer></monorepo-legislation-footer>
-      -->
+      <monorepo-legislation-footer
+        [versionNumber]="getVersionString()"
+      ></monorepo-legislation-footer>
     </section>
   </div>
 

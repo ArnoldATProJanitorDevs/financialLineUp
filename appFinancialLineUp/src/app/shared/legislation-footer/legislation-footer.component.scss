@@ -1,0 +1,67 @@
+.legislationContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: center;
+  padding: 20px 0 20px 0;
+  width: 100vw;
+  flex: 1 1 auto;
+  position: relative; /* need this to position inner content */
+  overflow-y: auto;
+}
+
+.legislation {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 20px;
+}
+
+.imPrint {
+  font-size: 14px;
+}
+
+.privacyDisclaimer {
+  font-size: 14px;
+
+}
+
+.termsAndConditions {
+  font-size: 14px;
+
+}
+
+.note {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 10px;
+  text-align: center;
+
+
+}
+
+
+.link {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.linkWithoutAccentColor {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.linkWrapper {
+  max-width: 800px;
+
+  display: flex;
+  font-weight: normal;
+  justify-content: start;
+  align-items: baseline;
+}
