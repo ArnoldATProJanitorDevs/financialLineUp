@@ -85,8 +85,17 @@ const lifeStyleReducer = createReducer(
   on(LifestylesActions.deleteLifestyleItem, (state, {Item}) => {
 
     const lifestylesCopy = deepCopy(state.Lifestyles);
+    let indexOfDeletedItem = lifestylesCopy[Item.LifestyleId].Items[Item.Id].Index;
 
     delete lifestylesCopy[Item.LifestyleId].Items[Item.Id];
+
+    Object.values(lifestylesCopy[Item.LifestyleId].Items).map(
+      item => {
+        if (item.Index > indexOfDeletedItem)
+          item.Index--;
+      }
+    );
+
 
     return withUpdatedValues(state, {Lifestyles: lifestylesCopy});
   }),
