@@ -7,6 +7,7 @@ export interface Item {
   Comment: string;
   Category: Category;
   Cost: number;
+  Index: number;
 }
 
 

@@ -124,7 +124,8 @@ describe('ItemsComponent', () => {
         icon: 'house',
         name: 'housing'
       },
-      Comment: 'Mockup'
+      Comment: 'Mockup',
+      Index: 0
     }];
 
     const oldItemsList = component.Items;
@@ -135,7 +136,9 @@ describe('ItemsComponent', () => {
       LifestyleId: 'mockupId',
       Category: {name: 'housing', icon: 'home'},
       Cost: 52, Id: uuidv4(),
-      Comment: "Electricity"
+      Comment: "Electricity",
+      Index: 0
+
     };
     component.addItem(newItem);
     const newItemsList = component.Items;
@@ -158,7 +161,8 @@ describe('ItemsComponent', () => {
       Category: {name: 'housing', icon: 'home'},
       Cost: 0,
       Id: uuidv4(),
-      Comment: "noComment"
+      Comment: "noComment",
+      Index: 0
     };
 
     component.deleteItem(nonExistingItem);
@@ -176,7 +180,7 @@ describe('ItemsComponent', () => {
         Comment: 'noComment',
         Cost: 1,
         Category: {name: 'housing', icon: 'home'},
-
+        Index: 0
       },
       {
         LifestyleId: 'mockupId',
@@ -184,6 +188,7 @@ describe('ItemsComponent', () => {
         Comment: 'noComment',
         Cost: 2,
         Category: {name: 'housing', icon: 'home'},
+        Index: 0
       },
       {
         LifestyleId: 'mockupId',
@@ -191,6 +196,7 @@ describe('ItemsComponent', () => {
         Comment: 'noComment',
         Cost: 3,
         Category: {name: 'housing', icon: 'home'},
+        Index: 0
       }
     ];
     component.updateItemsInDataTable(ItemList);

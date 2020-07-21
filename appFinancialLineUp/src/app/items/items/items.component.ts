@@ -50,11 +50,16 @@ export class ItemsComponent implements OnInit, OnChanges, OnDestroy {
       next => {
         if (next) {
           this.Items = deepCopy(Object.values(next));
+          this.Items.sort(this.orderByIndex);
+
           this.updateItemsInDataTable(this.Items);
         }
       }
     ));
   }
+
+
+
 
 
   getCategoryGroupsFromStore() {
@@ -89,7 +94,8 @@ export class ItemsComponent implements OnInit, OnChanges, OnDestroy {
       Id: uuidv4(),
       Comment: 'NEW ITEM',
       Cost: 0,
-      Category: {name: 'housing', icon: 'home'}
+      Category: {name: 'housing', icon: 'home'},
+      Index: this.Items.length
     })
   }
 
@@ -122,6 +128,16 @@ export class ItemsComponent implements OnInit, OnChanges, OnDestroy {
     this.unsubscribeAll();
   }
 
+  private orderByIndex(a: Item, b: Item) {
+    if (a.Index < b.Index) {
+      return -1;
+    }
+    if (a.Index > b.Index) {
+      return 1;
+    }
+    return 0;
+  }
+
   private toggleToNextCategory(category: Category, Item: Item) {
 
     const itemCopy = deepCopy(this.getItemById(Item.Id));
@@ -144,6 +160,7 @@ export class ItemsComponent implements OnInit, OnChanges, OnDestroy {
 
   private addItem(item: Item) {
     this.Items.push(item);
+    this.Items.sort(this.orderByIndex);
     this.synchronize(item);
   }
 

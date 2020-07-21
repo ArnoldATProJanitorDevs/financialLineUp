@@ -73,7 +73,8 @@ export class LifestylesComponent implements OnInit, OnDestroy, ComponentCanDeact
           Id: itemId,
           Cost: 20,
           Category: {name: 'housing', icon: 'home'},
-          Comment: "Rent"
+          Comment: "Rent",
+          Index: 0
         },
       }
     };

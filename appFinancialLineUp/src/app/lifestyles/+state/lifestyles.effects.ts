@@ -9,8 +9,8 @@ import {LifestylesDictionary} from "../models/lifestylesDictionary.interface";
 import {getCategoriesAsObservable} from "../../shared/categories/categories";
 import {getExampleLifestylesAsObservable} from "../models/lifestyle-example";
 import {getCategoryGroupsAsObservable, mapCategoriesToGroups} from "../../shared/categories/category-groups.service";
-import {ExportService} from "../../export/export.service";
 import {ExportLifestylesService} from "../../export/export-lifestyles.service";
+import {ItemDictionary} from "../../items/models/itemDictionary.interface";
 
 @Injectable()
 export class LifestylesEffects {
@@ -118,6 +118,8 @@ export class LifestylesEffects {
   }
 }
 
+
+
 export function convertLifestyleArrayToDictionary(lifestyles: Lifestyle[]) {
   const dictionary: LifestylesDictionary = {};
   lifestyles.map(lifestyle => {
@@ -126,10 +128,27 @@ export function convertLifestyleArrayToDictionary(lifestyles: Lifestyle[]) {
       Name: lifestyle.Name,
       TaxRates: lifestyle.TaxRates,
       Description: lifestyle.Description,
-      Items: lifestyle.Items,
+      Items: writeIndexToItems(lifestyle.Items),
     };
   });
   return dictionary;
 }
 
+function writeIndexToItems(Items: ItemDictionary) {
+  let newIndex = 0;
+
+  Object.values(Items).map(
+    item => {
+      Items[item.Id] = {
+        LifestyleId: item.LifestyleId,
+        Cost: item.Cost,
+        Id: item.Id,
+        Category: item.Category,
+        Comment :item.Comment,
+        Index: item.Index ? item.Index : newIndex++ ,
+      }
+    }
+  )
+  return Items;
+}
 

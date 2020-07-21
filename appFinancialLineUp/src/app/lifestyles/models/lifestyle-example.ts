@@ -27,14 +27,16 @@ export const ExampleLifestyles: LifestylesDictionary = {
         Id: fixedId2,
         Cost: 20,
         Category: {name: 'housing', icon: 'house'},
-        Comment: "Re1"
+        Comment: "Re1",
+        Index: 0
       },
       [fixedId3]: {
         LifestyleId: fixedId,
         Id: fixedId3,
         Cost: 20,
         Category: {name: 'insurance', icon: 'security'},
-        Comment: "In1"
+        Comment: "In1",
+        Index: 1
       }
     },
     Description: 'This is an example for ...'
@@ -50,7 +52,8 @@ export const ExampleLifestyles: LifestylesDictionary = {
           Id: fixedId,
           Cost: 20,
           Category: {name: 'housing', icon: 'house'},
-          Comment: "Re2"
+          Comment: "Re2",
+          Index: 0
         },
         [fixedId2]:
           {
@@ -58,7 +61,8 @@ export const ExampleLifestyles: LifestylesDictionary = {
             Id: fixedId2,
             Cost: 20,
             Category: {name: 'groceries', icon: 'kitchen'},
-            Comment: "Fo2"
+            Comment: "Fo2",
+            Index: 1
           }
       },
       Description: 'This is an example for ...'

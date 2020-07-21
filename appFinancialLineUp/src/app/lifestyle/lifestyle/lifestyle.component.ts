@@ -30,6 +30,7 @@ export class LifestyleComponent {
         Category: {name: 'housing', icon: 'home'},
         Comment: "Groceries",
         Cost: 0,
+        Index: 0
       }
     },
     Name: 'DEFAULT LIFESTYLE',
