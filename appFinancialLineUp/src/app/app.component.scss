@@ -49,9 +49,6 @@ p {
   overflow-y: auto;
   height: 100vh;
 
-
-
-
 }
 
 .stripe {
@@ -182,3 +179,10 @@ main > * {
 
 
 }
+
+
+::ng-deep .mat-expansion-panel-body {
+  padding: 0px 10px 10px !important;
+}
+
+

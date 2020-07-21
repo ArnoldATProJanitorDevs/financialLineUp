@@ -122,4 +122,11 @@
   ::-moz-selection {
     background: mat-color($accent, 600);
   }
+
+  @media (hover: none)   {
+    .mat-expansion-panel:not(.mat-expanded):not([aria-disabled='true']) .mat-expansion-panel-header:hover {
+      background: mat-color($primary);
+    }
+  }
+
 }
