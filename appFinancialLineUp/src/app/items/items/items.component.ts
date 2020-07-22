@@ -109,7 +109,7 @@ export class ItemsComponent implements OnInit, OnChanges, OnDestroy {
 
   getItemById(givenId: uuidv4): Item {
     const result = this.Items.filter(item => item.Id === givenId)[0];
-    return null;
+    return null ;
   }
 
   getCategoryByName(name: string): Category {
