@@ -1,5 +1,8 @@
+import versionStruct from "./version.json"
+
 export const environment = {
   production: true,
+  version: versionStruct.major + '.' + versionStruct.minor + '-' + versionStruct.appState,
   firebaseConfig : {
     apiKey: "AIzaSyARPo2F0gCiWbI_ZC-pnbZ73lxmzxD0Isk",
     authDomain: "finlinup.firebaseapp.com",

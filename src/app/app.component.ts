@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Store} from "@ngrx/store";
 import {AppComponentPartialState} from "./+state/app-component.reducer";
 import {loadAppComponent} from "./+state/app-component.actions";
+import {environment} from "../environments/environment.prod";
 
 @Component({
   selector: 'app-root',
@@ -11,18 +12,9 @@ import {loadAppComponent} from "./+state/app-component.actions";
 export class AppComponent implements OnInit {
   title = 'Financial Line Up';
   subTitle = 'Financial Lifestyle Planner';
-
-  majorVersion: number = 0;
-  minorVersion: number = 911;
-  devState: string = 'beta';
-
+  environment = environment;
 
   constructor(private store: Store<AppComponentPartialState>) {
-  }
-
-
-  getVersionString(){
-    return this.majorVersion + '.' + this.minorVersion + '-' + this.devState;
   }
 
   ngOnInit() {

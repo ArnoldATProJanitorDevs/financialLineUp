@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     strategy:
       matrix:
@@ -22,6 +22,12 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
     - run: npm run build --production
-    - run: npm test
+    
+   
       env:
         CI: true
+        
+   release: 
+    - name: Run a one-line script
+      run: ./.github/workflows/putNewVersion.ps1
+        shell: powershell
