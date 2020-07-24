@@ -9,10 +9,9 @@ export class ExportService {
   constructor() {
   }
 
-  downloadFile(fileContent: any, fileName: string) {
+  transformToJsonFormatAndDownload(fileContent: any, fileName: string) {
     const blob = new Blob([JSON.stringify(fileContent)], {type: 'application/json'});
     this.downloadJSONFile(blob, fileName);
-
   }
 
   private downloadJSONFile(blob: Blob, fileName: string) {

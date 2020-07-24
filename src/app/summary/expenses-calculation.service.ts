@@ -21,6 +21,9 @@ export class ExpensesCalculationService {
       AfterTaxes: [{Daily: 0, Weekly: 0, Monthly: 0, Yearly: 0}]
     };
 
+    if (Items.map(item => !item.Cost) || TaxRates.map(tr => !tr))
+      return IncomeNeeds;
+
     const DAILYMULTIPLIER = 1 / 30;
     const WEEKLYMULTIPLIER = 1 / 4;
     const MONTHLYMULTIPLIER = 1;
@@ -43,7 +46,6 @@ export class ExpensesCalculationService {
         Yearly: monthlyExpensesAfterTaxes * YEARLYMULTIPLIER
       }
     });
-
 
     return IncomeNeeds;
 

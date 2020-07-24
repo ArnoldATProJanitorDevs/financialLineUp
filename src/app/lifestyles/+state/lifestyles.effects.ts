@@ -103,8 +103,8 @@ export class LifestylesEffects {
     return this.actions$.pipe(
       ofType(LifestylesActions.exportLifestyles),
       map((a) => {
-          const dataToExport = this.exportLifestyleService.cleanDataStructureForExport(a.Lifestyles);
-          this.exportLifestyleService.downloadLifestylesForEachAFile(dataToExport);
+          const dataToExport = this.exportLifestyleService.enrichDataStructureForExport(a.Lifestyles);
+          this.exportLifestyleService.downloadOneFilePerLifestyle(dataToExport);
           return LifestylesActions.exportLifestylesSuccess();
         }
       ),

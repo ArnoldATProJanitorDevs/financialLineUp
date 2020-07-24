@@ -14,9 +14,9 @@ export class ExportLifestylesService {
               private expensesCalculationService: ExpensesCalculationService) {
   }
 
-  cleanDataStructureForExport(Lifestyles: Lifestyle[]) {
+  enrichDataStructureForExport(Lifestyles: Lifestyle[]) {
 
-    let enrichedExportData: ExportLifestyle[] = Lifestyles.map(ls => {
+    let enrichedLifestyles: ExportLifestyle[] = Lifestyles.map(ls => {
       const enrichedData: ExportLifestyle = {
         Description: ls.Description,
         Id: ls.Id,
@@ -28,16 +28,15 @@ export class ExportLifestylesService {
       return enrichedData;
     });
 
-
-    return enrichedExportData;
+    return enrichedLifestyles;
   }
 
-  downloadLifestylesForEachAFile(Lifestyles: Lifestyle[]) {
+  downloadOneFilePerLifestyle(Lifestyles: Lifestyle[]) {
     Lifestyles.forEach(lifestyle =>
-      this.exportService.downloadFile(Lifestyles, lifestyle.Name))
+      this.exportService.transformToJsonFormatAndDownload(Lifestyles, lifestyle.Name))
   }
 }
 
-interface ExportLifestyle extends Lifestyle {
+export interface ExportLifestyle extends Lifestyle {
   Summarize: IncomeNeeds,
 }
