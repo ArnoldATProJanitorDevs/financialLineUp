@@ -58,10 +58,6 @@ export class ItemsComponent implements OnInit, OnChanges, OnDestroy {
     ));
   }
 
-
-
-
-
   getCategoryGroupsFromStore() {
     this.lifestyleFacade.getCategoryGroupsAll().pipe(take(1)).subscribe(
       next => {
@@ -78,9 +74,8 @@ export class ItemsComponent implements OnInit, OnChanges, OnDestroy {
     );
   }
 
-  handleToggleButton(event: Category, itemOfTable) {
-
-    this.toggleToNextCategory(event, itemOfTable);
+  handleCategoryToggleButton(itemOfTable: Item) {
+    this.toggleToNextCategory(itemOfTable);
   }
 
   handleCategoryDropdown(event: MatSelectChange, element) {
@@ -88,7 +83,7 @@ export class ItemsComponent implements OnInit, OnChanges, OnDestroy {
 
   }
 
-  HandleAddItemButton() {
+  HandleAddNewItemButton() {
     this.addItem({
       LifestyleId: this.LifestyleId,
       Id: uuidv4(),
@@ -116,7 +111,7 @@ export class ItemsComponent implements OnInit, OnChanges, OnDestroy {
     return this.Categories.find(category => category.name === name);
   }
 
-  getCategoryIndex(category: Category): number {
+  getIndexOfCategory(category: Category): number {
     return this.Categories.indexOf(category);
   }
 
@@ -138,11 +133,14 @@ export class ItemsComponent implements OnInit, OnChanges, OnDestroy {
     return 0;
   }
 
-  private toggleToNextCategory(category: Category, Item: Item) {
+  private toggleToNextCategory(Item: Item) {
 
     const itemCopy = deepCopy(this.getItemById(Item.Id));
-    const currentCategory = this.getCategoryByName(category.name);
-    const indexOfNextCategory = this.getCategoryIndex(currentCategory) + 1;
+    const currentCategory = this.getCategoryByName(Item.Category.name);
+    const indexOfNextCategory = this.getIndexOfCategory(currentCategory) + 1;
+
+    if(!currentCategory || !itemCopy)
+      return;
 
     if ((indexOfNextCategory) >= this.Categories.length)
       itemCopy.Category = this.Categories[0];
@@ -154,7 +152,12 @@ export class ItemsComponent implements OnInit, OnChanges, OnDestroy {
 
   private updateCategory(newValue: string, Item: Item) {
     const item = deepCopy(this.Items.filter(item => item.Id === Item.Id)[0]);
-    item.Category = this.Categories.filter(cat => cat.name == newValue)[0];
+    const newCategory = this.Categories.filter(cat => cat.name == newValue)[0] || undefined;
+
+    if(!newCategory)
+      return;
+
+    item.Category = newCategory;
     this.synchronize(item);
   }
 
@@ -165,6 +168,9 @@ export class ItemsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private deleteItem(item: Item) {
+    if(!this.Items.find(itemInList => itemInList.Id === item.Id))
+      return;
+
     this.lifestyleFacade.deleteLifestyleItem(item);
   }
 

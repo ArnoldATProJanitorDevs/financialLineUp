@@ -19,6 +19,10 @@
       "dom"
     ],
     "types": ["jest", "node"],
-    "allowJs": true
-  }
+    "allowJs": true,
+    "resolveJsonModule": true
+  },
+  "include": [
+    "./global.d.ts"
+  ]
 }

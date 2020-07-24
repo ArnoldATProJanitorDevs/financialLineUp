@@ -1,4 +1,4 @@
-import versionStruct from "./version.json"
+import * as versionStruct from './version.json'
 
 export const environment = {
   production: true,
