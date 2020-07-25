@@ -77,10 +77,6 @@ describe('ItemsComponent', () => {
       initialLifestyleState.CategoryGroups
     );
 
-
-  }));
-
-  beforeEach(() => {
     fixture = TestBed.createComponent(ItemsComponent);
     component = fixture.componentInstance;
 
@@ -90,7 +86,8 @@ describe('ItemsComponent', () => {
     categoryGroupSelector.setResult(mapCategoriesToGroups());
     mockStore.refreshState();
     fixture.detectChanges();
-  });
+
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();

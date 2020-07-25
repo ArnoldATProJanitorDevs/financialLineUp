@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {LifestylesDictionary} from "../../lifestyles/models/lifestylesDictionary.interface";
 import {ItemDictionary} from "../../items/models/itemDictionary.interface";
 import {Lifestyle} from "../../lifestyle/models/lifestyle.interface";
@@ -8,26 +8,30 @@ import {Lifestyle} from "../../lifestyle/models/lifestyle.interface";
 })
 export class LifestyleComparingService {
 
-  constructor() { }
+  constructor() {
+  }
 
-   ifLargerThan(larger: number, than: number) {
-    if (larger > than)
+  ifLargerThan(larger: number, than: number) {
+    if (!larger || (!larger && !than))
+      return false;
+
+    if (larger > than || !than)
       return true;
 
     return false;
   }
 
 
-   ifEqual(Lifestyles: LifestylesDictionary, lifestyleDictionary: LifestylesDictionary) {
+  ifEqual(lifestylesA: LifestylesDictionary, lifestylesB: LifestylesDictionary) {
     let isEqual = false;
-    const Ids =  Object.values(Lifestyles).map(ls => ls.Id);
+    const Ids = Object.values(lifestylesA).map(ls => ls.Id);
 
-     for (let Id of Ids) {
-       isEqual = this.checkIfLifestylesAreEqual(Lifestyles[Id], lifestyleDictionary[Id]);
+    for (let Id of Ids) {
+      isEqual = this.checkIfLifestylesAreEqual(lifestylesA[Id], lifestylesB[Id]);
 
-       if (!isEqual)
-         break;
-     }
+      if (!isEqual)
+        break;
+    }
 
     return isEqual;
   }
@@ -43,25 +47,28 @@ export class LifestyleComparingService {
     if (!this.compareStringsForEquality(ls1.Description, ls2.Description))
       return false;
 
-    if (!this.compareArrayForEquality(ls1.TaxRates, ls2.TaxRates))
+    if (!this.compareNumberArrayForEquality(ls1.TaxRates, ls2.TaxRates))
+      return false;
+
+    if (!ls1.Items || !ls2.Items)
       return false;
 
     if (Object.values(ls1.Items).length != Object.values(ls2.Items).length)
       return false;
 
-    if (!this.compareItemsForEquality(ls1.Items, ls2.Items))
+    if (!this.compareItemDictionaryForEquality(ls1.Items, ls2.Items))
       return false;
 
     return true;
   }
 
-   compareStringsForEquality(string1: string, string2: string) {
+  compareStringsForEquality(string1: string, string2: string) {
     return string1 === string2;
   }
 
-   compareArrayForEquality(arr1: number[], arr2: number[]) {
+  compareNumberArrayForEquality(arr1: number[], arr2: number[]) {
 
-    if (!arr1 || !arr2) return;
+    if (!arr1 || !arr2) return false;
 
     let result = false;
 
@@ -73,9 +80,13 @@ export class LifestyleComparingService {
     return result;
   }
 
-   compareItemsForEquality(Items: ItemDictionary, Items2: ItemDictionary) {
+  compareItemDictionaryForEquality(Items: ItemDictionary, Items2: ItemDictionary) {
 
     let isEqual = true;
+
+    if (!Items || !Items2)
+      return false;
+
     const Ids = Object.values(Items).map(item => item.Id);
 
     Ids.forEach(Id => {
