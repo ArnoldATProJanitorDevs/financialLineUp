@@ -58,8 +58,11 @@ export class TaxratesComponent implements OnInit, OnDestroy {
   }
 
   private deleteTaxrate(index: number) {
-    this.TaxRates.splice(index, 1);
-    this.updateTaxesInStore(this.LifestyleId, this.TaxRates);
+    if(index >= this.TaxRates.length || index <0)
+      return;
+
+      this.TaxRates.splice(index, 1);
+      this.updateTaxesInStore(this.LifestyleId, this.TaxRates);
   }
 
   private updateTaxesInStore(LifestyleId: string, TaxRates: number[]) {

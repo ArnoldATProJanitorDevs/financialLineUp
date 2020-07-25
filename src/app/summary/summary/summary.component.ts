@@ -31,25 +31,23 @@ export class SummaryComponent {
   }
 
   get LifestyleId(): string {
-
     return this._lifestyleId;
   }
 
   @Input() set LifestyleId(value: string) {
-
     this._lifestyleId = value;
     this.setSubscriptionOnInputChange();
   }
 
   setUpSubscriptions() {
 
+    //TODO: Why fetching all Items and the lifestyle? Why not just lifestyle and grab the items of it directly?!
     this.subs.push(combineLatest(
       [this.lifestyleFacade.getLifestyleItemsByLifestyleId(this.LifestyleId),
         this.lifestyleFacade.getLifeStyleById(this.LifestyleId)],
       (items, lifestyle) => {
         this.TaxRates = deepCopy(lifestyle?.TaxRates || []) as number[];
         this.IncomeNeeds = this.expensesCalculationService.calculateExpenses(Object.values(items), this.TaxRates);
-
       }
     ).subscribe());
   }

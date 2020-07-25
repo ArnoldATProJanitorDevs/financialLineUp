@@ -21,7 +21,7 @@ export class ExpensesCalculationService {
       AfterTaxes: [{Daily: 0, Weekly: 0, Monthly: 0, Yearly: 0}]
     };
 
-    if (Items.map(item => !item.Cost) || TaxRates.map(tr => !tr))
+    if (Items.length === 0 || TaxRates.length === 0 || Items.some(item => !item.Cost) || TaxRates.some(tr => !tr))
       return IncomeNeeds;
 
     const DAILYMULTIPLIER = 1 / 30;
