@@ -4,7 +4,8 @@
     "outDir": "../out-tsc/spec",
     "types": [
       "jasmine",
-      "node"
+      "node",
+      "jest-extended"
     ],
     "module": "commonjs",
     "emitDecoratorMetadata": true,
@@ -14,6 +15,7 @@
     "polyfills.ts"
   ],
   "include": [
+    "node_modules/jest-extended/types/**/*.d.ts",
     "**/*.spec.ts",
     "**/*.d.ts"
   ]

@@ -20,7 +20,7 @@ import {ExportDialogComponent, ExportDialogReturn} from "../../shared/modalDialo
 })
 export class LifestylesComponent implements OnInit, OnDestroy, ComponentCanDeactivate {
 
-  Lifestyles$: Observable<LifestylesDictionary>;
+  Lifestyles$: Observable<LifestylesDictionary> = new Observable<LifestylesDictionary>();
   Lifestyles: LifestylesDictionary = {};
   unsavedChanges = false;
   sharingAvailable = false;
@@ -57,7 +57,6 @@ export class LifestylesComponent implements OnInit, OnDestroy, ComponentCanDeact
   }
 
   addNewLifestyle() {
-
 
     const lifestyleId = uuidv4();
     const itemId = uuidv4();

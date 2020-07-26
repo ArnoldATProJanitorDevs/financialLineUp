@@ -21,6 +21,9 @@
     "types": ["jest", "node"],
     "allowJs": true,
     "resolveJsonModule": true
-  }
-
+  },
+  "include": [
+    "src/**/*",
+    "./global.d.ts"
+  ]
 }
