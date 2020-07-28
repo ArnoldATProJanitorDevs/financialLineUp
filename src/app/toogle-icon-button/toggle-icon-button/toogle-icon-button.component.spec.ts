@@ -3,6 +3,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ToogleIconButtonComponent } from './toogle-icon-button.component';
 import {SharedModule} from "../../shared/shared.module";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {BrowserDynamicTestingModule} from "@angular/platform-browser-dynamic/testing";
+import {ExportDialogComponent} from "../../shared/modalDialog/export-dialog.component";
 
 describe('ToogleIconButtonComponent', () => {
   let component: ToogleIconButtonComponent;
@@ -10,10 +12,13 @@ describe('ToogleIconButtonComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ToogleIconButtonComponent ],
+      declarations: [ ToogleIconButtonComponent, ExportDialogComponent ],
       imports: [SharedModule, BrowserAnimationsModule]
-    })
-    .compileComponents();
+    }).overrideModule(BrowserDynamicTestingModule, {
+        set: {
+          entryComponents: [ExportDialogComponent],
+        }
+      }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -1,26 +1,29 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {SummaryComponent} from './summary.component';
-import {SharedModule} from "../../shared/shared.module";
-import {MockStore, provideMockStore} from "@ngrx/store/testing";
-import * as fromLifestyles from "../../lifestyles/+state/lifestyles.reducer";
-import {MemoizedSelector, MemoizedSelectorWithProps} from "@ngrx/store";
-import {ItemDictionary} from "../../items/models/itemDictionary.interface";
-import {getExampleLifestyles} from "../../lifestyles/models/lifestyle-example";
-import * as fromLifestylesSelectors from "../../lifestyles/+state/lifestyles.selectors";
-import {LifestylesDictionary} from "../../lifestyles/models/lifestylesDictionary.interface";
-import {LifestylesFacade} from "../../lifestyles/+state/lifestyles.facade";
-import {Lifestyle} from "../../lifestyle/models/lifestyle.interface";
-import {IncomeNeeds} from "../models/incomeNeeds.interface";
+import {SharedModule} from '../../shared/shared.module';
+import {MockStore, provideMockStore} from '@ngrx/store/testing';
+import * as fromLifestyles from '../../lifestyles/+state/lifestyles.reducer';
+import {MemoizedSelector, MemoizedSelectorWithProps} from '@ngrx/store';
+import {ItemDictionary} from '../../items/models/itemDictionary.interface';
+import {getExampleLifestyles} from '../../lifestyles/models/lifestyle-example';
+import * as fromLifestylesSelectors from '../../lifestyles/+state/lifestyles.selectors';
+import {LifestylesDictionary} from '../../lifestyles/models/lifestylesDictionary.interface';
+import {LifestylesFacade} from '../../lifestyles/+state/lifestyles.facade';
+import {Lifestyle} from '../../lifestyle/models/lifestyle.interface';
+import {IncomeNeeds} from '../models/incomeNeeds.interface';
+import {BrowserDynamicTestingModule} from '@angular/platform-browser-dynamic/testing';
+import {ExportDialogComponent} from '../../shared/modalDialog/export-dialog.component';
 
 describe('SummaryComponent', () => {
   let component: SummaryComponent;
   let fixture: ComponentFixture<SummaryComponent>;
+  let dispatchSpy;
 
   let newId = 0;
 
   const testLifeStyles = Object.values(getExampleLifestyles()).map(ls => {
-    ls.Id = newId++
+    ls.Id = newId++;
     Object.values(ls.Items).map(item => item.LifestyleId = newId);
 
     return ls;
@@ -29,7 +32,7 @@ describe('SummaryComponent', () => {
   const testLifestyleDictionary: LifestylesDictionary = {};
   testLifeStyles.forEach(ls => {
     testLifestyleDictionary[ls.Id] = ls;
-  })
+  });
 
 
   let mockStore: MockStore<fromLifestyles.State>;
@@ -37,19 +40,22 @@ describe('SummaryComponent', () => {
   let lifestyleSelectorById: MemoizedSelectorWithProps<fromLifestyles.State, { id }, Lifestyle>;
   let lifestyleItemSelector: MemoizedSelectorWithProps<fromLifestyles.State, {}, ItemDictionary>;
 
-  let initialLifestyleState = {
+  const initialLifestyleState = {
     Lifestyles: testLifestyleDictionary,
   } as fromLifestyles.State;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [SummaryComponent],
+      declarations: [SummaryComponent, ExportDialogComponent],
       imports: [
         SharedModule
       ],
       providers: [LifestylesFacade, provideMockStore({initialState: initialLifestyleState})]
-    })
-      .compileComponents();
+    }).overrideModule(BrowserDynamicTestingModule, {
+      set: {
+        entryComponents: [ExportDialogComponent],
+      }
+    }).compileComponents();
 
     mockStore = TestBed.inject(MockStore);
     fixture = TestBed.createComponent(SummaryComponent);
@@ -71,7 +77,7 @@ describe('SummaryComponent', () => {
       {}
     );
 
-    lifestyleSelector.setResult(initialLifestyleState.Lifestyles)
+    lifestyleSelector.setResult(initialLifestyleState.Lifestyles);
     lifestyleSelectorById.setResult(Object.values(initialLifestyleState.Lifestyles)[0]);
     mockStore.refreshState();
     fixture.detectChanges();
@@ -86,6 +92,8 @@ describe('SummaryComponent', () => {
 
 
   it('setUpSubscriptions - should calculate IncomeNeeds correctly', () => {
+
+    dispatchSpy = spyOn(mockStore, 'dispatch');
 
     const testItemDictionary = {
       ['f9a42ca8-0ab2-4533-ace1-e8a27f53427c']: {
@@ -108,7 +116,7 @@ describe('SummaryComponent', () => {
     const expectedResults: IncomeNeeds = {
       BeforeTaxes: { Daily: 1.3333333333333333, Weekly: 10, Monthly: 40, Yearly: 480 },
       AfterTaxes: [ { Daily: 2.299, Weekly: 17.2425, Monthly: 68.97, Yearly: 827.64 } ]
-    }
+    };
 
     lifestyleItemSelector.setResult(testItemDictionary);
     mockStore.refreshState();

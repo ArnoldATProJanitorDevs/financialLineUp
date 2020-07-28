@@ -1,9 +1,9 @@
-import {Component, Inject} from "@angular/core";
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {Component, Inject} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 
 
 export interface ExportDialogReturn {
-  export: boolean
+  export: boolean;
 }
 
 @Component({
@@ -15,11 +15,12 @@ export class ExportDialogComponent {
   returnData: ExportDialogReturn = {
     export: false
   };
-  message= ' This feature will be coming soon. For now please export your lifestyles to share with others. They can take the file and use excel or a text editor in order to display your data.';
+
+  message = ' This feature will be coming soon. For now please export your lifestyles to share with others. They can take the file and use excel or a text editor in order to display your data.';
 
   constructor(
     public dialogRef: MatDialogRef<ExportDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: ExportDialogReturn) {
+    @Inject(MAT_DIALOG_DATA) public data: ExportDialogReturn | any) {
   }
 
   onNoClick(): void {

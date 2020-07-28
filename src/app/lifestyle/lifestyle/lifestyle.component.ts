@@ -3,13 +3,13 @@ import {
   Input,
 } from '@angular/core';
 import {v4 as uuidv4} from 'uuid';
-import {LifestylesFacade} from "../../lifestyles/+state/lifestyles.facade";
-import {take} from "rxjs/operators";
-import {deepCopy} from "../../shared/globals/deep-copy";
-import {Lifestyle} from "../models/lifestyle.interface";
-import {ItemDictionary} from "../../items/models/itemDictionary.interface";
-import {ExportDialogComponent} from "../../shared/modalDialog/export-dialog.component";
-import {MatDialog} from "@angular/material/dialog";
+import {LifestylesFacade} from '../../lifestyles/+state/lifestyles.facade';
+import {take} from 'rxjs/operators';
+import {deepCopy} from '../../shared/globals/deep-copy';
+import {Lifestyle} from '../models/lifestyle.interface';
+import {ItemDictionary} from '../../items/models/itemDictionary.interface';
+import {ExportDialogComponent} from '../../shared/modalDialog/export-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
 
 const fixedId = uuidv4();
 
@@ -21,14 +21,14 @@ const fixedId = uuidv4();
 export class LifestyleComponent {
 
   @Input() Lifestyle: Lifestyle = {
-    Description: "THIS IS A DEFAULT LIFESTYLE, MADE FOR DEVELOPMENT.",
+    Description: 'THIS IS A DEFAULT LIFESTYLE, MADE FOR DEVELOPMENT.',
     Id: fixedId,
     Items: {
       ['11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000']: {
         LifestyleId: fixedId,
         Id: '11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000',
         Category: {name: 'housing', icon: 'home'},
-        Comment: "Groceries",
+        Comment: 'Groceries',
         Cost: 0,
         Index: 0
       }
@@ -57,7 +57,7 @@ export class LifestyleComponent {
   }
 
   HandleShareButton(lifestyle: Lifestyle) {
-    console.log("Cloud:", lifestyle);
+    console.log('Cloud:', lifestyle);
     this.shareLifestyles(lifestyle);
   }
 
@@ -66,7 +66,7 @@ export class LifestyleComponent {
   }
 
   synchronize() {
-    this.lifestyleFacade.updateLifestyles(this.Lifestyle)
+    this.lifestyleFacade.updateLifestyles(this.Lifestyle);
   }
 
   openDialog(): void {
@@ -80,16 +80,18 @@ export class LifestyleComponent {
 
   private handleDialogReturn(dialogRef) {
     dialogRef.afterClosed().subscribe(result => {
-      if (result?.export)
+      if (result?.export) {
         this.exportLifestyle(this.Lifestyle);
+      }
     });
   }
 
   private shareLifestyles(lifestyle: Lifestyle) {
-    if (this.sharingAvailable)
+    if (this.sharingAvailable) {
       this.lifestyleFacade.pushLifeStyleIntoCloud([lifestyle]);
-    else
+    } else {
       this.openDialog();
+    }
   }
 
   private duplicateLifestyle(lifestyle: Lifestyle) {
@@ -121,7 +123,7 @@ export class LifestyleComponent {
   private exportLifestyle(lifestyle: Lifestyle) {
     this.lifestyleFacade.getLifeStyleById(lifestyle.Id).pipe(take(1)).subscribe(
       next => this.lifestyleFacade.exportLifestyles([next])
-    )
+    );
   }
 
 

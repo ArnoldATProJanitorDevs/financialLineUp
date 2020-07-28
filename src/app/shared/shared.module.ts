@@ -15,15 +15,14 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTableModule} from '@angular/material/table';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import {LifestyleDatabaseApiService} from "./data-base-connect/lifestyle-database-api.service";
-import {AngularFirestore} from "@angular/fire/firestore";
-import {LifestyleComparingService} from "./services/lifestyle-comparing.service";
-import {ExportDialogComponent} from "./modalDialog/export-dialog.component";
-import {LegislationFooterComponent} from "./legislation-footer/legislation-footer.component";
+import {LifestyleDatabaseApiService} from './data-base-connect/lifestyle-database-api.service';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {LifestyleComparingService} from './services/lifestyle-comparing.service';
+import {ExportDialogComponent} from './modalDialog/export-dialog.component';
+import {LegislationFooterComponent} from './legislation-footer/legislation-footer.component';
 
 @NgModule({
   declarations: [
-    ExportDialogComponent,
     LegislationFooterComponent,
   ],
   imports: [
@@ -62,7 +61,8 @@ import {LegislationFooterComponent} from "./legislation-footer/legislation-foote
     MatExpansionModule,
     LegislationFooterComponent,
   ],
-  providers: [LifestyleDatabaseApiService, AngularFirestore, LifestyleComparingService]
+  providers: [LifestyleDatabaseApiService, AngularFirestore, LifestyleComparingService],
+  entryComponents: [ExportDialogComponent]
 })
 export class SharedModule {
 }

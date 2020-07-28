@@ -18,7 +18,7 @@
     <span>&nbsp;ADD LIFESTYLE {{lifestylesCount}} / {{limitLifestyles}}</span>
   </button>
   <button mat-raised-button class="consoleItem" color="accent"
-          (click)="$event.stopPropagation(); exportLifestyles(Lifestyles)">
+          (click)="$event.stopPropagation(); HandleExportLifestyleButton(Lifestyles)">
     <mat-icon>save_alt</mat-icon>
     <span>&nbsp;EXPORT LIFESTYLES</span>
   </button>
@@ -28,7 +28,7 @@
   <!--    <span>&nbsp;IMPORT LIFESTYLES</span>-->
   <!--  </button>-->
   <button mat-raised-button class="consoleItem" color="warn"
-          (click)="$event.stopPropagation(); shareLifestyles()">
+          (click)="$event.stopPropagation(); HandleShareLifestylesButton()">
     <mat-icon>share</mat-icon>
     <span>&nbsp;SHARE LIFESTYLES</span>
   </button>

@@ -29,7 +29,7 @@ export const getAllCategoryGroups = createSelector(
 );
 
 
-export const getAllItemsOfLifestyleById= createSelector(
+export const getAllItemsOfLifestyleById = createSelector(
   getLifestylesComponentState,
   (state: State, props) => state.Lifestyles[props.Id]?.Items || {}
 );

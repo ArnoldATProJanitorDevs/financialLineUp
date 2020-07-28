@@ -1,24 +1,26 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {v4 as uuidv4} from 'uuid';
-import {ToggleIconButtonModule} from "../../toogle-icon-button/toggle-icon-button.module";
-import {SharedModule} from "../../shared/shared.module";
-import {FormsModule} from "@angular/forms";
-import {Item} from "../models/item.interface";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {LifestylesFacade} from "../../lifestyles/+state/lifestyles.facade";
-import {MockStore, provideMockStore} from "@ngrx/store/testing";
-import {ExampleLifestyles} from "../../lifestyles/models/lifestyle-example";
-import * as fromLifestyles from '../../lifestyles/+state/lifestyles.reducer'
-import * as fromLifestylesSelectors from '../../lifestyles/+state/lifestyles.selectors'
-import {MemoizedSelector, MemoizedSelectorWithProps, Store} from "@ngrx/store";
-import {Categories} from "../../shared/categories/categories";
-import {ItemDictionary} from "../models/itemDictionary.interface";
-import {Category} from "../../shared/categories/category.interface";
-import {ItemsComponent} from "./items.component";
-import {mapCategoriesToGroups} from "../../shared/categories/category-groups.service";
-import {CategoryGroups} from "../../shared/categories/category-groups.interface";
-import * as LifestyleActions from "../../lifestyles/+state/lifestyles.actions";
-import "jest-extended";
+import {ToggleIconButtonModule} from '../../toogle-icon-button/toggle-icon-button.module';
+import {SharedModule} from '../../shared/shared.module';
+import {FormsModule} from '@angular/forms';
+import {Item} from '../models/item.interface';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {LifestylesFacade} from '../../lifestyles/+state/lifestyles.facade';
+import {MockStore, provideMockStore} from '@ngrx/store/testing';
+import {ExampleLifestyles} from '../../lifestyles/models/lifestyle-example';
+import * as fromLifestyles from '../../lifestyles/+state/lifestyles.reducer';
+import * as fromLifestylesSelectors from '../../lifestyles/+state/lifestyles.selectors';
+import {MemoizedSelector, MemoizedSelectorWithProps, Store} from '@ngrx/store';
+import {Categories} from '../../shared/categories/categories';
+import {ItemDictionary} from '../models/itemDictionary.interface';
+import {Category} from '../../shared/categories/category.interface';
+import {ItemsComponent} from './items.component';
+import {mapCategoriesToGroups} from '../../shared/categories/category-groups.service';
+import {CategoryGroups} from '../../shared/categories/category-groups.interface';
+import * as LifestyleActions from '../../lifestyles/+state/lifestyles.actions';
+import 'jest-extended';
+import {BrowserDynamicTestingModule} from "@angular/platform-browser-dynamic/testing";
+import {ExportDialogComponent} from "../../shared/modalDialog/export-dialog.component";
 
 
 describe('ItemsComponent', () => {
@@ -36,28 +38,31 @@ describe('ItemsComponent', () => {
       Id: 'testItemId',
       Cost: 20,
       Category: {name: 'housing', icon: 'home'},
-      Comment: "Rent",
+      Comment: 'Rent',
       Index: 0
     }
   };
 
-  let initialLifestyleState = {
+  const initialLifestyleState = {
     Lifestyles: ExampleLifestyles,
-    Categories: Categories,
+    Categories,
     CategoryGroups: mapCategoriesToGroups(),
   } as fromLifestyles.State;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ItemsComponent],
+      declarations: [ItemsComponent, ExportDialogComponent],
       imports: [
         BrowserAnimationsModule,
         ToggleIconButtonModule,
         SharedModule,
         FormsModule],
       providers: [LifestylesFacade, provideMockStore({initialState: initialLifestyleState})]
-    })
-      .compileComponents();
+    }).overrideModule(BrowserDynamicTestingModule, {
+      set: {
+        entryComponents: [ExportDialogComponent],
+      }
+    }).compileComponents();
 
     mockStore = TestBed.inject(MockStore);
 
@@ -81,7 +86,7 @@ describe('ItemsComponent', () => {
     component = fixture.componentInstance;
 
     component.setUpSubscriptions();
-    updateSelector.setResult(item)
+    updateSelector.setResult(item);
     categorySelector.setResult(Categories);
     categoryGroupSelector.setResult(mapCategoriesToGroups());
     mockStore.refreshState();
@@ -94,7 +99,6 @@ describe('ItemsComponent', () => {
   });
 
   it('getCategoryGroupsFromStore - component has same categorygroups as store', async () => {
-    component = fixture.componentInstance;
 
     component.getCategoryGroupsFromStore();
 
@@ -102,7 +106,6 @@ describe('ItemsComponent', () => {
   });
 
   it('getCategoriesFromStore - component has same categories as store', async () => {
-    component = fixture.componentInstance;
 
     component.getCategoriesFromStore();
 
@@ -118,20 +121,20 @@ describe('ItemsComponent', () => {
         Category: {
           name: 'housing',
           icon: 'house',
-        }, Comment: "mockup",
+        }, Comment: 'mockup',
         Cost: 0,
         Id: 'testItemId',
         Index: 0,
         LifestyleId: 'testLifestyleId'
       }
-    }
+    };
 
     const resultItem: Item = {
       Category: {
         group: 0,
         name: 'rent',
         icon: 'house_siding',
-      }, Comment: "mockup",
+      }, Comment: 'mockup',
       Cost: 0,
       Id: 'testItemId',
       Index: 0,
@@ -142,7 +145,7 @@ describe('ItemsComponent', () => {
     mockStore.refreshState();
     fixture.detectChanges();
 
-    component.handleCategoryToggleButton(itemToToggle['testItemId']);
+    component.handleCategoryToggleButton(itemToToggle.testItemId);
 
     expect(dispatchSpy).toHaveBeenCalledTimes(1);
     expect(dispatchSpy).toHaveBeenCalledWith(
@@ -161,20 +164,20 @@ describe('ItemsComponent', () => {
         Category: {
           name: 'housing',
           icon: 'house',
-        }, Comment: "mockup",
+        }, Comment: 'mockup',
         Cost: 0,
         Id: 'testItemId',
         Index: 0,
         LifestyleId: 'testLifestyleId'
       }
-    }
+    };
 
     const resultItem: Item = {
       Category: {
         group: 0,
         name: 'rent',
         icon: 'house_siding',
-      }, Comment: "mockup",
+      }, Comment: 'mockup',
       Cost: 0,
       Id: 'testItemId',
       Index: 0,
@@ -185,7 +188,7 @@ describe('ItemsComponent', () => {
     mockStore.refreshState();
     fixture.detectChanges();
 
-    (component as any).toggleToNextCategory(itemToToggle['testItemId']);
+    (component as any).toggleToNextCategory(itemToToggle.testItemId);
 
     expect(dispatchSpy).toHaveBeenCalledTimes(1);
     expect(dispatchSpy).toHaveBeenCalledWith(
@@ -203,13 +206,13 @@ describe('ItemsComponent', () => {
         Category: {
           name: 'housing',
           icon: 'house',
-        }, Comment: "mockup",
+        }, Comment: 'mockup',
         Cost: 0,
         Id: 'testItemId',
         Index: 0,
         LifestyleId: 'testLifestyleId'
       }
-    }
+    };
 
     updateSelector.setResult(itemToToggle);
     categorySelector.setResult([]);
@@ -218,7 +221,7 @@ describe('ItemsComponent', () => {
 
     component.getCategoriesFromStore();
 
-    (component as any).toggleToNextCategory(itemToToggle['testItemId']);
+    (component as any).toggleToNextCategory(itemToToggle.testItemId);
 
     expect(dispatchSpy).toHaveBeenCalledTimes(0);
     expect(component.Categories).toHaveLength(0);
@@ -233,19 +236,19 @@ describe('ItemsComponent', () => {
         Category: {
           name: 'housing',
           icon: 'house',
-        }, Comment: "mockup",
+        }, Comment: 'mockup',
         Cost: 0,
         Id: 'testItemId',
         Index: 0,
         LifestyleId: 'testLifestyleId'
       }
-    }
+    };
 
     updateSelector.setResult({});
     mockStore.refreshState();
     fixture.detectChanges();
 
-    (component as any).toggleToNextCategory(itemToToggle['testItemId']);
+    (component as any).toggleToNextCategory(itemToToggle.testItemId);
 
     expect(dispatchSpy).toHaveBeenCalledTimes(0);
     expect(component.Items).toStrictEqual([]);
@@ -310,7 +313,7 @@ describe('ItemsComponent', () => {
       LifestyleId: 'mockupId',
       Category: {name: 'housing', icon: 'home'},
       Cost: 52, Id: uuidv4(),
-      Comment: "Electricity",
+      Comment: 'Electricity',
       Index: 0
 
     };
@@ -330,23 +333,23 @@ describe('ItemsComponent', () => {
         Category: {
           name: 'housing',
           icon: 'house',
-        }, Comment: "mockup",
+        }, Comment: 'mockup',
         Cost: 0,
         Id: 'testItemId',
         Index: 0,
         LifestyleId: 'testLifestyleId'
       }
-    }
+    };
 
     updateSelector.setResult(itemToDelete);
     mockStore.refreshState();
     fixture.detectChanges();
 
-    (component as any).deleteItem(itemToDelete['testItemId']);
+    (component as any).deleteItem(itemToDelete.testItemId);
 
     expect(dispatchSpy).toHaveBeenCalledTimes(1);
     expect(dispatchSpy).toHaveBeenCalledWith(
-      LifestyleActions.deleteLifestyleItem({Item: itemToDelete['testItemId']})
+      LifestyleActions.deleteLifestyleItem({Item: itemToDelete.testItemId})
     );
 
   });
@@ -359,7 +362,7 @@ describe('ItemsComponent', () => {
       Category: {name: 'housing', icon: 'home'},
       Cost: 0,
       Id: uuidv4(),
-      Comment: "noComment",
+      Comment: 'noComment',
       Index: 0
     };
 
@@ -434,27 +437,27 @@ describe('ItemsComponent', () => {
         Category: {
           name: 'housing',
           icon: 'house',
-        }, Comment: "mockup",
+        }, Comment: 'mockup',
         Cost: 0,
         Id: 'testItemId',
         Index: 0,
         LifestyleId: 'testLifestyleId'
       }
-    }
+    };
 
     const itemWithUpdatedCategory: ItemDictionary = {
       ['testItemId']: {
         Category: {
           name: 'rent',
           icon: 'house_siding',
-          group:0,
-        }, Comment: "mockup",
+          group: 0,
+        }, Comment: 'mockup',
         Cost: 0,
         Id: 'testItemId',
         Index: 0,
         LifestyleId: 'testLifestyleId'
       }
-    }
+    };
 
     updateSelector.setResult(itemToUpdateCategory);
     mockStore.refreshState();
@@ -462,7 +465,7 @@ describe('ItemsComponent', () => {
 
     const newCategory = component.Categories[1].name;
 
-    (component as any).updateCategory(newCategory,itemToUpdateCategory['testItemId']);
+    (component as any).updateCategory(newCategory, itemToUpdateCategory.testItemId);
 
     expect(dispatchSpy).toHaveBeenCalledTimes(1);
     expect(dispatchSpy).toHaveBeenCalledWith(
@@ -479,20 +482,20 @@ describe('ItemsComponent', () => {
         Category: {
           name: 'housing',
           icon: 'house',
-        }, Comment: "mockup",
+        }, Comment: 'mockup',
         Cost: 0,
         Id: 'testItemId',
         Index: 0,
         LifestyleId: 'testLifestyleId'
       }
-    }
+    };
 
     updateSelector.setResult(itemToUpdateCategory);
     mockStore.refreshState();
     fixture.detectChanges();
     const invalidCategory = 'testMockup';
 
-    (component as any).updateCategory(invalidCategory,itemToUpdateCategory['testItemId']);
+    (component as any).updateCategory(invalidCategory, itemToUpdateCategory.testItemId);
 
     expect(dispatchSpy).toHaveBeenCalledTimes(0);
 
@@ -535,20 +538,20 @@ describe('ItemsComponent', () => {
     expect(indexOfCategory).toBe(-1);
   });
 
-  it('orderByIndex - DESCRIBE NOW', () => {
+  it('orderByIndex - should order both items correctly', () => {
 
-    const Item1 : Item = {
+    const Item1: Item = {
       Category: undefined,
-      Comment: "",
+      Comment: '',
       Cost: 0,
       Id: undefined,
       Index: 0,
       LifestyleId: undefined
     };
 
-    const Item2 : Item = {
+    const Item2: Item = {
       Category: undefined,
-      Comment: "",
+      Comment: '',
       Cost: 0,
       Id: undefined,
       Index: 1,

@@ -1,20 +1,20 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {TaxratesComponent} from './taxrates.component';
-import {SharedModule} from "../../shared/shared.module";
-import {SummaryComponent} from "../../summary/summary/summary.component";
-import {getExampleLifestyles} from "../../lifestyles/models/lifestyle-example";
-import {LifestylesDictionary} from "../../lifestyles/models/lifestylesDictionary.interface";
-import {MockStore, provideMockStore} from "@ngrx/store/testing";
-import * as fromLifestyles from "../../lifestyles/+state/lifestyles.reducer";
-import {MemoizedSelector, MemoizedSelectorWithProps} from "@ngrx/store";
-import {Lifestyle} from "../../lifestyle/models/lifestyle.interface";
-import {ItemDictionary} from "../../items/models/itemDictionary.interface";
-import {LifestylesFacade} from "../../lifestyles/+state/lifestyles.facade";
-import * as fromLifestylesSelectors from "../../lifestyles/+state/lifestyles.selectors";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import * as LifestyleActions from "../../lifestyles/+state/lifestyles.actions";
-import {deepCopy} from "../../shared/globals/deep-copy";
+import {SharedModule} from '../../shared/shared.module';
+import {getExampleLifestyles} from '../../lifestyles/models/lifestyle-example';
+import {LifestylesDictionary} from '../../lifestyles/models/lifestylesDictionary.interface';
+import {MockStore, provideMockStore} from '@ngrx/store/testing';
+import * as fromLifestyles from '../../lifestyles/+state/lifestyles.reducer';
+import {MemoizedSelectorWithProps} from '@ngrx/store';
+import {Lifestyle} from '../../lifestyle/models/lifestyle.interface';
+import {LifestylesFacade} from '../../lifestyles/+state/lifestyles.facade';
+import * as fromLifestylesSelectors from '../../lifestyles/+state/lifestyles.selectors';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import * as LifestyleActions from '../../lifestyles/+state/lifestyles.actions';
+import {deepCopy} from '../../shared/globals/deep-copy';
+import {BrowserDynamicTestingModule} from "@angular/platform-browser-dynamic/testing";
+import {ExportDialogComponent} from "../../shared/modalDialog/export-dialog.component";
 
 describe('TaxratesComponent', () => {
   let component: TaxratesComponent;
@@ -25,7 +25,7 @@ describe('TaxratesComponent', () => {
   let newId = 0;
 
   const testLifeStyles = Object.values(getExampleLifestyles()).map(ls => {
-    ls.Id = newId++
+    ls.Id = newId++;
     Object.values(ls.Items).map(item => item.LifestyleId = newId);
 
     return ls;
@@ -34,25 +34,29 @@ describe('TaxratesComponent', () => {
   const testLifestyleDictionary: LifestylesDictionary = {};
   testLifeStyles.forEach(ls => {
     testLifestyleDictionary[ls.Id] = ls;
-  })
+  });
 
   let mockStore: MockStore<fromLifestyles.State>;
   let lifestyleSelectorById: MemoizedSelectorWithProps<fromLifestyles.State, {}, Lifestyle>;
 
-  let initialLifestyleState = {
+  const initialLifestyleState = {
     Lifestyles: testLifestyleDictionary,
   } as fromLifestyles.State;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [TaxratesComponent],
+      declarations: [TaxratesComponent, ExportDialogComponent],
       imports: [
         SharedModule,
         BrowserAnimationsModule,
       ],
       providers: [LifestylesFacade, provideMockStore({initialState: initialLifestyleState})]
     })
-      .compileComponents();
+      .overrideModule(BrowserDynamicTestingModule, {
+        set: {
+          entryComponents: [ExportDialogComponent],
+        }
+      }).compileComponents();
 
     mockStore = TestBed.inject(MockStore);
     fixture = TestBed.createComponent(TaxratesComponent);
@@ -101,10 +105,10 @@ describe('TaxratesComponent', () => {
 
 
     expect(component.TaxRates.length).toBe(originTaxRates.length + 1);
-    expect(component.TaxRates[component.TaxRates.length-1]).toBe(0);
+    expect(component.TaxRates[component.TaxRates.length - 1]).toBe(0);
   });
 
-  it('setUpSubscriptions - should delete the taxRate with correctly provided Index', () => {
+  it('deleteTaxrate - should delete the taxRate with correctly provided Index', () => {
     dispatchSpy = spyOn(mockStore, 'dispatch');
 
     const originTaxRates = deepCopy(component.TaxRates);
@@ -115,7 +119,7 @@ describe('TaxratesComponent', () => {
     expect(dispatchSpy).toHaveBeenCalledTimes(1);
   });
 
-  it('setUpSubscriptions - should delete the taxRate with incorrectly provided Index', () => {
+  it('deleteTaxrate - should delete the taxRate with incorrectly provided Index', () => {
     dispatchSpy = spyOn(mockStore, 'dispatch');
 
     const originTaxRates = deepCopy(component.TaxRates);

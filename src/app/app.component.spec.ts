@@ -1,13 +1,22 @@
 import {TestBed, async} from '@angular/core/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {AppComponent} from './app.component';
-import {StateObservable, Store, StoreModule} from "@ngrx/store";
-import * as fromAppComponent from "./+state/app-component.reducer";
-import {LifestylesModule} from "./lifestyles/lifestyles.module";
-import {Actions, EffectsModule} from "@ngrx/effects";
+import {StoreModule} from '@ngrx/store';
+import * as fromAppComponent from './+state/app-component.reducer';
+import {LifestylesModule} from './lifestyles/lifestyles.module';
+import {Actions, EffectsModule} from '@ngrx/effects';
+import {BrowserDynamicTestingModule} from '@angular/platform-browser-dynamic/testing';
+import {ExportDialogComponent} from './shared/modalDialog/export-dialog.component';
+import {SharedModule} from './shared/shared.module';
+import {NavbarModule} from './navbar/navbar.module';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {LifestyleDatabaseApiService} from './shared/data-base-connect/lifestyle-database-api.service';
+import {LegislationFooterComponent} from "./shared/legislation-footer/legislation-footer.component";
+import {AppRouterFacade} from "./+state/app-router.facade";
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
+    const FirestoreStub = {};
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
@@ -17,12 +26,24 @@ describe('AppComponent', () => {
           fromAppComponent.reducer
         ),
         EffectsModule.forRoot(),
-        LifestylesModule
+        LifestylesModule,
+        SharedModule,
+        NavbarModule,
       ],
       declarations: [
-        AppComponent
+        AppComponent, ExportDialogComponent
       ],
-      providers: [Actions]
+      providers: [
+        Actions,
+        LifestyleDatabaseApiService,
+        {provide: AngularFirestore, useValue: FirestoreStub},
+        LegislationFooterComponent,
+        AppRouterFacade,
+        ]
+    }).overrideModule(BrowserDynamicTestingModule, {
+      set: {
+        entryComponents: [ExportDialogComponent],
+      }
     }).compileComponents();
   }));
 
@@ -32,16 +53,4 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'financialLineUp'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('appFinancialLineUp');
-  });
-
-  it('should render title in a h1 tag', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to appFinancialLineUp!');
-  });
 });

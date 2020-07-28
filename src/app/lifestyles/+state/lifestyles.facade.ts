@@ -1,15 +1,15 @@
 import {Injectable} from '@angular/core';
 import {Action, select, Store} from '@ngrx/store';
 
-import * as fromLifestyles from "./lifestyles.reducer";
+import * as fromLifestyles from './lifestyles.reducer';
 import * as LifestyleComponentSelectors from './lifestyles.selectors';
 import * as LifestyleActions from './lifestyles.actions';
-import {Item} from "../../items/models/item.interface";
-import {Observable} from "rxjs";
-import {Category} from "../../shared/categories/category.interface";
-import {ItemDictionary} from "../../items/models/itemDictionary.interface";
-import {Lifestyle} from "../../lifestyle/models/lifestyle.interface";
-import {CategoryGroups} from "../../shared/categories/category-groups.interface";
+import {Item} from '../../items/models/item.interface';
+import {Observable} from 'rxjs';
+import {Category} from '../../shared/categories/category.interface';
+import {ItemDictionary} from '../../items/models/itemDictionary.interface';
+import {Lifestyle} from '../../lifestyle/models/lifestyle.interface';
+import {CategoryGroups} from '../../shared/categories/category-groups.interface';
 
 
 @Injectable()
@@ -27,7 +27,7 @@ export class LifestylesFacade {
     select(LifestyleComponentSelectors.getAllCategoryGroups)
   );
 
-  getLifeStyleItems$ : Observable<ItemDictionary> = new Observable<ItemDictionary>();
+  getLifeStyleItems$: Observable<ItemDictionary> = new Observable<ItemDictionary>();
 
   constructor(
     private lifestylesStore: Store<fromLifestyles.LifestylesPartialState>,
@@ -35,13 +35,13 @@ export class LifestylesFacade {
     this.initStore();
   }
 
-  initStore(){
+  initStore() {
     this.dispatch(LifestyleActions.getCategoryGroups());
     this.dispatch(LifestyleActions.getCategories());
   }
 
   dispatch(action: Action) {
-    this.lifestylesStore.dispatch(action)
+    this.lifestylesStore.dispatch(action);
   }
 
   getLifeStylesAll() {
@@ -49,7 +49,7 @@ export class LifestylesFacade {
   }
 
   getLifeStyleById(Id: string) {
-    return this.lifestylesStore.pipe(select(LifestyleComponentSelectors.getLifestyleById, {Id: Id}))
+    return this.lifestylesStore.pipe(select(LifestyleComponentSelectors.getLifestyleById, {Id}));
   }
 
   getCategoriesAll(): Observable<Category[]> {
@@ -61,40 +61,40 @@ export class LifestylesFacade {
   }
 
   pushLifeStyleIntoCloud(lifestyles: Lifestyle[]) {
-    this.dispatch(LifestyleActions.saveLifestyleToDatabase({Lifestyles: lifestyles}))
+    this.dispatch(LifestyleActions.saveLifestyleToDatabase({Lifestyles: lifestyles}));
   }
 
   deleteLifestyle(lifestyle: Lifestyle[], onlyLocal: boolean) {
-    this.dispatch(LifestyleActions.deleteLifestylesLocalAndDatabase({Lifestyles: lifestyle, onlyLocal: onlyLocal}))
+    this.dispatch(LifestyleActions.deleteLifestylesLocalAndDatabase({Lifestyles: lifestyle, onlyLocal}));
   }
 
 
   updateLifestyles(Lifestyle: Lifestyle) {
-    this.dispatch(LifestyleActions.updateLifestyle({Lifestyle: Lifestyle}))
+    this.dispatch(LifestyleActions.updateLifestyle({Lifestyle}));
   }
 
-  updateLifestyleTaxes(LifestyleId:string, Taxes: number[]) {
-    this.dispatch(LifestyleActions.updateLifestyleTaxes({LifestyleId: LifestyleId, Taxes: Taxes}))
+  updateLifestyleTaxes(LifestyleId: string, Taxes: number[]) {
+    this.dispatch(LifestyleActions.updateLifestyleTaxes({LifestyleId, Taxes}));
   }
 
   updateLifestyleItem(Items: Item[]) {
-    this.dispatch(LifestyleActions.updateLifestyleItems({Items: Items}))
+    this.dispatch(LifestyleActions.updateLifestyleItems({Items}));
   }
 
   getLifestyleItemsByLifestyleId(Id: string) {
     this.getLifeStyleItems$ = this.lifestylesStore.pipe(
-      select(LifestyleComponentSelectors.getAllItemsOfLifestyleById, {Id: Id})
+      select(LifestyleComponentSelectors.getAllItemsOfLifestyleById, {Id})
     );
 
     return this.getLifeStyleItems$;
   }
 
-  deleteLifestyleItem(Item: Item) {
-    this.dispatch(LifestyleActions.deleteLifestyleItem({Item: Item}))
+  deleteLifestyleItem(ItemToExport: Item) {
+    this.dispatch(LifestyleActions.deleteLifestyleItem({Item: ItemToExport}));
   }
 
-  exportLifestyles(Lifestyles: Lifestyle[]){
-    this.dispatch(LifestyleActions.exportLifestyles({Lifestyles: Lifestyles}))
+  exportLifestyles(LifestylesToExport: Lifestyle[]) {
+    this.dispatch(LifestyleActions.exportLifestyles({Lifestyles: LifestylesToExport}));
   }
 
 }

@@ -12,20 +12,21 @@ import * as fromAppComponent from './+state/app-component.reducer';
 import * as fromRouteComponent from './+state/app-router.reducer';
 import {AppComponentEffects} from './+state/app-component.effects';
 import {routerReducer, StoreRouterConnectingModule} from '@ngrx/router-store';
-import {AppRouterEffects} from "./+state/app-router.effect";
-import {LifestylesModule} from "./lifestyles/lifestyles.module";
-import {AppRouterFacade} from "./+state/app-router.facade";
+import {AppRouterEffects} from './+state/app-router.effect';
+import {LifestylesModule} from './lifestyles/lifestyles.module';
+import {AppRouterFacade} from './+state/app-router.facade';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {SharedModule} from "./shared/shared.module";
-import {AngularFireModule} from "@angular/fire";
-import {PendingChangesGuard} from "./shared/guards/pending-changes.guard";
-import {MatDialogModule} from "@angular/material/dialog";
-import {AngularFirestoreModule} from "@angular/fire/firestore";
-import {NavbarModule} from "./navbar/navbar.module";
+import {SharedModule} from './shared/shared.module';
+import {AngularFireModule} from '@angular/fire';
+import {PendingChangesGuard} from './shared/guards/pending-changes.guard';
+import {MatDialogModule} from '@angular/material/dialog';
+import {AngularFirestoreModule} from '@angular/fire/firestore';
+import {NavbarModule} from './navbar/navbar.module';
+import {ExportDialogComponent} from './shared/modalDialog/export-dialog.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -59,10 +60,12 @@ import {NavbarModule} from "./navbar/navbar.module";
     SharedModule,
     NavbarModule,
     MatDialogModule,
+
   ],
   providers: [AppRouterFacade, PendingChangesGuard],
   exports: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+
 })
 export class AppModule {
 }
