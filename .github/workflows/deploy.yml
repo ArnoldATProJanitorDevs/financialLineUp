@@ -20,12 +20,12 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
-      - run: npm run build --production
       - run: npm test
       - name: Run a one-line script
         if: success()
         run: .\.github\workflows\putNewVersion.ps1
         shell: powershell
+      - run: npm run build --production
       - name: Archive Production Artifact
         uses: actions/upload-artifact@master
         with:
