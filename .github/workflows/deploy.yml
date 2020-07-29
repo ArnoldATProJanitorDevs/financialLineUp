@@ -25,8 +25,8 @@ jobs:
         if: success()
         run: .\.github\workflows\putNewVersion.ps1
         shell: powershell
-     - name: Commit files
-       run: |
+      - name: Commit files
+        run: |
          git config --local user.email "arnold.abraham@projanitordevs.com"
          git config --local user.name "ArnoldATProJanitorDevs"
          git commit -m "Add changes" -a
