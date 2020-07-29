@@ -26,7 +26,7 @@ import {ExportDialogComponent} from './shared/modalDialog/export-dialog.componen
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,6 +60,7 @@ import {ExportDialogComponent} from './shared/modalDialog/export-dialog.componen
     SharedModule,
     NavbarModule,
     MatDialogModule,
+
 
   ],
   providers: [AppRouterFacade, PendingChangesGuard],
