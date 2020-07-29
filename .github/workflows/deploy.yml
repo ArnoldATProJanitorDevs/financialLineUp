@@ -26,20 +26,20 @@ jobs:
         run: .\.github\workflows\putNewVersion.ps1
         shell: powershell
      - name: Commit files
-     run: |
-       git config --local user.email "arnold.abraham@projanitordevs.com"
-       git config --local user.name "ArnoldATProJanitorDevs"
-       git commit -m "Add changes" -a
-       - name: Push changes
-         uses: ad-m/github-push-action@master
-         with:
-           github_token: ${{ secrets.GITHUB_TOKEN }}
-    - run: npm run build --production
-    - name: Archive Production Artifact
-      uses: actions/upload-artifact@master
-      with:
-        name: finlinUp
-        path: dist/financialLineUp
+       run: |
+         git config --local user.email "arnold.abraham@projanitordevs.com"
+         git config --local user.name "ArnoldATProJanitorDevs"
+         git commit -m "Add changes" -a
+         - name: Push changes
+           uses: ad-m/github-push-action@master
+           with:
+             github_token: ${{ secrets.GITHUB_TOKEN }}
+      - run: npm run build --production
+      - name: Archive Production Artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: finlinUp
+          path: dist/financialLineUp
   deploy:
     name: Deploy
     needs: build
