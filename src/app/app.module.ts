@@ -23,6 +23,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {NavbarModule} from './navbar/navbar.module';
 import {ExportDialogComponent} from './shared/modalDialog/export-dialog.component';
+import {HashLocationStrategy, LocationStrategy} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -63,7 +64,7 @@ import {ExportDialogComponent} from './shared/modalDialog/export-dialog.componen
 
 
   ],
-  providers: [AppRouterFacade, PendingChangesGuard],
+  providers: [AppRouterFacade, PendingChangesGuard ,{ provide: LocationStrategy, useClass: HashLocationStrategy }],
   exports: [],
   bootstrap: [AppComponent],
 
