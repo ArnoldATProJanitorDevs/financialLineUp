@@ -36,7 +36,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
       - run: npm run build --production
       - name: Archive Production Artifact
-      uses: actions/upload-artifact@master
+        uses: actions/upload-artifact@master
         with:
           name: finlinUp
           path: dist/financialLineUp
