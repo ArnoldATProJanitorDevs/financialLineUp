@@ -29,7 +29,7 @@ jobs:
         run: |
           git config --local user.email "arnold.abraham@projanitordevs.com"
           git config --local user.name "ArnoldATProJanitorDevs"
-          git commit -m "increases the minor version number" -a
+          git commit -m "increases the minor version number." -a
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
