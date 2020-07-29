@@ -11,8 +11,8 @@ import {SharedModule} from './shared/shared.module';
 import {NavbarModule} from './navbar/navbar.module';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {LifestyleDatabaseApiService} from './shared/data-base-connect/lifestyle-database-api.service';
-import {LegislationFooterComponent} from "./shared/legislation-footer/legislation-footer.component";
-import {AppRouterFacade} from "./+state/app-router.facade";
+import {LegislationFooterComponent} from './shared/legislation-footer/legislation-footer.component';
+import {AppRouterFacade} from './+state/app-router.facade';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -31,7 +31,7 @@ describe('AppComponent', () => {
         NavbarModule,
       ],
       declarations: [
-        AppComponent, ExportDialogComponent
+        AppComponent
       ],
       providers: [
         Actions,
@@ -40,10 +40,6 @@ describe('AppComponent', () => {
         LegislationFooterComponent,
         AppRouterFacade,
         ]
-    }).overrideModule(BrowserDynamicTestingModule, {
-      set: {
-        entryComponents: [ExportDialogComponent],
-      }
     }).compileComponents();
   }));
 

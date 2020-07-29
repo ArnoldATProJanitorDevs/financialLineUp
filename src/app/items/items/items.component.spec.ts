@@ -51,17 +51,13 @@ describe('ItemsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ItemsComponent, ExportDialogComponent],
+      declarations: [ItemsComponent],
       imports: [
         BrowserAnimationsModule,
         ToggleIconButtonModule,
         SharedModule,
         FormsModule],
       providers: [LifestylesFacade, provideMockStore({initialState: initialLifestyleState})]
-    }).overrideModule(BrowserDynamicTestingModule, {
-      set: {
-        entryComponents: [ExportDialogComponent],
-      }
     }).compileComponents();
 
     mockStore = TestBed.inject(MockStore);

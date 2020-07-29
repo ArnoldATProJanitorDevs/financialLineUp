@@ -23,8 +23,7 @@ import {LegislationFooterComponent} from './legislation-footer/legislation-foote
 
 @NgModule({
   declarations: [
-    LegislationFooterComponent,
-    ExportDialogComponent
+    LegislationFooterComponent, ExportDialogComponent
   ],
   imports: [
     MatInputModule,

@@ -26,7 +26,7 @@ import {ExportDialogComponent} from './shared/modalDialog/export-dialog.componen
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,

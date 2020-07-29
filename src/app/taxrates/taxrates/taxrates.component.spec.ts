@@ -45,18 +45,13 @@ describe('TaxratesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [TaxratesComponent, ExportDialogComponent],
+      declarations: [TaxratesComponent],
       imports: [
         SharedModule,
         BrowserAnimationsModule,
       ],
       providers: [LifestylesFacade, provideMockStore({initialState: initialLifestyleState})]
-    })
-      .overrideModule(BrowserDynamicTestingModule, {
-        set: {
-          entryComponents: [ExportDialogComponent],
-        }
-      }).compileComponents();
+    }).compileComponents();
 
     mockStore = TestBed.inject(MockStore);
     fixture = TestBed.createComponent(TaxratesComponent);

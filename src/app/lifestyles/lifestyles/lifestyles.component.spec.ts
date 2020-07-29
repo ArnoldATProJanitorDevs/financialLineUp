@@ -62,7 +62,7 @@ describe('LifestylesComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [LifestylesComponent, ExportDialogComponent],
+      declarations: [LifestylesComponent],
       imports: [
         BrowserAnimationsModule,
         ToggleIconButtonModule,
@@ -77,10 +77,6 @@ describe('LifestylesComponent', () => {
         {provide: MatDialogRef, useValue: {}},
         {provide: MAT_DIALOG_DATA, useValue: {}}
       ],
-    }).overrideModule(BrowserDynamicTestingModule, {
-      set: {
-        entryComponents: [ExportDialogComponent],
-      }
     }).compileComponents();
 
     mockStore = TestBed.inject(MockStore);
